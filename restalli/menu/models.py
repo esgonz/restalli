@@ -14,6 +14,7 @@ class CategoriaMenu(models.Model):
     _status = models.IntegerField()
 
 
+#oferta tabla aparte
 class ProductosMenu(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     nombreProducto = models.CharField(max_length=45)
@@ -34,7 +35,8 @@ class ProductosMenu(models.Model):
     def get_absolute_url(self):
             return('producto_detail', (),
                 {
-                    'slugProducto':self.slugProducto
+                    'slugProducto':self.slugProducto,
+                    'camp2': self.categoria
                 })
 
     def save( self, *args, **kwargs):
