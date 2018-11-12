@@ -1,0 +1,51 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+
+    <div class="container"><br>
+        <h2>Inventario</h2>
+        <hr>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Cantidad</th>
+                    <th>Medida</th>
+                    <th>Porciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stocks in stocks %}
+
+                    <tr>
+                    <td>{{ stock.title }}</td>
+                    <td>{{ stock.categoria }}</td>
+                    <td>{{ stock.cantidad }}</td>
+                    <td>{{ stock.medida }}</td>
+                    <td>{{ stock.porciones }}</td>
+                    <td><a class="btn btn-info" href="/editar/{{ stock.id }}">Editar</a>
+                       <a class="btn btn-danger" href="/eliminar/{{ stock.id }}">Eliminar</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="/agregar_stock/">Agregar</a>
+    </div>
+
+</body>
+</html>
