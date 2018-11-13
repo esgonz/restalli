@@ -1,0 +1,18 @@
+<h1>Menus</h1>
+
+<p>
+    <a href="{% url "menu:create" %}">Agregar Producto</a>
+</p>
+
+<ul>
+    {% for menu in object_list %}
+        <li>
+            <p>{{ menu.nombre }}</p>
+            <p>
+                <a href="{% url "menu:detail" menu.uuid %}">Ver</a> | 
+                <a href="{% url "menu:update" menu.uuid %}">Editar</a> | 
+                <a href="{% url "menu:delete" menu.uuid %}">Borrar</a> 
+            </p>
+        </li>
+    {% endfor %}
+</ul>

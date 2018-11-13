@@ -1,0 +1,18 @@
+<form method="post">
+    {% csrf_token %}
+
+{{ form.non_field_errors }}
+<div class="fieldWrapper">
+    {{ form.nombreCategoria.errors }}
+    <label for="{{ form.nombreCategoria.id_for_label }}">nombreCategoria:</label>
+    {{ form.nombreCategoria }}
+</div>
+<div class="fieldWrapper">
+    {{ form.status.errors }}
+    <label for="{{ form.status.id_for_label }}">status:</label>
+    {{ form.status }}
+</div>
+
+    <input type="submit" value="Submit" />
+</form>
+

@@ -8,10 +8,10 @@ from django.contrib.auth.models import User
 class CategoriaMenu(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     nombreCategoria = models.CharField(max_length=95)
-    _created = models.DateTimeField(auto_now_add=True)
-    _updated= models.DateTimeField(auto_now=True)
-    _deleted = models.DateTimeField(auto_now=True)
-    _status = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated= models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
 
 
 #oferta tabla aparte
@@ -21,10 +21,10 @@ class ProductosMenu(models.Model):
     slugProducto = models.SlugField(unique=True, max_length=255)
     descripcion = models.CharField(max_length=250)
     precio = models.DecimalField(max_digits=9, decimal_places=2)
-    _created = models.DateTimeField(auto_now_add=True)
-    _updated = models.DateTimeField(auto_now=True)
-    _deleted = models.DateTimeField(auto_now=True)
-    _status = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
     categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.CASCADE)
     productosMenuStock_uuid = models.CharField(max_length=36)
     restaurant_uuid = models.CharField(max_length=36)
@@ -53,9 +53,9 @@ class ofertas(models.Model):
     producto = models.ForeignKey(ProductosMenu, on_delete = models.CASCADE)
     fechaInicio = models.DateTimeField()
     fechaTermino = models.DateTimeField()
-    _created = models.DateTimeField(auto_now_add=True)
-    _updated = models.DateTimeField(auto_now=True)
-    _deleted = models.DateTimeField(auto_now=True)
-    _status = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
 
 
