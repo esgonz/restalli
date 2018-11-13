@@ -1,0 +1,63 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+
+<div class="small_div">
+
+<div class="container">
+    <br>
+    <h2>Agrega al Inventario</h2>
+    <hr>
+
+    <form action="/crear">
+
+
+                {%  csrf_token %}
+            <label class="form-group" for="title">Nombre: </label>
+            <input class="form-control" type="text" name="title"><br>
+
+            <label class="form-group" for="categoria">Categoria: </label>
+            <input class="form-control" type="text" name="categoria"><br>
+
+            <label class="form-group" for="cantidad">Cantidad: </label>
+            <input class="form-control" type="text" name="cantidad"><br>
+
+            <label class="form-group" for="slugStock">descripcion: </label>
+            <input class="form-control" type="text" name="slugStock"><br>
+
+            <label class="form-group" for="porciones">Porciones: </label>
+            <input class="form-control" type="text" name="porciones"><br>
+
+
+            <label class="form-group" for="price">Precio: </label>
+            <input class="form-control" type="text" name="price"><br>
+
+            <label class="form-group" for="status">status: </label>
+            <input class="form-control" type="text" name="status"><br>
+
+           
+
+            <input class="btn btn-success" type="submit" value="Crear">
+
+
+        </form>
+        <br>
+
+
+</div>
+</div>
+
+</body>
+</html>

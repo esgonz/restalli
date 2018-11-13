@@ -1,0 +1,69 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+
+    <div class="container"><br>
+        <h2 align="center">Inventario</h2>
+        <hr>
+        <article class="navbar-form navbar-left p-0 m-0 ml-b">
+			<div class="form-group">
+				<label>Per Page: </label>
+				<select class="form-control post_max">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				</select>
+				<label>Buscar en el inventario: </label>
+				<input type="text" class="form-control post_search_text" placeholder="Buscar">
+			</div>
+			<input type = "submit" value = "Consultar" class = "btn btn-primary post_search_submit" />
+		</article>
+        <hr>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Cantidad</th>
+                    <th>descripción</th>
+                    <th>Porciones</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+
+                    <tr>
+                    <td>{{ stock.title }}</td>
+                    <td>{{ stock.categoria }}</td>
+                    <td>{{ stock.cantidad }}</td>
+                    <td>{{ stock.slugStock }}</td>
+                    <td>{{ stock.porciones }}</td>
+                    <td>{{ stock.price }}</td>
+                    <td>{{ stock.status }}</td>
+                    <td><a class="btn btn-info" href="/editar/{{ stock.id }}">Editar</a>
+                       <a class="btn btn-danger" href="/eliminar/{{ stock.id }}">Eliminar</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="/agregar_stock/">Agregar</a>
+    </div>
+
+</body>
+</html>
