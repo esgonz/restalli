@@ -3,45 +3,51 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from stock.models import CategoriaStock, ProductoStock, Stock
+from comun.models import Estados, Restaurantes
 # Create your models here.
 
 
 class CategoriaMenu(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    nombreCategoria = models.CharField(max_length=95)
+    nombre = models.CharField(max_length=95)
     created = models.DateTimeField(auto_now_add=True)
     updated= models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.IntegerField()
-
+    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    
+    def __str__(self):
+        return "%s" % (self.nombre)
 
 
 
 #oferta tabla aparte
 class ProductosMenu(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    nombreProducto = models.CharField(max_length=45)
-    slugProducto = models.SlugField(unique=True, max_length=255)
+    nombre = models.CharField(max_length=45)
+    slug = models.SlugField(unique=True, max_length=255)
     descripcion = models.CharField(max_length=250)
     precio = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.IntegerField()
-    categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.CASCADE)
-    restaurant_uuid = models.CharField(max_length=36)
+    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.SET_NULL, null=True)
+    restaurant_uuid = models.ForeignKey(Restaurantes, on_delete=models.SET_NULL, null=True)
     user_uuid = models.CharField(max_length=36)
     def get_absolute_url(self):
             return('producto_detail', (),
                 {
-                    'slugProducto':self.slugProducto,
-                    'camp2': self.categoria
+                    'slug':self.slug,
+                    'categoria': self.categoria_uuid
                 })
 
     def save( self, *args, **kwargs):
-        if not self.slugProducto:
-            self.slugProducto= slugify(self.nombreProducto)
+        if not self.slug:
+            self.slug= slugify(self.nombre)
             super(ProductosMenu, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
 
 
 
@@ -50,10 +56,12 @@ class ProductosMenuStock(models.Model):
     productoStock_uuid = models.ForeignKey(ProductoStock, on_delete=models.CASCADE)
     productosMenu_uuid = models.ForeignKey(ProductosMenu, on_delete=models.CASCADE)
     porciones = models.IntegerField()
-    status = models.IntegerField()
+    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
+
+    
 
 
 class ofertas(models.Model):
@@ -65,6 +73,6 @@ class ofertas(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.IntegerField()
+    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
 
 

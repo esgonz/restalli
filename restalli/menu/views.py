@@ -4,7 +4,11 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
+
+
 from .models import ProductosMenu, CategoriaMenu, ProductosMenuStock
+from .forms import ProductosMenuForm
+
 # Create your views here.
 
 class IndexView(generic.ListView):
@@ -36,7 +40,7 @@ class IndexView(generic.ListView):
 
 class MenuCreation(generic.edit.CreateView):
 	model = ProductosMenu
-	fields = [
+	"""fields = [
 		'nombreProducto',
 		'descripcion',
 		'precio',
@@ -44,7 +48,8 @@ class MenuCreation(generic.edit.CreateView):
 		'categoria_uuid',
 		'restaurant_uuid',
 		'user_uuid'
-	]
+	]"""
+	form_class = ProductosMenuForm
 	success_url = reverse_lazy('menu:list')
 
 
@@ -67,7 +72,7 @@ class MenuDetail(generic.DetailView):
 class MenuUpdate(generic.UpdateView):
 	model = ProductosMenu
 	fields = [
-		'nombreProducto',
+		'nombre',
 		'descripcion',
 		'precio',
 		'status',
@@ -88,7 +93,7 @@ class MenuList(generic.ListView):
 class CategoriaCreation(generic.edit.CreateView):
 	model = CategoriaMenu
 	fields = [
-		'nombreCategoria',
+		'nombre',
 		'status'
 	]
 	success_url = reverse_lazy('menu:catList')
@@ -99,7 +104,7 @@ class CategoriaDetail(generic.DetailView):
 class CategoriaUpdate(generic.UpdateView):
 	model = CategoriaMenu
 	fields = [
-		'nombreCategoria',
+		'nombre',
 		'status'
 	]
 	success_url = reverse_lazy('menu:catList')

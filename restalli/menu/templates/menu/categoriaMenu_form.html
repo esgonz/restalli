@@ -1,18 +1,47 @@
-<form method="post">
-    {% csrf_token %}
+{% extends "menu/base.html" %}
+{% load widget_tweaks %}
 
-{{ form.non_field_errors }}
-<div class="fieldWrapper">
-    {{ form.nombreCategoria.errors }}
-    <label for="{{ form.nombreCategoria.id_for_label }}">nombreCategoria:</label>
-    {{ form.nombreCategoria }}
-</div>
-<div class="fieldWrapper">
-    {{ form.status.errors }}
-    <label for="{{ form.status.id_for_label }}">status:</label>
-    {{ form.status }}
-</div>
+{% block content %}
+<div class="col-12">
+	<form method="post">
+		{% csrf_token %}
 
-    <input type="submit" value="Submit" />
-</form>
+		
+
+		<div class="row">
+			<div class="form-group col-12">
+				<label for="{{ form.nombre.id_for_label }}"> Nombre categoria:</label>
+		        {% render_field form.nombre class="form-control" %}
+
+		        {% for error in nombre.errors %}
+		          <span class="help-block">{{ error }}</span>
+		        {% endfor %}
+
+			</div>
+
+
+		</div>
+
+
+
+		<div class="row">
+			<div class="form-group col-12">
+				<label for="{{ form.status.id_for_label }}">Estado:</label>
+		        {% render_field form.status class="form-control" %}
+
+		        {% for error in status.errors %}
+		          <span class="help-block">{{ error }}</span>
+		        {% endfor %}
+			</div>
+		</div>
+
+
+    
+
+
+        <input type="submit" value="Submit" class="btn btn-primary"/>
+    </form>
+</div>
+{% endblock %}
+
 
