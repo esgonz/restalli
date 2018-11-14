@@ -13,5 +13,10 @@ urlpatterns = [
     path('categoria/<pk>/', views.CategoriaDetail.as_view(), name='catDetail'),    
     path('categoria/editar/<pk>/', views.CategoriaUpdate.as_view(), name='catUpdate'),
     path('categoria/eliminar/<pk>/', views.CategoriaDelete.as_view(), name='catDelete'),
+    path('nuevo/stock/lista/', views.ProductosMenuStockList.as_view(), name='catList'),
+    path('nuevo/stock/crear/', views.ProductosMenuStockCreation.as_view(), name='catCreate'),
+    path('nuevo/stock/<pk>/', views.ProductosMenuStockDetail.as_view(), name='catDetail'),    
+    path('nuevo/stock/editar/<pk>/', views.ProductosMenuStockUpdate.as_view(), name='catUpdate'),
+    path('nuevo/stock/eliminar/<pk>/', views.ProductosMenuStockDelete.as_view(), name='catDelete'),
 
 ]

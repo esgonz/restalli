@@ -16,14 +16,6 @@ class CategoriaMenu(models.Model):
 
 
 
-class ProductosMenuStock(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    productoStock_uuid = models.ManyToManyField(ProductoStock)
-    porciones = models.IntegerField()
-    status = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    deleted = models.DateTimeField(auto_now=True)
 
 #oferta tabla aparte
 class ProductosMenu(models.Model):
@@ -37,7 +29,6 @@ class ProductosMenu(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.CASCADE)
-    productoStock_uuid = models.ForeignKey(ProductosMenuStock, on_delete=models.CASCADE)
     restaurant_uuid = models.CharField(max_length=36)
     user_uuid = models.CharField(max_length=36)
     def get_absolute_url(self):
@@ -53,6 +44,16 @@ class ProductosMenu(models.Model):
             super(ProductosMenu, self).save(*args, **kwargs)
 
 
+
+class ProductosMenuStock(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    productoStock_uuid = models.ForeignKey(ProductoStock, on_delete=models.CASCADE)
+    productosMenu_uuid = models.ForeignKey(ProductosMenu, on_delete=models.CASCADE)
+    porciones = models.IntegerField()
+    status = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
 
 
 class ofertas(models.Model):
