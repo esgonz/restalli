@@ -4,7 +4,7 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .models import ProductosMenu, CategoriaMenu, ProductosMenuStock
+from .models import ProductosMenu, CategoriaMenu
 # Create your views here.
 
 class IndexView(generic.ListView):
@@ -42,7 +42,7 @@ class MenuCreation(generic.edit.CreateView):
 		'precio',
 		'status',
 		'categoria_uuid',
-		'productosMenuStock_uuid',
+		'productoStock_uuid',
 		'restaurant_uuid',
 		'user_uuid'
 	]
@@ -73,7 +73,7 @@ class MenuUpdate(generic.UpdateView):
 		'precio',
 		'status',
 		'categoria_uuid',
-		'productosMenuStock_uuid',
+		'productoStock_uuid',
 		'restaurant_uuid',
 		'user_uuid'
 	]
@@ -112,23 +112,3 @@ class CategoriaDelete(generic.DeleteView):
 class CategoriaList(generic.ListView):
 	model = CategoriaMenu
 
-
-class ProductosMenuCreation(generic.edit.CreateView):
-	model = ProductosMenuStock
-	success_url =reverse_lazy('menu:pstockList')
-
-class ProductosMenuDetail(generic.DetailView):
-	model = ProductosMenuStock,
-#def editar(request, producto_uuid):
-	#do something
-	#return HttpResponse("quieres editar el producto %s" % producto_uuid)
-#	template = loader.get_template('menu/editar.html')
-#	context = {}
-#	return render(request, template, context)
-
-#def listar(request):
-	#do something
-	#return HttpResponse(" Listar Productos Aqui")
-#	template = loader.get_template('menu/lista.html')
-#	context = {}
-#	return render(request, template, context)

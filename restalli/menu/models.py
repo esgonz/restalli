@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from stock.models import CategoriaStock, ProductoStock, Stock
 # Create your models here.
 
 
@@ -13,6 +14,16 @@ class CategoriaMenu(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
 
+
+
+class ProductosMenuStock(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    productoStock_uuid = models.ManyToManyField(ProductoStock)
+    porciones = models.IntegerField()
+    status = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
 
 #oferta tabla aparte
 class ProductosMenu(models.Model):
@@ -26,7 +37,7 @@ class ProductosMenu(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.CASCADE)
-    productosMenuStock_uuid = models.CharField(max_length=36)
+    productoStock_uuid = models.ForeignKey(ProductosMenuStock, on_delete=models.CASCADE)
     restaurant_uuid = models.CharField(max_length=36)
     user_uuid = models.CharField(max_length=36)
     def get_absolute_url(self):
@@ -41,11 +52,8 @@ class ProductosMenu(models.Model):
             self.slugProducto= slugify(self.nombreProducto)
             super(ProductosMenu, self).save(*args, **kwargs)
 
-class ProductosMenuStock(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    stock_uuid = models.CharField(max_length=36)
-    productosMenu_uuid = models.ForeignKey(ProductosMenu, on_delete=models.CASCADE)
-    porciones = models.IntegerField()
+
+
 
 class ofertas(models.Model):
     uuid = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False, unique = True)

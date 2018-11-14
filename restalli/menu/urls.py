@@ -10,8 +10,8 @@ urlpatterns = [
     path('<int:pk>/', views.MenuDelete.as_view(), name='delete'),
     path('categoria/', views.CategoriaList.as_view(), name='catList'),
     path('categoria/nuevo/', views.CategoriaCreation.as_view(), name='catCreate'),
-    path('categoria/<int:pk>/', views.CategoriaDetail.as_view(), name='catDetail'),    
-    path('categoria/<int:pk>/', views.CategoriaUpdate.as_view(), name='catUpdate'),
-    path('categoria/<int:pk>/', views.CategoriaDelete.as_view(), name='catDelete'),
+    path('categoria/<pk>/', views.CategoriaDetail.as_view(), name='catDetail'),    
+    path('categoria/editar/<pk>/', views.CategoriaUpdate.as_view(), name='catUpdate'),
+    path('categoria/eliminar/<pk>/', views.CategoriaDelete.as_view(), name='catDelete'),
 
 ]
