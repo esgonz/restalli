@@ -1,7 +1,50 @@
+#modelos
+tutorial02
+
+#views
+tutorial03
 
 
-modelos = tutorial02
-views = tutorial03
-generic_views = tutorial04
+#generic_views
+tutorial04
 
-#seba3 work
+#forms
+https://docs.djangoproject.com/en/2.1/topics/forms/
+https://docs.djangoproject.com/es/2.1/ref/forms/widgets/
+https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Forms
+https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+
+#menuForm (para vista genericas)
+https://stackoverflow.com/questions/9878475/beginner-django-modelform-override-widget
+https://stackoverflow.com/questions/16079299/getting-init-got-an-unexpected-keyword-argument-instance-with-createview
+https://stackoverflow.com/questions/19051830/a-better-way-of-setting-values-in-createview
+https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-editing/
+https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+#widget_tweaks
+https://simpleisbetterthancomplex.com/2015/12/04/package-of-the-week-django-widget-tweaks.html
+https://pypi.org/project/django-widget-tweaks/
+
+#generic_views Español
+https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Generic_views
+
+#media
+https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
+
+#install widget_tweaks para personalizar formularios ** IMPORTANTE ** deben agregarlo al proyecto,  
+pip3 install django-widget-tweaks 
+
+https://simpleisbetterthancomplex.com/2015/12/04/package-of-the-week-django-widget-tweaks.html
+
+
+#SUPERUSER (ADMIN)
+
+python3 manage.py createsuperuser
+Username (leave blank to use 'grisellidurant'): admin     
+Email address: admin@restalli.com
+Password: admin.alfa
+Password (again): admin.alfa
+Superuser created successfully.
+Mac-Pro-de-Griselli-durant:restalli grisellidurant$ 
+
+#usar el admin
+https://tutorial.djangogirls.org/es/django_admin/

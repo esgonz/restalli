@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Page
+from .models import ProductoStock
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
@@ -13,18 +13,18 @@ class StaffRequiredMixin(object):
 
 # Create your views here.
 class PageListView(ListView):
-    model = Page
+    model = ProductoStock
 
 class PageDetailView(DetailView):
-    model = Page
+    model = ProductoStock
 
 class PageCreate(CreateView):
-    model = Page
+    model = ProductoStock
     fields = ['title', 'content', 'order']
     success_url = reverse_lazy('pages:pages')
 
 class PageUpdate(UpdateView):
-    model = Page
+    model = ProductoStock
     fields = ['title', 'content', 'order']
     template_name_suffix = '_update_form' 
 
@@ -33,5 +33,5 @@ class PageUpdate(UpdateView):
 
 
 class PageDelete(DeleteView):
-    model = Page
+    model = ProductoStock
     success_url = reverse_lazy('pages:pages')
