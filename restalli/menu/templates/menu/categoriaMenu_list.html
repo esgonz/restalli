@@ -1,0 +1,38 @@
+
+{% extends "menu/base.html" %}
+
+{% block content %}
+
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-12">
+            <h4>Categorías del Menú</h4> <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-primary pull-right" href="{% url "menu:catCreate" %}">+ Categorias</a>  
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+              <!-- <a  class="list-group-item list-group-item-action active ">-->
+              {% for categoria in object_list %}
+              <a  class="list-group-item list-group-item-action">
+               {{ categoria.nombre }}
+              </a>
+            
+              {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+
+{% endblock %}
