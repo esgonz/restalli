@@ -1,16 +1,48 @@
+import uuid
 from django.db import models
 
-class Page(models.Model):
-    title = models.CharField(verbose_name="Título", max_length=200)
-    content = models.TextField(verbose_name="Contenido")
-    order = models.SmallIntegerField(verbose_name="Orden", default=0)
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
-    class Meta:
-        verbose_name = "página"
-        verbose_name_plural = "páginas"
-        ordering = ['order', 'title']
 
-    def __str__(self):
-        return self.title
+
+class CategoriaStock(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    nombreCategoria = models.CharField(max_length=95)
+    created = models.DateTimeField(auto_now_add=True)
+    updated= models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
+    user_uuid = models.CharField(max_length=36)
+
+
+
+
+
+class Stock(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    stockInicial = models.IntegerField()
+    StockDescontado = models.IntegerField()
+    StockFinal = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
+    user_uuid = models.CharField(max_length=36)
+
+class ProductoStock(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    nombreProducto = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=100)
+    porcion = models.IntegerField()
+    unidadMedida = models.CharField(max_length=22)
+    precio = models.DecimalField(max_digits=9, decimal_places=2)
+    fechaElaboracion = models.DateTimeField()
+    fechaExpiracion = models.DateTimeField()
+    categoria_uuid = models.ForeignKey(CategoriaStock, on_delete=models.CASCADE)
+    stock_uuid = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
+    user_uuid = models.CharField(max_length=36)
+
+

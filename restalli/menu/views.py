@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
+
+
 from .models import ProductosMenu, CategoriaMenu, ProductosMenuStock
+from .forms import ProductosMenuForm
+
 # Create your views here.
 
 class IndexView(generic.ListView):
@@ -13,7 +17,7 @@ class IndexView(generic.ListView):
 
 	def get_queryset(self):
 		"""Return the last 5 published menus"""
-		return ProductosMenu.objects.order_by('-_created')[:5]
+		return ProductosMenu.objects.order_by('-created')[:5]
 
 
 #def index(request):
@@ -34,14 +38,21 @@ class IndexView(generic.ListView):
 
 
 
-class CrearView(generic.edit.CreateView):
+class MenuCreation(generic.edit.CreateView):
 	model = ProductosMenu
-	fields = [
+	"""fields = [
 		'nombreProducto',
 		'descripcion',
 		'precio',
-		'_status'
-	]
+		'status',
+		'categoria_uuid',
+		'restaurant_uuid',
+		'user_uuid'
+	]"""
+	form_class = ProductosMenuForm
+	success_url = reverse_lazy('menu:list')
+
+
 	#template_name = 'menu/nuevo_paso2.html'
 #def crear(request):
 	#do something
@@ -53,19 +64,84 @@ class CrearView(generic.edit.CreateView):
 
 
 
-class EditarView(generic.DetailView):
+class MenuDetail(generic.DetailView):
 	model = ProductosMenu
 	#template_name = 'menu/editar.html'
-#def editar(request, producto_uuid):
-	#do something
-	#return HttpResponse("quieres editar el producto %s" % producto_uuid)
-#	template = loader.get_template('menu/editar.html')
-#	context = {}
-#	return render(request, template, context)
+	#
 
-#def listar(request):
-	#do something
-	#return HttpResponse(" Listar Productos Aqui")
-#	template = loader.get_template('menu/lista.html')
-#	context = {}
-#	return render(request, template, context)
+class MenuUpdate(generic.UpdateView):
+	model = ProductosMenu
+	fields = [
+		'nombre',
+		'descripcion',
+		'precio',
+		'status',
+		'categoria_uuid',
+		'restaurant_uuid',
+		'user_uuid'
+	]
+	success_url = reverse_lazy('menu:list')
+
+class MenuDelete(generic.DeleteView):
+	model = ProductosMenu
+	success_url = reverse_lazy('menu:list')
+
+class MenuList(generic.ListView):
+	model = ProductosMenu
+
+
+class CategoriaCreation(generic.edit.CreateView):
+	model = CategoriaMenu
+	fields = [
+		'nombre',
+		'status'
+	]
+	success_url = reverse_lazy('menu:catList')
+
+class CategoriaDetail(generic.DetailView):
+	model = CategoriaMenu
+
+class CategoriaUpdate(generic.UpdateView):
+	model = CategoriaMenu
+	fields = [
+		'nombre',
+		'status'
+	]
+	success_url = reverse_lazy('menu:catList')
+class CategoriaDelete(generic.DeleteView):
+	model = CategoriaMenu
+	success_url = reverse_lazy('menu:catList')
+
+class CategoriaList(generic.ListView):
+	model = CategoriaMenu
+
+
+class ProductosMenuStockCreation(generic.edit.CreateView):
+	model = ProductosMenuStock
+	fields = [
+		'productoStock_uuid',
+    	'porciones',
+    	'status'
+	]
+
+class ProductosMenuStockDetail(generic.DetailView):
+	model = ProductosMenu
+
+class ProductosMenuStockUpdate(generic.UpdateView):
+	model = ProductosMenuStock
+	fields = [
+		'productoStock_uuid',
+    	'porciones',
+    	'status'
+	]
+	success_url = reverse_lazy('menu:catList')
+
+class ProductosMenuStockDelete(generic.DeleteView):
+	model = ProductosMenuStock
+	success_url = reverse_lazy('menu:catList')
+
+class ProductosMenuStockList(generic.ListView):
+	model = ProductosMenuStock
+
+
+
