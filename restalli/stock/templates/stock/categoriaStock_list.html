@@ -1,0 +1,34 @@
+
+{% extends "stock/base.html" %}
+
+{% block content %}
+
+
+
+            <h4>Categorías del STOCK</h4> <hr>
+     
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-primary pull-right" href="{% url "stock:catCreate" %}">+ categoria</a>  
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+              <!-- <a  class="list-group-item list-group-item-action active ">-->
+              {% for categoria in cat_list %}
+              <a  class="list-group-item list-group-item-action">
+               {{ categoria.nombreCategoria }}
+              </a>
+            
+              {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+
+{% endblock %}

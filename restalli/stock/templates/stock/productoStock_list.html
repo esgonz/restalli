@@ -1,0 +1,66 @@
+{% extends "stock/base.html" %}
+{% load static %}
+{% block content %}
+
+<main role="main">
+        <div class="container">
+            <div class="col-12">
+            <h2 align="center">Inventario</h2>
+            <hr>
+            </div>
+            </div>
+          
+
+            
+        <div class="row" id="search">
+            <div class="col-6">
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2 col-6" type="search" placeholder="Buscar producto por nombre" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+              </form>
+            </div>
+  
+            <div class="col-6"></div>
+          </div>
+
+      </main>
+
+      <hr>
+      <div class="row" id="table">
+      <table class="table table-striped">
+          <div class="col-12">
+          <thead>
+              <tr>
+                  <th>Nombre</th>
+                  <th>Categoria</th>
+                  <th>Cantidad</th>
+                  <th>descripción</th>
+                  <th>Porciones</th>
+                  <th>Precio</th>
+                  <th>Estado</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for stock in objects.list %}
+                  <tr>
+                  <td>{{ stock.title }}</td>
+                  <td>{{ stock.categoria }}</td>
+                  <td>{{ stock.cantidad }}</td>
+                  <td>{{ stock.slugStock }}</td>
+                  <td>{{ stock.porciones }}</td>
+                  <td>{{ stock.price }}</td>
+                  <td>{{ stock.status }}</td>
+                  <td><a class="btn btn-info" href="{% url 'stock:list' %}">Editar</a>
+                     <a class="btn btn-danger" href="{% url 'stock:list'  %}">Eliminar</a>
+                  </td>
+              </tr>
+              {% endfor %}
+             
+              
+          </tbody>
+
+        </table>
+        <a class="btn btn-primary" href="{% url 'stock:list'  %}">Agregar</a>
+    </div>
+
+{% endblock %}

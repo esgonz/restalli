@@ -1,37 +1,83 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import ProductoStock
+
+from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
+from django.views import generic
+from django.template import loader
 
-class StaffRequiredMixin(object):
-  def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_staff:
-            return redirect(reverse_lazy('admin:login'))
-        return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)   
+from .models import ProductoStock, Stock, CategoriaStock
+# index 
+class IndexView(generic.ListView):
+	template_name = 'stock/Stock.html'
+	context_object_name = 'latest_stock_list'
+
+	
+
+
+#class StaffRequiredMixin(object):
+ # def dispatch(self, request, *args, **kwargs):
+  #      if not request.user.is_staff:
+   #         return redirect(reverse_lazy('admin:login'))
+    #    return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)   
 
 # Create your views here.
-class PageListView(ListView):
+class stockListView(generic.ListView):
     model = ProductoStock
 
-class PageDetailView(DetailView):
+class stockDetailView(generic.DetailView):
     model = ProductoStock
 
-class PageCreate(CreateView):
+class stockCreate(generic.CreateView):
     model = ProductoStock
-    fields = ['title', 'content', 'order']
-    success_url = reverse_lazy('pages:pages')
+    fields = [
+	
+		'nombreProducto',
+		'porcion',
+		'unidadMedida',
+		'precio',
+		'fechaElaboracion',
+		'fechaExpiracion',
+        
+	]
+    success_url = reverse_lazy('stock:list')
 
-class PageUpdate(UpdateView):
+class stockUpdate(generic.UpdateView):
     model = ProductoStock
     fields = ['title', 'content', 'order']
     template_name_suffix = '_update_form' 
 
     def get_success_url(self):
-        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok'
+        return reverse_lazy('stock:list', args=[self.object.id]) + '?ok'
 
 
-class PageDelete(DeleteView):
+class stockDelete(generic.DeleteView):
     model = ProductoStock
-    success_url = reverse_lazy('pages:pages')
+    success_url = reverse_lazy('stock:list')
+
+#categorias del stock
+class CategoriaCreate(generic.CreateView):
+	model = CategoriaStock
+	fields = [
+		'nombre',
+		'status'
+	]
+	success_url = reverse_lazy('stock:catList')
+
+class CategoriaDetailView(generic.DetailView):
+	model = CategoriaStock
+
+class CategoriaUpdate(generic.UpdateView):
+	model = CategoriaStock
+	fields = [
+		'nombre',
+		'status'
+	]
+	success_url = reverse_lazy('stock:catList')
+class CategoriaDeleteView(generic.DeleteView):
+	model = CategoriaStock
+	success_url = reverse_lazy('stock:catList')
+
+class CategoriaListView(generic.ListView):
+	model = CategoriaStock
+
+    

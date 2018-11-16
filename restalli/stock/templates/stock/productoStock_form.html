@@ -1,0 +1,25 @@
+<div class="form-group">
+    <form method="post">
+        {% csrf_token %}
+
+
+        {{ form.non_field_errors }}
+        <div class="form-control">
+            {{ form.productoStock_uuid.errors }}
+            <label for="{{ form.productoStock_uuid.id_for_label }}">productoStock_uuid:</label>
+            {{ form.productoStock_uuid }}
+        </div>
+        <div class="form-control">
+            {{ form.porciones.errors }}
+            <label for="{{ form.porciones.id_for_label }}">porciones:</label>
+            {{ form.porciones }}
+        </div>
+        <div class="form-control">
+            {{ form.status.errors }}
+            <label for="{{ form.status.id_for_label }}">status:</label>
+            {{ form.status }}
+        </div>
+
+        <input type="submit" value="Submit" />
+    </form>
+</div>

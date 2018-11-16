@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
-
+from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 
 
@@ -13,8 +14,8 @@ class CategoriaStock(models.Model):
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
 
-
-
+    def __str__(self):
+        return self.nombreCategoria
 
 
 class Stock(models.Model):
@@ -27,6 +28,10 @@ class Stock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
+
+
+    def __str__(self):
+        return self.uuid
 
 class ProductoStock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -44,5 +49,8 @@ class ProductoStock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
+ 
 
+    def __str__(self):
+        return self.nombreProducto
 
