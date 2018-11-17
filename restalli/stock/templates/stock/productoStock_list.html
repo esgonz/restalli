@@ -50,8 +50,8 @@
                   <td>{{ stock.porciones }}</td>
                   <td>{{ stock.price }}</td>
                   <td>{{ stock.status }}</td>
-                  <td><a class="btn btn-info" href="{% url 'stock:list' %}">Editar</a>
-                     <a class="btn btn-danger" href="{% url 'stock:list'  %}">Eliminar</a>
+                  <td><a class="btn btn-info" href="{% url 'stock:update' %}">Editar</a>
+                     <a class="btn btn-danger" href="{% url 'stock:delete'  %}">Eliminar</a>
                   </td>
               </tr>
               {% endfor %}
