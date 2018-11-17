@@ -10,12 +10,11 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('stock', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CategoriaMenu',
+            name='CategoriaStock',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
                 ('nombreCategoria', models.CharField(max_length=95)),
@@ -23,54 +22,45 @@ class Migration(migrations.Migration):
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('deleted', models.DateTimeField(auto_now=True)),
                 ('status', models.IntegerField()),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ofertas',
-            fields=[
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('precio', models.DecimalField(decimal_places=2, max_digits=9)),
-                ('fechaInicio', models.DateTimeField()),
-                ('fechaTermino', models.DateTimeField()),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('deleted', models.DateTimeField(auto_now=True)),
-                ('status', models.IntegerField()),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ProductosMenu',
-            fields=[
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('nombreProducto', models.CharField(max_length=45)),
-                ('slugProducto', models.SlugField(max_length=255, unique=True)),
-                ('descripcion', models.CharField(max_length=250)),
-                ('precio', models.DecimalField(decimal_places=2, max_digits=9)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('deleted', models.DateTimeField(auto_now=True)),
-                ('status', models.IntegerField()),
-                ('restaurant_uuid', models.CharField(max_length=36)),
                 ('user_uuid', models.CharField(max_length=36)),
-                ('categoria_uuid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='menu.CategoriaMenu')),
             ],
         ),
         migrations.CreateModel(
-            name='ProductosMenuStock',
+            name='ProductoStock',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('porciones', models.IntegerField()),
-                ('status', models.IntegerField()),
+                ('nombreProducto', models.CharField(max_length=100)),
+                ('codigo', models.CharField(max_length=100)),
+                ('porcion', models.IntegerField()),
+                ('unidadMedida', models.CharField(max_length=22)),
+                ('precio', models.DecimalField(decimal_places=2, max_digits=9)),
+                ('fechaElaboracion', models.DateTimeField()),
+                ('fechaExpiracion', models.DateTimeField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('deleted', models.DateTimeField(auto_now=True)),
-                ('productoStock_uuid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stock.ProductoStock')),
-                ('productosMenu_uuid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='menu.ProductosMenu')),
+                ('status', models.IntegerField()),
+                ('user_uuid', models.CharField(max_length=36)),
+                ('categoria_uuid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stock.CategoriaStock')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Stock',
+            fields=[
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('stockInicial', models.IntegerField()),
+                ('StockDescontado', models.IntegerField()),
+                ('StockFinal', models.IntegerField()),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('deleted', models.DateTimeField(auto_now=True)),
+                ('status', models.IntegerField()),
+                ('user_uuid', models.CharField(max_length=36)),
             ],
         ),
         migrations.AddField(
-            model_name='ofertas',
-            name='producto',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='menu.ProductosMenu'),
+            model_name='productostock',
+            name='stock_uuid',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stock.Stock'),
         ),
     ]
