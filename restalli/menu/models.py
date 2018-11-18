@@ -26,6 +26,7 @@ class ProductosMenu(models.Model):
     nombre = models.CharField(max_length=45)
     slug = models.SlugField(unique=True, max_length=255)
     descripcion = models.CharField(max_length=250)
+    imagen = models.ImageField(upload_to='productos_menu', blank=True)
     precio = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -40,11 +41,6 @@ class ProductosMenu(models.Model):
                     'slug':self.slug,
                     'categoria': self.categoria_uuid
                 })
-
-    def save( self, *args, **kwargs):
-        if not self.slug:
-            self.slug= slugify(self.nombre)
-            super(ProductosMenu, self).save(*args, **kwargs)
 
     def __str__(self):
         return "%s" % (self.nombre)

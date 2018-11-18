@@ -34,7 +34,7 @@
                                         <b>{{ menu.precio }}</b>
                                     </td>
                                     <td>
-                                      
+                                      <a class="btn-primary" href="{% url "menu:update" pk=menu.uuid %}">
                                     </td>
                                 </tr>
                                 {% endfor %}
