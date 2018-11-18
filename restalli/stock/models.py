@@ -1,9 +1,6 @@
 import uuid
 from django.db import models
 
-
-
-
 class CategoriaStock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     nombreCategoria = models.CharField(max_length=95)
@@ -12,11 +9,8 @@ class CategoriaStock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
-
-
-
-
-
+    def __str__(self):
+        return self.nombreCategoria
 class Stock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     stockInicial = models.IntegerField()
@@ -27,6 +21,8 @@ class Stock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
+    def __str__(self):
+        return "%s" %(self.uuid)
 
 class ProductoStock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -44,5 +40,6 @@ class ProductoStock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     status = models.IntegerField()
     user_uuid = models.CharField(max_length=36)
-
+    def __str__(self):
+        return self.nombreProducto
 
