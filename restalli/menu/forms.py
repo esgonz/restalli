@@ -7,6 +7,7 @@ class ProductosMenuForm(forms.ModelForm):
 		fields = [
 		'nombre',
 		'descripcion',
+		'imagen',
 		'precio',
 		'status',
 		'categoria_uuid'] # list of fields you want from model
