@@ -50,6 +50,11 @@
 
                                                     
                                                 </div>
+                                                <div class="col-12">
+                                                    <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
+
+                                                    
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
@@ -89,6 +94,8 @@
                             <hr>
                         </div>
                     </div>
+
+
                     {% block pagination %}
                       {% if is_paginated %}
                           <div class="pagination">

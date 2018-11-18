@@ -81,6 +81,7 @@ class MenuDelete(generic.DeleteView):
 class MenuList(generic.ListView):
 	model = ProductosMenu
 	paginate_by = 1
+
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
 		context = super().get_context_data(**kwargs)
@@ -88,8 +89,13 @@ class MenuList(generic.ListView):
 		context['categorias_list'] = CategoriaMenu.objects.all()
 		return context
 
-
-
+	def get_queryset(self):
+		filter_val = self.request.GET.get('categoria', '')
+		if filter_val!='':
+			return ProductosMenu.objects.filter(categoria_uuid=filter_val)
+		else:
+			return ProductosMenu.objects.all()
+    	
 
 
 class CategoriaCreation(generic.edit.CreateView):
