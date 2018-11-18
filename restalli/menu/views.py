@@ -80,6 +80,16 @@ class MenuDelete(generic.DeleteView):
 
 class MenuList(generic.ListView):
 	model = ProductosMenu
+	paginate_by = 1
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+		# Add in a QuerySet of all the books
+		context['categorias_list'] = CategoriaMenu.objects.all()
+		return context
+
+
+
 
 
 class CategoriaCreation(generic.edit.CreateView):
@@ -106,6 +116,11 @@ class CategoriaDelete(generic.DeleteView):
 
 class CategoriaList(generic.ListView):
 	model = CategoriaMenu
+
+
+
+
+
 
 
 class ProductosMenuStockCreation(generic.edit.CreateView):
