@@ -26,7 +26,7 @@ class ProductosMenu(models.Model):
     nombre = models.CharField(max_length=45)
     slug = models.SlugField(unique=True, max_length=255)
     descripcion = models.CharField(max_length=250)
-    imagen = models.ImageField(upload_to='productos_menu', blank=True)
+    imagen = models.ImageField(upload_to='productos_menu', blank=True, default ="nodisponible.png")
     precio = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

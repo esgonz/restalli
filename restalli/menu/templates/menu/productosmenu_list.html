@@ -23,23 +23,61 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Platos/ Productos</th>
+                                    <th>Precio</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
                                 {% for menu in object_list %}
                                 <tr>
                                     <td>
-                                        <img src="images/platillo.png" alt="Platillo" width="110" height="100">
+                                        <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
                                     </td>
                                     <td>
-                                        {{ menu.nombre }}<br>
-                                        <b>{{ menu.precio }}</b>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p class="small">{{menu.descripcion}}</p>
+                                            </div>
+                                           
+                                        </div>
+
                                     </td>
                                     <td>
-                                      <a class="btn-primary" href="{% url "menu:update" pk=menu.uuid %}">
+                                        <div class="row">
+                                            
+                                            <div class="col-12">
+                                                <h3>${{ menu.precio }}</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a class="btn-sm btn-primary" href="{% url "menu:update" pk=menu.uuid %}">Editar </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a class="btn-sm btn-danger" href="{% url "menu:delete" pk=menu.uuid %}">Eliminar </a>
+                                            </div>
+                                        </div>
+                                      
+                                      
                                     </td>
                                 </tr>
                                 {% endfor %}
 
-                            </thead>
+                            </tbody>
                         </table> 
                         <hr>
                     </div>
@@ -81,6 +119,8 @@
 </p>
 
 <ul>
+
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo nam exercitationem voluptas enim id, est minima blanditiis, facere ducimus. Optio, corrupti reprehenderit, deserunt ad vel iusto vero ab libero ipsa!
     
 </ul>
 

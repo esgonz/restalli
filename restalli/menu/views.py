@@ -71,15 +71,7 @@ class MenuDetail(generic.DetailView):
 
 class MenuUpdate(generic.UpdateView):
 	model = ProductosMenu
-	fields = [
-		'nombre',
-		'descripcion',
-		'precio',
-		'status',
-		'categoria_uuid',
-		'restaurant_uuid',
-		'user_uuid'
-	]
+	form_class = ProductosMenuForm
 	success_url = reverse_lazy('menu:list')
 
 class MenuDelete(generic.DeleteView):

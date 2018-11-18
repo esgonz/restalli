@@ -1,6 +1,38 @@
-<h1>{{ productoMenu.name }}</h1>
-<p>Fecha de inicio: <i>{{ productoMenu.start_date }}</i></p>
-<p>Fecha de fin: <i>{{ productoMenu.end_date }}</i></p>
-<p>
-    <a href="{% url "menu:list" %}">Regresar</a>
-</p>
+{% extends "menu/base.html" %}
+
+{% block content %}
+<h1>ESTA ES LA PLANTILLA</h1>
+<div class="col-12">	
+		<div class="row">
+			<div class="col-12">
+				<h2>{{productoMenu.nombre}}</h2>
+			</div>
+		</div>
+		<div class="row">
+			
+			
+			<div class="col-4">
+				<img src="{{productoMenu.imagen.url}}"/>
+			</div>
+			
+			<div class="col-6">
+				<div class="row">
+					<div class="col-12">
+						<p class="lead">{{productoMenu.descripcion}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<p>{{productoMenu.categoria_uuid}}</p>
+					</div>
+
+					<div class="col-6">
+						<p>{{productoMenu.precio}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock %}
+
+
