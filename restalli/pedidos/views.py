@@ -66,8 +66,50 @@ class PedidoList(generic.ListView):
     	
 class MenuOfertList(MenuList):
 	model = ProductosMenu
-	context_object_name = 'productos_list'
+	context_object_name = 'productosMenu_list'
+	template_name = 'pedidos/pedido_list.html'
 	paginate_by = 10
+
+	
+
+	def post(self, request, *args, **kwargs):
+		cart = self.request.session.get('cart', [])
+		# Do stuff with cart
+		request.session['cart'] = cart
+		
+
+
+		"""
+			{
+			   'A': 1,
+			   'B': 2,
+			   'C': 3,
+			}
+		"""
+		uuid_producto = request.POST['uuid']
+		productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
+		qty_producto = request.POST['qty']
+
+		productoToAdd = {
+			"uuid": str(productoObject.uuid),
+			"nombre": str(productoObject.nombre),
+			"precio": str(productoObject.precio),
+			"qty":str(qty_producto)
+		} 
+		
+
+
+		# Set a session value
+		request.session['cart'].update(productoToAdd)
+
+		if 'accept' in request.POST:
+			# do acceptable stuff
+			pass
+		elif 'reject' in request.POST:
+			# do rejectable stuff
+			pass
+		print(request.session['cart'])
+		return super().get(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -75,6 +117,11 @@ class MenuOfertList(MenuList):
 
 		# Add in a QuerySet of all the books
 		context['categorias_list'] = CategoriaMenu.objects.all()
+
+		context['cart_list'] = self.request.session['cart']
+
+		print("LIST CART:")
+		print(context['cart_list'])
 		return context
 
 	def get_queryset(self):

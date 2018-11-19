@@ -3,108 +3,128 @@
 
 {% block content %}
 
-
-
 <section class="main row">
                 <!--xs movil, sm y md tablets, lg pc-->
                 <article class="col-md-8">
-                    <h3>Menú</h3>  <h4> Desayunos</h4>
-                    <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ordenar por
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Categoría 1</a>
-                            <a class="dropdown-item" href="#">Categoría 2</a>
-                            <a class="dropdown-item" href="#">Categoría 3</a>
-                          </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Menú/ </h3>  <h4> Desayunos</h4>
                         </div>
-
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Platos/ Productos</th>
-                                    <th>Precio</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                {% for menu in productos_list %}
-                                <tr>
-                                    <td>
-                                        <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
-                                    </td>
-                                    <td>
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <p class="small">{{menu.descripcion}}</p>
-                                            </div>
-                                           
-                                        </div>
-
-                                    </td>
-                                    <td>
-                                        <div class="row">
-                                            
-                                            <div class="col-12">
-                                                <h3>${{ menu.precio }}</h3>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <a class="btn-sm btn-primary" href="{% url "menu:update" pk=menu.uuid %}">Editar </a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <a class="btn-sm btn-danger" href="{% url "menu:delete" pk=menu.uuid %}">Eliminar </a>
-                                            </div>
-                                        </div>
-                                      
-                                      
-                                    </td>
-                                </tr>
-                                {% endfor %}
-
-                            </tbody>
-                        </table> 
-                        <hr>
                     </div>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if object_list %}
+                          <!-- code here to list the books -->
+                        {% else %}
+                          <p>No Existen Platillos/ productos.</p>
+                        {% endif %}
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Platos/ Productos</th>
+                                        <th>Precio</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for menu in object_list %}
+                                    <tr>
+                                        <td>
+                                            <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
+                                        </td>
+                                        <td>
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
+
+                                                    
+                                                </div>
+                                                <div class="col-12">
+                                                    <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
+
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="small">{{menu.descripcion}}</p>
+                                                </div>
+                                               
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                    <h3>${{ menu.precio }}</h3>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a class="btn-sm btn-primary" href="{% url "menu:update" pk=menu.uuid %}">Editar </a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a class="btn-sm btn-danger" href="{% url "menu:delete" pk=menu.uuid %}">Eliminar </a>
+                                                </div>
+                                            </div>
+                                          
+                                          
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table> 
+                            <hr>
+                        </div>
+                    </div>
+
+
+                    {% block pagination %}
+                      {% if is_paginated %}
+                          <div class="pagination">
+                              <span class="page-links">
+                                  {% if page_obj.has_previous %}
+                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                                  {% endif %}
+                                  <span class="page-current">
+                                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                  </span>
+                                  {% if page_obj.has_next %}
+                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                  {% endif %}
+                              </span>
+                          </div>
+                      {% endif %}
+                    {% endblock %}
 
                 </article>
 
                 <aside class="col-md-4">
                     <br>
                     <h4>Categorías del Menú</h4> <hr>
-                    <div class="buscador"> 
-                            <form class="card card-sm">
-                                <div class="card-body row no-gutters align-items-center">
-                                    <div class="col">
-                                        <input class="form-control form-control-borderless" type="search" placeholder="Ingrese un producto">
-                                    </div>
-                                    <div class="col-auto">
-                                        <button class="btn btn-success" type="submit">Buscar</button>
-                                    </div>
-                                </div>
-                            </form> <br>
-                    </div>
                     <div class="listaCategoria">
                         <ul class="list-group">
-                            <li class="list-group-item active">Categorias</li>
-                                <li class="list-group-item">Categoría 1</li>
-                                <li class="list-group-item">Categoría 2</li>
-                                <li class="list-group-item">Categoría 3</li>    
+                            {% for categoria in categorias_list %}
+                            <li class="list-group-item">
+                                <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+                            {% endfor %}    
                         </ul>                    
                     </div>
                     <hr>
@@ -112,17 +132,7 @@
                 </aside>
             </section>
 
-
-
-<p>
-    <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-</p>
-
-<ul>
-
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo nam exercitationem voluptas enim id, est minima blanditiis, facere ducimus. Optio, corrupti reprehenderit, deserunt ad vel iusto vero ab libero ipsa!
-    
-</ul>
-
-
 {% endblock %}
+
+
+
