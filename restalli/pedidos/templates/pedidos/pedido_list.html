@@ -1,5 +1,5 @@
 
-{% extends "base.html" %}
+{% extends  "base.html" %}
 
 {% block content %}
 
@@ -32,7 +32,7 @@
                             </thead>
                             <tbody>
 
-                                {% for menu in productos_list %}
+                                {% for menu in object_list %}
                                 <tr>
                                     <td>
                                         <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
