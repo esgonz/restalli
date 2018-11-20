@@ -1,0 +1,39 @@
+{% extends "stock/base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-12">
+            <h4>Categorías del st</h4> <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-primary pull-right" href="{% url "stock:logcreate" %}">+ Categorias</a>  
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+              <!-- <a  class="list-group-item list-group-item-action active ">-->
+              {% for stocklog in listlog %}
+              <a  class="list-group-item list-group-item-action">
+               {{ stocklog.uuid }}
+              </a>
+            
+              {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+
+{% endblock %}

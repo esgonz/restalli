@@ -37,6 +37,7 @@
                   <th>Unidad de Medida</th>
                   <th>precio</th>
                   <th>fecha</th>
+                  <th>categoria</th>
                   <th>Estado</th>
               </tr>
           </thead>
@@ -49,6 +50,7 @@
                   <td>{{ stock.unidadMedida }}</td>
                   <td>{{ stock.precio }}</td>
                   <td>{{ stock.fechaElaboracion }}</td>
+                  <td>{{ stock.categoria_uuid }}</td>
                   <td>{{ stock.status }}</td>
                   <td><a class="btn btn-info" href="{% url 'stock:update' pk=stock.uuid %}">Editar</a>
                      <a class="btn btn-danger" href="{% url 'stock:delete' pk=stock.uuid  %}">Eliminar</a>
@@ -60,7 +62,42 @@
           </tbody>
 
         </table>
-        <a class="btn btn-primary" href="{% url 'stock:create'  %}">Agregar</a>
+        <a class="btn btn-primary" href="{% url 'stock:Create'  %}">Agregar</a>
+        {% block pagination %}
+                      {% if is_paginated %}
+                          <div class="pagination">
+                              <span class="page-links">
+                                  {% if page_obj.has_previous %}
+                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                                  {% endif %}
+                                  <span class="page-current">
+                                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                  </span>
+                                  {% if page_obj.has_next %}
+                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                  {% endif %}
+                              </span>
+                          </div>
+                      {% endif %}
+                    {% endblock %}
     </div>
+                <aside class="col-md-4">
+                    <br>
+                    <h4>Categorías del Stock</h4> <hr>
+                    <div class="listaCategoria">
+                        <ul class="list-group">
+                            {% for categoria in categorias_list %}
+                            <li class="list-group-item">
+                                <a href="{% url 'stock:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombreCategoria}}</a></li>
+                            {% endfor %}    
+                        </ul>                    
+                    </div>
+                    <hr>
+                
+                </aside>
+                <a class="btn btn-primary" href="{% url 'stock:catCreate'  %}">Agregar</a>
+            </section>
 
+   
+                                                
 {% endblock %}
