@@ -13,9 +13,11 @@ class StockForm(forms.ModelForm):
             'precio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Precio'}),
             'fechaElaboracion': forms.DateTimeInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de elaboración '}),
             'fechaExpiracion': forms.DateTimeInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de ex '}),
-            'categoria_uuid': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Categoria'}),
-            'status': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'status'})
+            #'categoria_uuid': forms.ModelChoiceField(attrs={'class': 'form-control', 'placeholder': 'Categoria'}),
+            #'status': forms.ModelChoiceField(attrs={'class': 'form-control', 'placeholder': 'status'})
+
         }
+
         labels = {
             'nombreProducto': 'Nombre', 'codigo': 'Codigo', 'porcion': 'Porcion',
              'unidadMedida': 'Medida', 'precio': 'Precio', 'fechaElaboracion': '', 'fechaExpiracion': '', 'categoria_uuid': '', 'status': ''
