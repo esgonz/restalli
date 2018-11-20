@@ -73,42 +73,47 @@ class MenuOfertList(MenuList):
 	
 
 	def post(self, request, *args, **kwargs):
+		#try to get cart, if cart doesnt exist, empty list
 		cart = self.request.session.get('cart', [])
 		# Do stuff with cart
 		request.session['cart'] = cart
-		
 
 
-		"""
-			{
-			   'A': 1,
-			   'B': 2,
-			   'C': 3,
-			}
-		"""
-		uuid_producto = request.POST['uuid']
-		productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
-		qty_producto = request.POST['qty']
+		if 'clear' in request.POST:
+			request.session.flush()
+		elif 'add' in request.POST:
+			
 
-		productoToAdd = {
-			"uuid": str(productoObject.uuid),
-			"nombre": str(productoObject.nombre),
-			"precio": str(productoObject.precio),
-			"qty":str(qty_producto)
-		} 
-		
+			uuid_producto = request.POST['uuid']
+			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
+			qty_producto = request.POST['qty']
 
+			productoToAdd = {
+					"uuid": str(productoObject.uuid),
+					"nombre": str(productoObject.nombre),
+					"precio": str(productoObject.precio),
+					"qty":str(qty_producto)
+				} 
 
-		# Set a session value
-		request.session['cart'].update(productoToAdd)
+			temp_index = 0
+			
+			for index, prod in enumerate(request.session['cart']):
+				print("PROD")
+				print(prod)
+				print("PROD")
+				if prod['uuid'] == uuid_producto:
+					#prev save object
+					producto_temp = prod
+					#then delete product
+					request.session['cart'].remove(prod)
+					
+					#change qty
+					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					productoToAdd["qty"] = temp_qty
+					break
 
-		if 'accept' in request.POST:
-			# do acceptable stuff
-			pass
-		elif 'reject' in request.POST:
-			# do rejectable stuff
-			pass
-		print(request.session['cart'])
+			request.session['cart'].append(productoToAdd)
+			print(request.session['cart'])
 		return super().get(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
@@ -118,6 +123,10 @@ class MenuOfertList(MenuList):
 		# Add in a QuerySet of all the books
 		context['categorias_list'] = CategoriaMenu.objects.all()
 
+		#try to get cart, if cart doesnt exist, empty list
+		cart = self.request.session.get('cart', [])
+		# Do stuff with cart
+		self.request.session['cart'] = cart
 		context['cart_list'] = self.request.session['cart']
 
 		print("LIST CART:")
@@ -133,4 +142,6 @@ class MenuOfertList(MenuList):
 		else:
 			#si no, devuelvo todos los productos
 			return ProductosMenu.objects.all()
+
+
     	
