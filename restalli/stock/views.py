@@ -82,11 +82,13 @@ class stocklogDetailView(generic.DetailView):
 class stocklogCreate(generic.CreateView):
     model = Stock
     form_class = StocklogForm
-    success_url = reverse_lazy('stockLog:list')
+    success_url = reverse_lazy('stock:list')
 
 class stocklogUpdate(generic.UpdateView):
     model = Stock
     form_class = StocklogForm
+    success_url = reverse_lazy('stock:list')
+
     #template_name_suffix = '_update_form' 
 
    # def get_success_url(self):
@@ -94,27 +96,29 @@ class stocklogUpdate(generic.UpdateView):
 
 class stocklogDelete(generic.DeleteView):
     model = Stock
-    success_url = reverse_lazy('stockLog:list')
+    success_url = reverse_lazy('stocklog:list')
 
 
 #categorias del stock
 class CategoriaCreate(generic.CreateView):
         model = CategoriaStock
         form_class = CatForm
+        
         success_url = reverse_lazy('stock:catList')
 
-class CategoriaDetailView(generic.DetailView):
+class CategoriaDetail(generic.DetailView):
         model = CategoriaStock
 
 class CategoriaUpdate(generic.UpdateView):
         model = CategoriaStock
         form_class = CatForm
         success_url = reverse_lazy('stock:catList')
-class CategoriaDeleteView(generic.DeleteView):
+class CategoriaDelete(generic.DeleteView):
         model = CategoriaStock
         success_url = reverse_lazy('stock:catList')
 
-class CategoriaListView(generic.ListView):
+class CategoriaList(generic.ListView):
         model = CategoriaStock
+        
 
 

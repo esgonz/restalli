@@ -8,7 +8,7 @@
      
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-primary pull-right" href="{% url "stock:catCreate" %}">+ categoria</a>  
+             <a class="btn btn-primary pull-right" href="stock/categoria/nuevo/">Agrega Categorias</a>   
         </div>
     </div>
 
@@ -24,11 +24,10 @@
                     
               </tr>
           </thead>
-              {% for categoria in cat_list %}
+              {% for stock in list_object %}
               <a  class="list-group-item list-group-item-action">
                {{ categoria.nombreCategoria }}
                 {{ categoria.status }}
-                 {{ categoria.user_uuid }}
 
               </a>
             

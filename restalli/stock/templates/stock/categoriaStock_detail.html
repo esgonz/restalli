@@ -1,9 +1,36 @@
 {% extends "stock/base.html" %}
 
 {% block content %}
+<div class="col-12">	
+		<div class="row">
+			<div class="col-12">
+				<h2>{{object.nombreProducto}}</h2>
+			</div>
+		</div>
+		<div class="row">
+			
+			
+			
+			
+			<div class="col-6">
+				<div class="row">
+					<div class="col-12">
+						<span class="font-weight-bold">precio:</span><br>
+						<p class="lead">{{object.precio}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<span class="font-weight-bold">Categoria:</span><br>
+						<p>{{object.categoria_uuid}}</p>
+					</div>
 
-<div>
-        {{stock.content|safe}}
-        </div>
-
-        {% endblock %}
+					<div class="col-6">
+						<span class="font-weight-bold">Precio:</span><br>
+						<p>{{object.precio}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock %}

@@ -1,25 +1,24 @@
-<div class="form-group">
-    <form method="post">
-        {% csrf_token %}
+{% extends "stock/base.html" %}
+{% load static %}
+{% block content %}
+{% load widget_tweaks %}
 
+<main role="main">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-9 mx-auto">
+        <div>
+            <form action="" method="post">{% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <br>
+                <input type="submit" value="Crear página" />
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-        {{ form.non_field_errors }}
-        <div class="form-control">
-            {{ form.producto_uuid.errors }}
-            <label for="{{ form.productoStock_uuid.id_for_label }}">productoStock</label>
-            {{ form.producto_uuid }}
-        </div>
-        <div class="form-control">
-            {{ form.stockInicial.errors }}
-            <label for="{{ form.stockInicial.id_for_label }}">inicial:</label>
-            {{ form.stockInicial }}
-        </div>
-        <div class="form-control">
-            {{ form.status.errors }}
-            <label for="{{ form.status.id_for_label }}">status:</label>
-            {{ form.status }}
-        </div>
-
-        <input type="submit" value="Submit" />
-    </form>
-</div>
+{% endblock %}
