@@ -32,7 +32,7 @@ class StocklogForm(forms.ModelForm):
         model = Stock
         fields = ['producto_uuid', 'stockInicial','StockDescontado', 'StockFinal', 'status','observaciones', 'user_uuid']
         widgets = {
-           
+           'observaciones': forms.Textarea(attrs={'cols': 35, 'rows': 10}),
             
         }        
 
