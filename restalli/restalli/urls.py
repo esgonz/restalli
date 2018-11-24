@@ -22,7 +22,7 @@ urlpatterns = [
     path('menu/', include('menu.urls')),
     path('stock/', include('stock.urls')),
     path('mesas/', include('mesas.urls')),
-    path('empleados/', include('empleados.urls'))
+    path('empleados/', include('empleados.urls')),
     path('venta/', include('venta.urls')),
     path('pedidos/', include('pedidos.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
