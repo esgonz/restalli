@@ -1,5 +1,3 @@
 .pyc
 *.pyc
 .sqlite3
-restalli/db.sqlite3
-
