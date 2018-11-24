@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-# FALTA REFERENCIA A PERSONAS ¿Y PERFIL EMPLEADO?
+from comun.models import Estados, Personas
 
 class Empleados(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -10,6 +10,6 @@ class Empleados(models.Model):
     updated= models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
     status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    personas = models.ForeignKey(Personas, on_delete=models.SET_NULL, null=True)
 
-# FALTA REFERENCIA A PERSONAS
 # ¿FALTA REFERENCIA A PERFIL EMPLEADO?

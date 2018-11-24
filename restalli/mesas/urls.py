@@ -4,7 +4,7 @@ from . import views
 app_name = 'mesas'
 urlpatterns = [
     path('', views.MesaList.as_view(), name='list'),
-    #path('nuevo/', views.MenuCreation.as_view(), name='create'),
+    path('crear/', views.MesaCreation.as_view(), name='create'),
     #path('<int:pk>/', views.MenuDetail.as_view(), name='detail'),    
     #path('<int:pk>/', views.MenuUpdate.as_view(), name='update'),
     #path('<int:pk>/', views.MenuDelete.as_view(), name='delete'),

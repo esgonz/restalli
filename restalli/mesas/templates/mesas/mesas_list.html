@@ -1,9 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>mesas list</title>
-</head>
-<body>
+{% extends "mesas/base.html" %}
+{% load static %}
+{% block content %}
 
-</body>
-</html>
+<main role="main">
+        <div class="container">
+            <div class="col-12">
+            <h2 align="center">Mesas</h2>
+            <hr>
+            </div>
+            </div>
+          
+
+            
+        <div class="row" id="search">
+            <div class="col-6">
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2 col-6" type="search" placeholder="Buscar producto por nombre" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+              </form>
+            </div>
+  
+            <div class="col-6"></div>
+          </div>
+
+      </main>
+
+      <hr>
+      <div class="row" id="table">
+      <table class="table table-striped">
+          <div class="col-12">
+          <thead>
+              <tr>
+                  <th>N° de Mesa</th>
+                  <th>Estado</th>
+                  <th>N° de Pedido</th>
+                  <th>Atendido por</th>
+                  <th>Fecha</th>
+                  <th>Hora de Inicio</th>
+                  <th>Hora de Término</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for mesas in object_list %}
+                  <tr>
+                  <td>{{ mesas.identificador }}</td>
+                  <td>{{ mesas.estado  }}</td>
+                  <td>{{ mesas.pedido }}</td>
+                  <td>{{ mesas.empleado  }}</td>
+                  <td>{{ mesas.fecha }}</td>
+                  <td>{{ mesas.inicio }}</td>
+                  <td>{{ mesas.termino }}</td>
+                  <td><a class="btn btn-info" href="{% url 'mesas:update' pk=mesas.uuid %}">Editar</a>
+                     <a class="btn btn-danger" href="{% url 'mesas:delete' pk=mesas.uuid  %}">Eliminar</a>
+                  </td>
+              </tr>
+              {% endfor %}
+             
+              
+          </tbody>
+
+        </table>
+        <a class="btn btn-primary" href="{% url 'mesas:create'  %}">Agregar</a>
+    </div>
+
+{% endblock %}
