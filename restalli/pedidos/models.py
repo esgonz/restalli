@@ -10,6 +10,9 @@ from comun.models import Estados, Restaurantes, Sucursal
 #Pedido
 class Pedido(models.Model):
 
+    
+
+
     PENDIENTE = 'INIT'
     ESPERA = 'WAIT'
     ENTREGADO = 'OK'
@@ -25,7 +28,12 @@ class Pedido(models.Model):
     
 
 
-
+    """def increment_pedido_number():
+        last_pedido = self.objects.all().order_by('numero').last()
+        if not last_pedido:
+            return 1
+        numero_int = int(last_pedido.numero)
+        return numero_int"""
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     numero = models.IntegerField()
     sucursal = models.ForeignKey(Sucursal, on_delete=models.SET_NULL, null=True)
@@ -43,6 +51,9 @@ class Pedido(models.Model):
     
     def __str__(self):
         return "%s" % (self.numero)
+
+
+ 
 
 #Pedido
 class PedidoItem(models.Model):
@@ -82,6 +93,6 @@ class PedidoItem(models.Model):
     def __str__(self):
         return "%s" % (self.uuid)
 
-
+        
 
 

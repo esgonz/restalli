@@ -7,10 +7,10 @@
 
                 
                 <!--xs movil, sm y md tablets, lg pc-->
-                <article class="col-md-7">
+                <article class="col-md-12">
                     <div class="row">
                         <div class="col-12">
-                            <h3>Menú/ </h3>  <h4> Desayunos</h4>
+                            <h3>Pedidos/ </h3>  <h4></h4>
                         </div>
                     </div>
 
@@ -21,41 +21,56 @@
                         </div>
                     </div>
                     <div class="row">
-                        {% if productosMenu_list %}
+                        {% if pedidos_list %}
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Imagen</th>
-                                        <th>Platos/ Productos</th>
-                                        <th>Precio</th>
+                                        <th>Nº Pedido</th>
+                                        <th>Mesa</th>
+                                        <th>Total</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Hora Termino</th>
+                                        <th>Estado</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    {% for menu in productosMenu_list %}
+                                    {% for pedido in pedidos_list %}
                                     <tr>
                                         <td>
-                                            <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
+                                            <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
                                         </td>
+
                                         <td>
 
+                                          
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
-
-                                                    
+                                                    <p class="small">Mesa 2</p>
                                                 </div>
-                                                <div class="col-12">
-                                                    <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
-
-                                                    
-                                                </div>
+                                               
                                             </div>
+
+                                        <td>
+
+                                          
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <p class="small">{{menu.descripcion}}</p>
+                                                    <p class="small">${{pedido.total}}</p>
+                                                </div>
+                                               
+                                            </div>
+
+
+                                        <td>
+
+                                          
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="small">{{pedido.created}}</p>
                                                 </div>
                                                
                                             </div>
@@ -65,28 +80,35 @@
                                             <div class="row">
                                                 
                                                 <div class="col-12">
-                                                    <h3>${{ menu.precio }}</h3>
+                                                      <p class="small">{{pedido.created}}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <form method="post">
-                                                {% csrf_token %}
-                                                <div class="row">
-                                                    <div class="form-group col-12">
-                                                        <input type="hidden" id="uuid" name="uuid" value="{{menu.uuid}}">
-                                                        <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
-                                                    </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small">{{pedido.modified}}</p>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <input type="submit" class="btn-sm btn-primary">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                          
-                                          
+                                            </div>
                                         </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small">{{pedido.estadoPedido}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+    
                                     </tr>
                                     {% endfor %}
 
@@ -119,69 +141,7 @@
                           </div>
                       {% endif %}
                     {% endblock %}
-
                 </article>
-
-                <aside class="col-md-5">
-
-                    <div class="row">
-                      <div class="col-md-12">
-                            <h4>Categorías del Menú</h4> <hr>
-                            <div class="listaCategoria">
-                                <ul class="list-group">
-                                    {% for categoria in categorias_list %}
-                                    <li class="list-group-item">
-                                        <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                                    {% endfor %}    
-                                </ul>                    
-                            </div>
-                            <hr>
-
-                        </div>  
-                    </div>
-
-
-                    <div class="row">
-                        
-                    
-                        <h4>Pedido N° 001</h4>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    
-                                </thead>   
-                                    <tr>
-                                        {% for cartProduct in cart_list %}
-                                        <td>
-                                            {{cartProduct.nombre}} <br>
-                                            Cant: <input id="cantidad" type="number" min="1" max="10" value="{{cartProduct.qty}}">
-                                            <b>{{cartProduct.precio}}</b>
-                                        </td>
-                                        <td>
-                                             <a href="#" class="btn btn-danger">eliminar</a>
-                                        </td>
-                                         {% endfor %}
-                                    </tr>
-                                    <!--FIN PRUEBA-->
-                                    <tr>
-                                        <td colspan="2" >
-                                            <p align="right"> TOTAL:</p>
-                                        </td>
-                                        <td colspan="2">
-                                            <b> $ 7.98 </b> </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" align="right">
-                                            <button type="button" class="btn btn-success">Aceptar</button>
-                                            <button type="button" class="btn btn-danger">Cancelar</button>
-                                        </td>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </aside>
             </section>
 
 {% endblock %}

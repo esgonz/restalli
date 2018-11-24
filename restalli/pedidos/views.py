@@ -15,21 +15,105 @@ from menu.views import MenuList
 
 class PedidoCreation(generic.edit.CreateView):
 	model = Pedido
-	"""fields = [
-		'nombreProducto',
-		'descripcion',
-		'precio',
+	fields = [
+		'numero',
+		'sucursal',
+		'total',
 		'status',
-		'categoria_uuid',
-		'restaurant_uuid',
-		'user_uuid'
-	]"""
+		'estadoPedido'
+	]
+
 	#form_class = ProductosMenuForm
-	#success_url = reverse_lazy('menu:list')
+	success_url = reverse_lazy('pedidos:list')
+	def get_context_data(self, **kwargs):
+		print("NUEVO LIST CART:")
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+
+		#try to get cart, if cart doesnt exist, empty list
+		cart = self.request.session.get('cart', [])
+		# Do stuff with cart
+		self.request.session['cart'] = cart
+		context['cart_list'] = self.request.session['cart']
+
+
+		#try to get cart, if cart doesnt exist, empty list
+		total_cart = self.request.session.get('total_cart', [])
+		# Do stuff with cart
+		self.request.session['total_cart'] = total_cart
+		context['total_cart'] = self.request.session['total_cart']
+
+
+
+		print("NUEVO LIST CART 2:")
+		print(context['cart_list'])
+		return context
+	
+	def post(self, request, *args, **kwargs):
+		
+		print("POST create")
+		#try to get cart, if cart doesnt exist, empty list
+		cart = self.request.session.get('cart', [])
+		# Do stuff with cart
+		request.session['cart'] = cart
+
+
+		if 'clear' in request.POST:
+			request.session.flush()
+		elif 'add' in request.POST:
+			
+
+			uuid_producto = request.POST['uuid']
+			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
+			qty_producto = request.POST['qty']
+
+			productoToAdd = {
+					"uuid": str(productoObject.uuid),
+					"nombre": str(productoObject.nombre),
+					"precio": str(productoObject.precio),
+					"qty":str(qty_producto)
+				} 
+
+			temp_index = 0
+			
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				print("PROD")
+				print(prod)
+				print("PROD")
+				total_cart = total_cart + float(prod['precio'])
+				if prod['uuid'] == uuid_producto:
+					#prev save object
+					producto_temp = prod
+					#then delete product
+					request.session['cart'].remove(prod)
+					
+					#change qty
+					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					productoToAdd["qty"] = temp_qty
+					break
+
+			request.session['total_cart'] = total_cart
+			request.session['cart'].append(productoToAdd)
+			print(request.session['cart'])
+		return super().get(request, *args, **kwargs)
+
 
 
 class PedidoDetail(generic.DetailView):
 	model = Pedido
+	fields = [
+		'uuid',
+		'numero',
+		'sucursal',
+		'total',
+		'created',
+		'updated',
+		'deleted',
+		'status',
+		'estadoPedido'
+	]
+
 	#template_name = 'menu/editar.html'
 	#
 
@@ -44,6 +128,7 @@ class PedidoDelete(generic.DeleteView):
 
 class PedidoList(generic.ListView):
 	model = Pedido
+
 	context_object_name = 'pedidos_list'
 	paginate_by = 10
 
@@ -67,49 +152,58 @@ class PedidoList(generic.ListView):
 class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
-	template_name = 'pedidos/pedido_list.html'
+	template_name = 'pedidos/menuOfertas_list.html'
 	paginate_by = 10
 
 	
 
 	def post(self, request, *args, **kwargs):
+		#try to get cart, if cart doesnt exist, empty list
 		cart = self.request.session.get('cart', [])
 		# Do stuff with cart
 		request.session['cart'] = cart
-		
 
 
-		"""
-			{
-			   'A': 1,
-			   'B': 2,
-			   'C': 3,
-			}
-		"""
-		uuid_producto = request.POST['uuid']
-		productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
-		qty_producto = request.POST['qty']
+		if 'clear' in request.POST:
+			request.session.flush()
+		elif 'add' in request.POST:
+			
 
-		productoToAdd = {
-			"uuid": str(productoObject.uuid),
-			"nombre": str(productoObject.nombre),
-			"precio": str(productoObject.precio),
-			"qty":str(qty_producto)
-		} 
-		
+			uuid_producto = request.POST['uuid']
+			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
+			qty_producto = request.POST['qty']
 
+			productoToAdd = {
+					"uuid": str(productoObject.uuid),
+					"nombre": str(productoObject.nombre),
+					"precio": str(productoObject.precio),
+					"qty":str(qty_producto)
+				} 
 
-		# Set a session value
-		request.session['cart'].update(productoToAdd)
+			temp_index = 0
+			
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				print("PROD")
+				print(prod)
+				print("PROD")
+				total_cart = total_cart + float(prod['precio'])
+				if prod['uuid'] == uuid_producto:
+					#prev save object
+					producto_temp = prod
+					#then delete product
+					request.session['cart'].remove(prod)
+					
+					#change qty
+					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					productoToAdd["qty"] = temp_qty
+					break
 
-		if 'accept' in request.POST:
-			# do acceptable stuff
-			pass
-		elif 'reject' in request.POST:
-			# do rejectable stuff
-			pass
-		print(request.session['cart'])
+			request.session['total_cart'] = total_cart
+			request.session['cart'].append(productoToAdd)
+			print(request.session['cart'])
 		return super().get(request, *args, **kwargs)
+
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -118,7 +212,18 @@ class MenuOfertList(MenuList):
 		# Add in a QuerySet of all the books
 		context['categorias_list'] = CategoriaMenu.objects.all()
 
+		#try to get cart, if cart doesnt exist, empty list
+		cart = self.request.session.get('cart', [])
+		# Do stuff with cart
+		self.request.session['cart'] = cart
 		context['cart_list'] = self.request.session['cart']
+
+		#try to get cart, if cart doesnt exist, empty list
+		total_cart = self.request.session.get('total_cart', [])
+		# Do stuff with cart
+		self.request.session['total_cart'] = total_cart
+		context['total_cart'] = self.request.session['total_cart']
+
 
 		print("LIST CART:")
 		print(context['cart_list'])
@@ -133,4 +238,6 @@ class MenuOfertList(MenuList):
 		else:
 			#si no, devuelvo todos los productos
 			return ProductosMenu.objects.all()
+
+
     	
