@@ -41,6 +41,7 @@ class MenuDelete(generic.DeleteView):
 class MenuList(generic.ListView):
 	model = ProductosMenu
 	paginate_by = 10
+	context_object_name = 'productosMenu_list'
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context

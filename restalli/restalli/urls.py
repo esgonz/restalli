@@ -21,8 +21,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('menu/', include('menu.urls')),
     path('stock/', include('stock.urls')),
+<<<<<<< HEAD
     path('venta/', include('venta.urls')),
 
+=======
+    path('pedidos/', include('pedidos.urls'))
+>>>>>>> origin/master
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
