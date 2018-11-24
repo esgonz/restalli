@@ -20,26 +20,56 @@ class IndexView(generic.ListView):
 # Create your views here.aa
 class stockListView(generic.ListView):
     model = ProductoStock
+    paginate_by = 3
+    context_object_name = 'productoStock_list'
+
+
+    def get_context_data(self, **kwargs):
+            # Call the base implementation first to get a context
+          context = super().get_context_data(**kwargs)
+            # Add in a QuerySet of all the books
+          context['categorias_list'] = CategoriaStock.objects.all()
+          return context
+    def get_queryset(self):
+            #leo el parametro que viene desde get(url)
+            filter_val = self.request.GET.get('categoria', '')
+            if filter_val!='':
+                #si el parametro existe, aplico el filtro.
+                return ProductoStock.objects.filter(categoria_uuid=filter_val)
+            else:
+                #si no, devuelvo todos los productos
+                return ProductoStock.objects.all()
+        
+
 
 class stockDetailView(generic.DetailView):
     model = ProductoStock
+#success_url = reverse_lazy('stock:list')
 
 class stockCreate(generic.CreateView):
     model = ProductoStock
     form_class = StockForm
-    success_url = reverse_lazy('stock:list')
+    success_url = reverse_lazy('stock:Create')
+
+    #def form_valid(self, form):
+    #  form.instance.ProductoStock = self.request.categoria_uuid
+    #  return redirect('/')
 
 class stockUpdate(generic.UpdateView):
     model = ProductoStock
     form_class = StockForm
-    template_name_suffix = '_update_form' 
-
-    def get_success_url(self):
-        return reverse_lazy('stock:list', args=[self.object.uuid]) + '?ok'
+    #template_name_suffix = '_update_form' 
+    success_url = reverse_lazy('stock:list')
+    #def get_success_url(self):
+     #   return reverse_lazy('stock:list', args=[self.object.uuid()]) + '?ok'
+    #def get_object(self):
+     #   return ProductoStock.objects.get(uuid=self.kwargs.get("uuid"))
+    #def get_success_url(self):
+     #   return reverse_lazy('stock:list', args=[self.uuid.UUID(), ])
 
 class stockDelete(generic.DeleteView):
     model = ProductoStock
-    success_url = reverse_lazy('list:list')
+    success_url = reverse_lazy('stock:list')
 
 #Stock Logico
 
@@ -52,39 +82,43 @@ class stocklogDetailView(generic.DetailView):
 class stocklogCreate(generic.CreateView):
     model = Stock
     form_class = StocklogForm
-    success_url = reverse_lazy('stockLog:list')
+    success_url = reverse_lazy('stock:list')
 
 class stocklogUpdate(generic.UpdateView):
     model = Stock
     form_class = StocklogForm
-    template_name_suffix = '_update_form' 
+    success_url = reverse_lazy('stock:list')
 
-    def get_success_url(self):
-        return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
+    #template_name_suffix = '_update_form' 
+
+   # def get_success_url(self):
+       # return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
 
 class stocklogDelete(generic.DeleteView):
     model = Stock
-    success_url = reverse_lazy('list:list')
+    success_url = reverse_lazy('stocklog:list')
 
 
 #categorias del stock
 class CategoriaCreate(generic.CreateView):
         model = CategoriaStock
         form_class = CatForm
+        
         success_url = reverse_lazy('stock:catList')
 
-class CategoriaDetailView(generic.DetailView):
+class CategoriaDetail(generic.DetailView):
         model = CategoriaStock
 
 class CategoriaUpdate(generic.UpdateView):
         model = CategoriaStock
         form_class = CatForm
         success_url = reverse_lazy('stock:catList')
-class CategoriaDeleteView(generic.DeleteView):
+class CategoriaDelete(generic.DeleteView):
         model = CategoriaStock
         success_url = reverse_lazy('stock:catList')
 
-class CategoriaListView(generic.ListView):
+class CategoriaList(generic.ListView):
         model = CategoriaStock
+        
 
 
