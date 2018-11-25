@@ -1,24 +1,123 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 {% load static %}
-{% block content %}
+
 {% load widget_tweaks %}
 
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <div>
-            <form action="" method="post">{% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                </table>
-                <br>
-                <input type="submit" value="Crear página" />
-            </form>
-        </div>
+{% block content %}
+
+<div class="col-12">
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="row">
+
+
+      <div class="form-group col-8">
+        <label for="{{ form.producto_uuid.id_for_label }}">{{form.producto_uuid.label}}:</label>
+        {% render_field form.producto_uuid class="form-control"  %}
+
+
+
+        <span class="help-block">{{ form.producto_uuid.errors }}</span>
+
+      </div>
+
+
+      <div class="form-group col-4">
+        <label for={{ form.precio.id_for_label }}">{{form.precio.label}}:</label>
+        {% render_field form.precio class="form-control"  %}
+
+        <span class="help-block">{{ form.precio.errors }}</span>
+      </div>
+
+      
+    </div>
+
+    <div class="row">
+
+      <div class="form-group col-4">
+
+
+        <label for="{{ form.stock_descontado.id_for_label }}">Registrar:</label>
+
+        {% render_field form.stock_descontado  class="form-control" %}
+        <span class="help-block">{{ form.stock_descontado.errors }}</span>
+      </div>
+
+
+      <div class="form-group col-4">
+
+        <label for="{{ form.stock_inicial.id_for_label }}">{{form.stock_inicial.label}}:</label>
+        {% render_field form.stock_inicial class="form-control" %}
+
+        <span class="help-block">{{ form.stock_inicial.errors }}</span>
+
+
+        
+      </div>
+
+      
+    </div>
+
+
+
+    
+    <div class="row">
+
+      <div class="form-group col-4">
+        <label for="{{ form.fecha_elaboracion.id_for_label }}">{{form.fecha_elaboracion.label}}:</label>
+        {% render_field form.fecha_elaboracion class="form-control" %}
+
+        <span class="help-block">{{ form.fecha_elaboracion.errors }}</span>
+      </div>
+
+      <div class="form-group col-4">
+        <label for={{ form.fecha_expiracion.id_for_label }}">{{form.fecha_expiracion.label}}:</label>
+        {% render_field form.fecha_expiracion class="form-control"  %}
+
+        <span class="help-block">{{ form.fecha_expiracion.errors }}</span>
+      </div>
+
+
+
+    </div>
+
+
+
+    <div class="row">
+
+
+
+      <div class="form-group col-12">
+        <label for="{{ form.observaciones.id_for_label }}">observaciones:</label>
+        {% render_field form.observaciones class="form-control" %}
+
+        <span class="help-block">{{ form.observaciones.errors }}</span>
       </div>
     </div>
-  </div>
-</main>
+
+    <div class="row">
+
+
+
+      <div class="form-group col-12">
+        <label for="{{ form.status.id_for_label }}">status:</label>
+        {% render_field form.status class="form-control" %}
+
+        <span class="help-block">{{ form.status.errors }}</span>
+      </div>
+    </div>
+
+
+
+
+    <input type="submit" value="Crear" class="btn btn-default" />
+    <input type="button" value="Cancelar" class="btn btn-default"/>
+  </form>
+</div>
+
+
+
+
 
 {% endblock %}

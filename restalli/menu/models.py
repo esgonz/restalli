@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-from stock.models import CategoriaStock, ProductoStock, Stock
+from stock.models import ProductoStock, Stock
 from comun.models import Estados, Restaurantes
 # Create your models here.
 
@@ -36,14 +36,22 @@ class ProductosMenu(models.Model):
     restaurant_uuid = models.ForeignKey(Restaurantes, on_delete=models.SET_NULL, null=True)
     user_uuid = models.CharField(max_length=36)
     
-    def get_absolute_url(self):
-        return reverse('detail', kwargs={'pk': self.uuid})
 
+
+    def get_absolute_url(self):
+        #return 'stock/registro/nuevo?produto=%s&tipo=init' % self.uuid
+        from django.urls import reverse
+        return reverse('menu:stockSelection', kwargs={'producto': self.uuid,})
 
     def __str__(self):
         return "%s" % (self.nombre)
 
-
+class ProductosMenuStockManager(models.Manager):
+    def create_productoMenuStock(self, title):
+        productoMenuStock = self.create(productoStock_uuid = productoStock_uuid, productosMenu_uuid = productosMenu_uuid, porciones = porciones, status= None )
+  
+        # do something with the book
+        return productoMenuStock
 
 class ProductosMenuStock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -55,7 +63,13 @@ class ProductosMenuStock(models.Model):
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
 
-    
+    objects = ProductosMenuStockManager()
+    """def create_productoMenuStock(self, productoStock_uuid, productosMenu_uuid, porciones):
+        productoMenuStock = self.create(productoStock_uuid = productoStock_uuid, productosMenu_uuid = productosMenu_uuid, porciones = porciones, status= None )
+        # do something with the book
+        return productoMenuStock"""
+
+
 
 
 class ofertas(models.Model):

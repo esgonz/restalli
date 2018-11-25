@@ -1,36 +1,114 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
+{% load static %}
+
+{% load widget_tweaks %}
 
 {% block content %}
-<div class="col-12">	
-		<div class="row">
-			<div class="col-12">
-				<h2>{{object.nombreProducto}}</h2>
-			</div>
-		</div>
-		<div class="row">
-			
-			
-			
-			
-			<div class="col-6">
-				<div class="row">
-					<div class="col-12">
-						<span class="font-weight-bold">precio:</span><br>
-						<p class="lead">{{object.precio}}</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-6">
-						<span class="font-weight-bold">Categoria:</span><br>
-						<p>{{object.categoria_uuid}}</p>
-					</div>
 
-					<div class="col-6">
-						<span class="font-weight-bold">Precio:</span><br>
-						<p>{{object.precio}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
-</div>
+<div class="col-12">
+
+    <div class="row">
+      <div class="form-group col-8">
+
+
+              <p>{{ stock.producto_uuid }}</p>
+         
+      </div>
+
+      <div class="form-group col-4">
+      
+            <p>{{ stock.precio }}</p>
+      </div>
+
+      
+    </div>
+
+    <div class="row">
+
+      <div class="form-group col-4">
+
+  
+
+            <p>{{ stock.stock_inicial }}</p>
+
+
+        
+      </div>
+
+      <div class="form-group col-4">
+
+
+    
+      
+            <p>{{ stock.stock_descontado }}</p>
+      </div>
+    
+      
+      <div class="form-group col-4">
+       
+            <p>{{ stock.stock_final }}</p>
+      </div>
+
+      
+    </div>
+
+
+
+    
+    <div class="row">
+
+      <div class="form-group col-4">
+      
+            <p>{{ stock.fecha_elaboracion }}</p>
+      </div>
+
+      <div class="form-group col-2">
+     
+            <p>{{ stock.fecha_expiracion }}</p>
+      </div>
+      
+      <div class="form-group col-10xw">
+        
+      </div>
+
+      <div class="form-group col-6">
+      
+            <p>{{ stock.status }}</p>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      
+      
+
+      <div class="form-group col-12">
+  
+            <p>{{ stock.observaciones }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      
+      
+
+      <div class="form-group col-12">
+
+            <p>{{ stock.status }}</p>
+      </div>
+    </div>
+
+
+
+
+                <input type="submit" value="Crear" class="btn btn-default" />
+                <input type="button" value="Cancelar" class="btn btn-default"/>
+            </form>
+        </div>
+    
+
+
+  
+
 {% endblock %}

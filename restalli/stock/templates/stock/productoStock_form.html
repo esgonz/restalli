@@ -1,4 +1,4 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% load widget_tweaks %}
@@ -8,24 +8,22 @@
   <form method="post">
     {% csrf_token %}
 
-    
-
     <div class="row">
       <div class="form-group col-8">
-        <label for="{{ form.nombreProducto.id_for_label }}"> Nombre nombreProducto:</label>
-            {% render_field form.nombreProducto class="form-control" %}
+        <label for="{{ form.nombre.id_for_label }}">{{form.nombre.label}}:</label>
+            {% render_field form.nombre class="form-control" %}
 
-              <span class="help-block">{{ form.nombreProducto.errors }}</span>
+              <span class="help-block">{{ form.nombre.errors }}</span>
          
 
       </div>
 
       <div class="form-group col-4">
 
-        <label for="{{ form.categoria_uuid.id_for_label }}">categoria_uuid:</label>
-            {% render_field form.categoria_uuid class="form-control" %}
+        <label for="{{ form.categoria.id_for_label }}">{{form.categoria.label}}:</label>
+            {% render_field form.categoria class="form-control" %}
 
-            <span class="help-block">{{ form.categoria_uuid.errors }}</span>
+            <span class="help-block">{{ form.categoria.errors }}</span>
 
 
         
@@ -36,7 +34,7 @@
       <div class="form-group col-4">
 
 
-        <label for="{{ form.codigo.id_for_label }}">codigo:</label>
+        <label for="{{ form.codigo.id_for_label }}">{{form.codigo.label}}:</label>
             
         {% render_field form.codigo  class="form-control" %}
             <span class="help-block">{{ form.codigo.errors }}</span>
@@ -44,17 +42,17 @@
     
       
       <div class="form-group col-4">
-        <label for="{{ form.porcion.id_for_label }}">porcion:</label>
+        <label for="{{ form.porcion.id_for_label }}">{{form.porcion.label}}:</label>
             {% render_field form.porcion class="form-control" %}
 
             <span class="help-block">{{ form.porcion.errors }}</span>
       </div>
 
       <div class="form-group col-4">
-        <label for="{{ form.unidadMedida.id_for_label }}">unidadMedida:</label>
-            {% render_field form.unidadMedida class="form-control" %}
+        <label for="{{ form.unidad_medida.id_for_label }}">{{form.unidad_medida.label}}:</label>
+            {% render_field form.unidad_medida class="form-control" %}
 
-            <span class="help-block">{{ form.unidadMedida.errors }}</span>
+            <span class="help-block">{{ form.unidad_medida.errors }}</span>
       </div>
     </div>
 
@@ -62,31 +60,15 @@
 
     
     <div class="row">
-      
-      <div class="form-group col-6">
-        <label for={ form.fechaElaboracion.id_for_label }}">fechaElaboracion:</label>
-            {% render_field form.fechaElaboracion class="form-control"  %}
+      <div class="form-group col-2">
+        <label for={{ form.no_perecible.id_for_label }}">{{form.no_perecible.label}}:</label>
+            {% render_field form.no_perecible class="form-control"  %}
 
-            <span class="help-block">{{ form.fechaElaboracion.errors }}</span>
+            <span class="help-block">{{ form.no_perecible.errors }}</span>
       </div>
-
-      <div class="form-group col-6">
-        <label for="{{ form.fechaExpiracion.id_for_label }}">fechaExpiracion:</label>
-         
-            {% render_field  form.fechaExpiracion class="form-control" %}
-       
-            <span class="help-block">{{ form.fechaExpiracion.errors }}</span>
-      </div>
-    </div>
-
-
-    <div class="row">
       
-      <div class="form-group col-6">
-        <label for="{{ form.precio.id_for_label }}">precio:</label>
-            {% render_field form.precio class="form-control" %}
-
-            <span class="help-block">{{ form.precio.errors }}</span>
+      <div class="form-group col-10xw">
+        
       </div>
 
       <div class="form-group col-6">

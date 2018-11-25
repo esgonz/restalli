@@ -12,7 +12,7 @@ class Mesas(models.Model):
     inicio = models.CharField(max_length=50)
     termino = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
-    updated= models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
     status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.SET_NULL, null=True)

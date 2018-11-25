@@ -1,60 +1,148 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
-{% block title %}Stock Logico{% endblock %}
-
-
-<div class="col-12">
+<section class="main row">
+  <!--xs movil, sm y md tablets, lg pc-->
+  <article class="col-md-8">
     <div class="row">
-        <div class="col-12">
-            <h1>{{title}}</h1> 
-        </div>
+      <div class="col-12">
+        <h3>Menú/ </h3>  <h4> Desayunos</h4>
+      </div>
     </div>
 
-    
 
-    
-      <div class="row" id="table">
-      <table class="table table-striped">
-          <div class="col-12">
+    <div class="row">
+      <div class="col-12">
+        <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
+      </div>
+    </div>
+    <div class="row">
+      {% if productoStock_list %}
+      <!-- code here to list the books -->
+      {% else %}
+      <p>No Existen Platillos/ productos.</p>
+      {% endif %}
+
+      <div class="table-responsive">
+        <table class="table">
           <thead>
-              <tr>
-                  <th>Nombre</th>
-                  <th>inicial</th>
-                  <th>descontado</th>
-                  <th>final</th>
-                  <th>observacion</th>
-                  <th>estado</th>
-                  <th>usuario</th>
-              </tr>
+            <tr>
+
+              <th>Producto</th>
+              <th>Stock actual</th>
+              <th>Stock variacion</th>
+              <th>Stock previo</th>
+              <th>Fecha </th>
+              <th>Ultimo precio</th>
+              <th>Estado</th>
+            </tr>
           </thead>
           <tbody>
-              {% for stock in object_list %}
-                  <tr>
-                  <td>{{ stock.producto_uuid }}</td>
-                  <td>{{ stock.stockInicial }}</td>
-                  <td>{{ stock.StockDescontado }}</td>
-                  <td>{{ stock.StockFinal }}</td>
-                  <td>{{ stock.observaciones }}</td>
-                  <td>{{ stock.status }}</td>
-                  <td>{{ stock.user_uuid }}</td>
-                  <td>
-            <a class="btn btn-info" href="{% url 'stock:logUpdate' pk=stock.uuid %}">Editar</a>
-            <a class="btn btn-danger" href="{% url 'stock:logDelete' pk=stock.uuid  %}">Eliminar</a>
-                  </td>
-            
 
+            {% for stock in stock_list %}
+            <tr>
+              <!--Producto-->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{stock.producto_uuid}}</p>
+                  </div>
 
-              {% endfor %}
-            </tbody>
-            </div>
+                </div>
+              </td>
+              <!-- s actual -->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{stock.stock_final}}</p>
+                  </div>
 
-                <a class="btn btn-primary" href="{% url 'stock:logcreate'  %}">Agregar</a>
-        </div>
+                </div>
+
+              </td>
+
+              <!-- s Variacion -->
+              <td>
+                <div class="row">
+
+                  <div class="col-12">
+                    <a href="">{{ stock.stock_descontado }}</a>
+                  </div>
+                </div>
+              </td>
+
+              <!-- s previo -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{stock.stock_inicial}}</p>
+                </div>
+              </td>
+
+              <!-- Fecha -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{stock.created}}</p>
+                </div>
+              </td>
+
+              <!-- precio -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{stock.precio}}</p>
+                </div>
+              </td>
+
+              <!-- estado -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{stock.status}}</p>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table> 
+        <hr>
+      </div>
     </div>
-</div>
-            
 
 
-{% endblock %}
+    {% block pagination %}
+    {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+  </article>
+
+  <aside class="col-md-4">
+    <br>
+    <h4>Categorías del Menú</h4> <hr>
+    <div class="listaCategoria">
+      <ul class="list-group">
+        {% for categoria in categorias_list %}
+        <li class="list-group-item">
+          <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+          {% endfor %}    
+        </ul>                    
+      </div>
+      <hr>
+
+    </aside>
+  </section>
+
+  {% endblock %}

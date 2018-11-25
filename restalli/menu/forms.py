@@ -16,3 +16,15 @@ class ProductosMenuForm(forms.ModelForm):
         }
     #nombreProducto =  forms.CharField()
     #descripcion = forms.CharField(widget=forms.Textarea)
+
+
+
+class ProductosMenuStockForm(forms.ModelForm):
+	class Meta:
+		model = ProductosMenuStock
+		fields = [
+		'productoStock_uuid',
+		'productosMenu_uuid',
+		'porciones'] # list of fields you want from model
+    #nombreProducto =  forms.CharField()
+    #descripcion = forms.CharField(widget=forms.Textarea)

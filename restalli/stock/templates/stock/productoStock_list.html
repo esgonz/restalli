@@ -1,116 +1,149 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
-<main role="main">
-        <div class="container">
-            <div class="col-8">
-            <h2 align="center">Inventario</h2>
-            <hr>
-            </div>
-            </div>
-          
-
-            
-        <div class="row" id="search">
-            <div class="col-8">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 col-6" type="search" placeholder="Buscar producto por nombre" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-              </form>
-            </div>
-  
-            <div class="col-8"></div>
-          </div>
-
-      </main>
-
-      <hr>
-      <div class="row" id="table-responsive">
-      <table class="table table-striped">
-          <div class="col-8">
-          <thead>
-              <tr>
-                  <th>Nombre</th>
-                  <th>Codigo</th>
-                  <th>Porcion</th>
-                  <th>Unidad de Medida</th>
-                  <th>precio</th>
-                  <th>fecha</th>
-                  <th>categoria</th>
-                  <th>Estado</th>
-              </tr>          </thead>
-
-          
-              {% for stock in object_list %}
-                  <tr>
-                  <td>{{ stock.nombreProducto }}</td>
-                  <td>{{ stock.codigo }}</td>
-                  <td>{{ stock.porcion }}</td>
-                  <td>{{ stock.unidadMedida }}</td>
-                  <td>{{ stock.precio }}</td>
-                  <td>{{ stock.fechaElaboracion }}</td>
-                  <td>{{ stock.categoria_uuid }}</td>
-                  <td>{{ stock.status }}</td>
-                  <td><a class="btn btn-info" href="{% url 'stock:update' pk=stock.uuid %}">Editar</a>
-                     <a class="btn btn-danger" href="{% url 'stock:delete' pk=stock.uuid  %}">Eliminar</a>
-                  </td>
-              </tr>
-              {% endfor %}
-                 
-                  </table>
-        <a class="btn btn-primary" href="{% url 'stock:Create'  %}">Agregar</a>
-       
-                    
+<section class="main row">
+  <!--xs movil, sm y md tablets, lg pc-->
+  <article class="col-md-8">
+    <div class="row">
+      <div class="col-12">
+        <h3>Menú/ </h3>  <h4> Desayunos</h4>
+      </div>
     </div>
 
-                <aside class="col-md-4">
-                    <br>
-                    <h4>Categorías del Stock</h4> <hr>
-                    <div class="listaCategoria">
-                        <ul class="list-group">
-                            {% for categoria in categorias_list %}
-                            <li class="list-group-item">
-                                <a href="{% url 'stock:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombreCategoria}}</a></li>
-                            {% endfor %}    
-                        </ul>                    
-                    </div>
-                    <hr>
-                
-                </aside>
-                <a class="btn btn-primary" href="{% url 'stock:catCreate'  %}">Agregar</a>
-            </section>
 
-   </tbody>
+    <div class="row">
+      <div class="col-12">
+        <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
+      </div>
+    </div>
+    <div class="row">
+      {% if productoStock_list %}
+      <!-- code here to list the books -->
+      {% else %}
+      <p>No Existen Platillos/ productos.</p>
+      {% endif %}
 
-   {% if is_paginated %}
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item ">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-        </li>
-      {% endif %}
-      {% for i in paginator.page_range %}
-        <li class="page-item {% if page_obj.number == i %}active{% endif %}">
-          <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-        </li>
-      {% endfor %}
-      {% if page_obj.has_next %}
-        <li class="page-item ">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">&raquo;</a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-{% endif %}
-                                                
-{% endblock %}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+
+
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Categoria</th>
+              <th>Porciones</th>
+              <th>Unidad Porcion</th>
+              <th>Perecible</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for producto in productoStock_list %}
+            <tr>
+              <!--codigo-->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{producto.codigo}}</p>
+                  </div>
+
+                </div>
+              </td>
+              <!-- nombre -->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{producto.nombre}}</p>
+                  </div>
+
+                </div>
+
+              </td>
+
+              <!-- categoria -->
+              <td>
+                <div class="row">
+
+                  <div class="col-12">
+                    <a href="">{{ producto.categoria }}</a>
+                  </div>
+                </div>
+              </td>
+
+              <!-- porciones -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{producto.porcion}}</p>
+                </div>
+              </td>
+
+              <!-- unidad medida -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{producto.unidad_medida}}</p>
+                </div>
+              </td>
+
+              <!-- perecible -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{producto.no_perecible}}</p>
+                </div>
+              </td>
+
+              <!-- estado -->
+              <td>
+                <div class="col-12">
+                  <p class="small">{{producto.status}}</p>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table> 
+        <hr>
+      </div>
+    </div>
+
+
+    {% block pagination %}
+    {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+  </article>
+
+  <aside class="col-md-4">
+    <br>
+    <h4>Categorías del Menú</h4> <hr>
+    <div class="listaCategoria">
+      <ul class="list-group">
+        {% for categoria in categorias_list %}
+        <li class="list-group-item">
+          <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+          {% endfor %}    
+        </ul>                    
+      </div>
+      <hr>
+
+    </aside>
+  </section>
+
+  {% endblock %}

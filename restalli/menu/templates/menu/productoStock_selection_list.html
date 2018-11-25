@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="main row">
+  <!--xs movil, sm y md tablets, lg pc-->
+  <article class="col-md-8">
+    <div class="row">
+      <div class="col-12">
+        <h3>Menú/ </h3>  <h4> Desayunos</h4>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="col-12">
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
+      </div>
+    </div>
+    <div class="row">
+      {% if productoStock_list %}
+      <!-- code here to list the books -->
+      {% else %}
+      <p>No Existen Platillos/ productos.</p>
+      {% endif %}
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+
+              <th>Producto</th>
+              <th>Stock actual</th>
+              <th>Agregar</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for stock in productoStock_list %}
+            <tr>
+              <!--Producto-->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{stock.nombre}}</p>
+                  </div>
+
+                </div>
+              </td>
+              <!-- s actual -->
+              <td>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">{{stock.stock_disponible}}</p>
+                  </div>
+
+                </div>
+
+              </td>
+
+              <td>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="form-group col-5">
+                      <input type="hidden" id="uuid" name="uuid" value="{{stock.uuid}}">
+                      <input type="hidden" id="nombre" name="nombre" value="{{stock.nombre}}">
+                      <input type="hidden" id="add" name="add" value="add">
+                      <input class="form-control" min="1" type="number" name="porciones" id="porciones" value="0" placeholder="0">
+
+                    </div>
+                    <div class="col-7">
+                      <input type="submit" value="Agregar" class="btn-sm btn-primary">
+                    </div>
+                  </div>
+                </form>
+
+
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table> 
+        <hr>
+      </div>
+    </div>
+
+
+    {% block pagination %}
+    {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
+    {% endblock %}
+  </article>
+
+  <aside class="col-md-4">
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Categorías del Menú</h4> <hr>
+        <div class="listaCategoria">
+          <ul class="list-group">
+            {% for categoria in categorias_list %}
+            <li class="list-group-item">
+              <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+              {% endfor %}    
+            </ul>                    
+          </div>
+          <hr>
+
+        </div>  
+      </div>
+    </aside>
+</section>
+<div class="row">
+  <div class="col-md-12">
+      <div class="row">
+        <h4>Seleccion actual:</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <form method="post">
+              {% csrf_token %}
+              <thead>
+                <th>Porciones.</th>
+                <th>Producto</th>
+      
+              </thead>
+              <tbody>
+                {% for selectProduct in seleccion_list %}   
+                <tr>
+                  <td>
+                    <input class="form-control form-sm" id="uuid" type="hidden" value="{{selectProduct.uuid}}">
+
+                    <input class="form-control form-sm" id="porciones" type="number" min="1" max="10" value="{{selectProduct.porciones}}">
+                  </td>
+
+                  <td>
+                    <p>{{selectProduct.nombre}}</p>
+                  </td>
+
+                                              
+                </tr>
+                {% endfor %}
+                <!--FIN PRUEBA-->
+    
+                <tr>
+                  <td colspan="2" align="left">
+
+                    <button type="submit" name="clear" class="btn btn-danger">Limpiar selección</button>
+                    <button type="submit" name="pedido" class="btn btn-default">Actualizar Selección</button>
+
+
+                  </td>
+                 </tr>
+                  </form>
+                  
+                  <tr>
+                    <form method="post">
+                      {% csrf_token %}
+                      <td colspan="2" align="right">
+                        <button type="submit" name="save" class="btn btn-default">Guardar</button>
+                      </td>
+                    </form>
+                  </tr>
+                  
+              </tbody>
+            
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+  {% endblock %}
