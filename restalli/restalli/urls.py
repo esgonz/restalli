@@ -21,6 +21,10 @@ urlpatterns = [
     path('menu/', include('menu.urls')),
     path('stock/', include('stock.urls')),
     path('venta/', include('venta.urls')),
+    #PATHS DE REGISTRARSE
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', include('registration.urls', namespace='signup')),
+
 
 
 ]
