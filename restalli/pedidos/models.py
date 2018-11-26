@@ -34,8 +34,16 @@ class Pedido(models.Model):
             return 1
         numero_int = int(last_pedido.numero)
         return numero_int"""
+
+    def ids():
+        no = Pedido.objects.count()
+        if no == None:
+            return 1
+        else:
+            return no + 1
+
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    numero = models.IntegerField()
+    numero = models.IntegerField(('Code'), default=ids, unique=True, editable=False)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.SET_NULL, null=True)
     total = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
@@ -51,6 +59,8 @@ class Pedido(models.Model):
     
     def __str__(self):
         return "%s" % (self.numero)
+
+
 
 
  
@@ -83,6 +93,7 @@ class PedidoItem(models.Model):
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
     status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    pedido_uuid = models.ForeignKey(Pedido, on_delete=models.CASCADE, null= True)
     estadoPedido = models.CharField(
         max_length=5,
         choices=ESTADO_PEDIDO_ITEMS_CHOICES,

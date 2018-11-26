@@ -4,7 +4,9 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
+
 from .models import Pedido
+from .forms import PedidoForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from menu.forms import ProductosMenuForm
 from menu.views import MenuList
@@ -15,16 +17,9 @@ from menu.views import MenuList
 
 class PedidoCreation(generic.edit.CreateView):
 	model = Pedido
-	fields = [
-		'numero',
-		'sucursal',
-		'total',
-		'status',
-		'estadoPedido'
-	]
-
-	#form_class = ProductosMenuForm
+	form_class = PedidoForm
 	success_url = reverse_lazy('pedidos:list')
+	
 	def get_context_data(self, **kwargs):
 		print("NUEVO LIST CART:")
 		# Call the base implementation first to get a context
@@ -61,8 +56,6 @@ class PedidoCreation(generic.edit.CreateView):
 		if 'clear' in request.POST:
 			request.session.flush()
 		elif 'add' in request.POST:
-			
-
 			uuid_producto = request.POST['uuid']
 			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
 			qty_producto = request.POST['qty']
@@ -78,10 +71,13 @@ class PedidoCreation(generic.edit.CreateView):
 			
 			total_cart = 0
 			for index, prod in enumerate(request.session['cart']):
-				print("PROD")
+				print("PROD Add")
 				print(prod)
-				print("PROD")
+				print("PRECIO")
+				print(prod['precio'])
 				total_cart = total_cart + float(prod['precio'])
+				print("total_cart")
+				print(total_cart)
 				if prod['uuid'] == uuid_producto:
 					#prev save object
 					producto_temp = prod
@@ -96,6 +92,30 @@ class PedidoCreation(generic.edit.CreateView):
 			request.session['total_cart'] = total_cart
 			request.session['cart'].append(productoToAdd)
 			print(request.session['cart'])
+
+		elif 'update' in request.POST:
+			uuid_producto = request.POST['uuid']
+			qty_producto = request.POST['qty']
+			
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				print("PROD update")
+				print(prod)
+				print("PRECIO")
+				print(prod['precio'])
+				total_cart = total_cart +  float(float(prod['precio']) * int(qty_producto))
+				print("total_cart")
+				print(total_cart)
+				if prod['uuid'] == uuid_producto:
+					prod['qty'] = qty_producto
+
+
+			request.session['total_cart'] = total_cart
+			print(request.session['cart'])
+
+
+
+		
 		return super().get(request, *args, **kwargs)
 
 
@@ -220,6 +240,7 @@ class MenuOfertList(MenuList):
 
 		#try to get cart, if cart doesnt exist, empty list
 		total_cart = self.request.session.get('total_cart', [])
+	
 		# Do stuff with cart
 		self.request.session['total_cart'] = total_cart
 		context['total_cart'] = self.request.session['total_cart']

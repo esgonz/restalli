@@ -14,58 +14,78 @@
 
 			<input type="submit" value="Aceptar Pedido" class="btn btn-primary"/>
 		</form>
-</div>
 
-<div class="col-12">
-	<div class="table-responsive">
-                            <table class="table">
+
+<div class="row">
+        
+        
+        <h4>Pedido Actual:</h4>
+        <div class="table-responsive">
+            <table class="table">
+                
+                    
+                    <thead>
+                        <th>Ctdad.</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                    </thead>
+                    <tbody>
+                        {% for cartProduct in cart_list %}   
+                        <tr>
+                            <td>
                                 <form method="post">
                                     {% csrf_token %}
-                                    <thead>
-                                        <th>Ctdad.</th>
-                                        <th>Producto</th>
-                                        <th>Precio</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for cartProduct in cart_list %}   
-                                        <tr>
-                                            <td>
-                                                <input class="form-control form-sm " id="cantidad" type="number" min="1" max="10" value="{{cartProduct.qty}}">
-                                            </td>
+                                    <input type="hidden" id="uuid" name="uuid" value="{{cartProduct.uuid}}">
+                                    <input type="hidden" id="update" name="update" value="Actualizar">
+                                    <input class="form-control" min="1" type="number" name="qty" id="qty" value="{{cartProduct.qty}}" placeholder="0">
 
-                                            <td>
-                                                <p>{{cartProduct.nombre}}</p>
-                                            </td>
-
-                                            <td>
-                                                <b>${{cartProduct.precio}}</b>
-                                            </td>                                         
-                                        </tr>
-                                        {% endfor %}
-                                        <!--FIN PRUEBA-->
-                                        <tr>
-                                            <td colspan="2" >
-                                                <p align="right"> TOTAL:</p>
-                                            </td>
-                                            <td colspan="2">
-                                                <b>{{total_cart}}</b> </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" align="left">
-                                                
-                                                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
-                                                <button type="submit" name="pedido" class="btn btn-default">Actualizar pedido</button>
-
-                                              
-                                            </td>
-                                        <tr>
-                                    </tbody>
-
-
+                                    <button type="submit" name="update" value="Actualizar" class="btn btn-default">Actualizar</button>
                                 </form>
-                            </table>
-                        </div>
+                            </td>
+
+                            <td>
+                                <p>{{cartProduct.nombre}}</p>
+                            </td>
+
+                            <td>
+                                <b>${{cartProduct.precio}}</b>
+                            </td>                                         
+                        </tr>
+                        {% endfor %}
+                        <!--FIN PRUEBA-->
+                        <tr>
+                            <td colspan="2" >
+                                <p align="right"> TOTAL:</p>
+                            </td>
+                            <td colspan="2">
+                                <b>{{total_cart}}</b> </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" align="left">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
+                                </form>
+
+                                
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            
+                            <td colspan="4" align="right">
+                                <a class="btn btn-success" href="{% url 'pedidos:create' %}">Continuar</a>
+                            </td>
+                            
+                        </tr>
+
+                    </tbody>
+                
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
