@@ -51,6 +51,10 @@
                 <a class="nav-link" href="{% url 'signup:signup' %}"> Registrarse</a>
                 </li>
             {% else %}
+            <li class="nav-item"> 
+               <a class="nav-link" href="{% url 'perfiles:perfiles' %}"> Perfil</a>
+                </li>
+
                <li class="nav-item"> 
                <a class="nav-link" href="{% url 'logout' %}"> Salir</a>
                 </li>

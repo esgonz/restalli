@@ -134,5 +134,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 
 # auth redirect 
-LOGIN_REDIRECT_URL = 'stock:list'
-LOGOUT_REDIRECT_URL = 'stock:list'
+LOGIN_REDIRECT_URL = 'stock:list'  # aqui el login
+LOGOUT_REDIRECT_URL = 'stock:list' # ejemplo de home
+
+# emails por smtp de prueba
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+else:
+    #Configurar email real de restalli
+    pass

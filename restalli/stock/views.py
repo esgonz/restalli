@@ -58,7 +58,7 @@ class stockCreate(generic.CreateView):
     #def form_valid(self, form):
     #  form.instance.ProductoStock = self.request.categoria_uuid
     #  return redirect('/')
-
+@method_decorator(staff_member_required, name='dispatch')
 class stockUpdate(generic.UpdateView):
     model = ProductoStock
     form_class = StockForm
@@ -70,7 +70,7 @@ class stockUpdate(generic.UpdateView):
      #   return ProductoStock.objects.get(uuid=self.kwargs.get("uuid"))
     #def get_success_url(self):
      #   return reverse_lazy('stock:list', args=[self.uuid.UUID(), ])
-
+@method_decorator(staff_member_required, name='dispatch')
 class stockDelete(generic.DeleteView):
     model = ProductoStock
     success_url = reverse_lazy('stock:list')
