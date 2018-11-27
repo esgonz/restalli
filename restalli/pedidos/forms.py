@@ -10,7 +10,6 @@ class PedidoForm(forms.ModelForm):
 		'total',
 		'status',
 		'estadoPedido',
-		'status',
 		]
     #nombreProducto =  forms.CharField()
     #descripcion = forms.CharField(widget=forms.Textarea)

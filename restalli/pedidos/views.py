@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 
-from .models import Pedido
+from .models import Pedido, PedidoItem
 from .forms import PedidoForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from menu.forms import ProductosMenuForm
@@ -115,8 +115,38 @@ class PedidoCreation(generic.edit.CreateView):
 
 
 
-		
-		return super().get(request, *args, **kwargs)
+		return super(PedidoCreation, self).post(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		print("form_valid")
+		pedido = form.save()#commit false doesnt save in the DB, only create in memory
+		print(pedido.uuid)
+		print(str(pedido.total))
+		print (self.request.session['cart'])
+
+
+		total_cart = 0
+		for index, prod in enumerate(self.request.session['cart']):
+			print("PROD")
+			print(prod)
+			print("PROD")
+			total_cart = total_cart + float(prod['precio'])
+			producto_temp = ProductosMenu.objects.get(uuid = prod['uuid'])
+
+			pedidoItem_to_save = PedidoItem.objects.create(
+				productoMenu = producto_temp,
+				cantidad = prod['qty'],
+				precioVenta = producto_temp.precio,
+				subtotal = int(prod['qty'])* producto_temp.precio,
+				status = None,
+				pedido_uuid = pedido
+			)
+			pedidoItem_to_save.save()
+					
+
+
+		print ("END FORM VALID")
+		return super(PedidoCreation, self).form_valid(form)
 
 
 

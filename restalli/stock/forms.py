@@ -57,7 +57,6 @@ class StocklogForm(forms.ModelForm):
             'fecha_expiracion' : forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
             'stock_inicial' : forms.TextInput(attrs={'readonly':True, 'class': 'form-control'}),
             'stock_final' : forms.TextInput(attrs={'readonly':True, 'class': 'form-control'}),
-            'producto_uuid' : forms.Select(attrs={'disabled':True, 'class': 'form-control'})
+            'producto_uuid' : forms.Select(attrs={'readonly':True, 'class': 'form-control'})
             
         }      
-

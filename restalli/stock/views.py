@@ -90,6 +90,7 @@ class stocklogCreate(generic.CreateView):
         return {
             'producto_uuid': self.kwargs['pk'],
             'stock_inicial': producto.stock_disponible,
+            'stock_final' :  producto.stock_disponible,
         }
 
     def get(self, request, *args, **kwargs):
@@ -129,9 +130,9 @@ class stocklogCreate(generic.CreateView):
 
 
         print("GET CONTEXT REGISTRO")
-        print(str(self.producto_uuid))
+        print(str(self.kwargs['pk']))
 
-        context['producto'] = ProductoStock.objects.get(uuid= self.producto_uuid)
+        context['producto'] = ProductoStock.objects.get(uuid= self.kwargs['pk'])
         print("CONTEXT")
         print(context)
 
@@ -155,7 +156,4 @@ class stocklogUpdate(generic.UpdateView):
 class stocklogDelete(generic.DeleteView):
     model = Stock
     success_url = reverse_lazy('stock:logList')
-
-
-
 

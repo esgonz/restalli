@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="col-12">
+    <pre>{{form.errors}}</pre>
 		<form method="post">
 			{% csrf_token %}
 			<table>
