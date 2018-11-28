@@ -6,7 +6,11 @@
 	<form method="post">
 		{% csrf_token %}
 
-		
+		<div class="row">
+	      <div class="alert alert-warning" role="alert">
+	        <p>{{ form.errors}}</p>
+	      </div>     
+	    </div>
 
 		<div class="row">
 			<div class="form-group col-12">

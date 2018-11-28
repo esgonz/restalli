@@ -1,31 +1,38 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="col-12">
-  <form method="post">
+<form method="post">
+<div class="card">
+  
     {% csrf_token %}
 
-    
+    <div class="card-body">
+    <div class="row">
+      <div class="alert alert-warning" role="alert">
+        <p>{{ form.errors}}</p>
+      </div>     
+    </div>
 
+    
     <div class="row">
       <div class="form-group col-8">
-        <label for="{{ form.nombreProducto.id_for_label }}"> Nombre nombreProducto:</label>
-            {% render_field form.nombreProducto class="form-control" %}
+        <label for="{{ form.tipoPago.id_for_label }}"> tipoPago:</label>
+            {% render_field form.tipoPago class="form-control" %}
 
-              <span class="help-block">{{ form.nombreProducto.errors }}</span>
+              <span class="help-block">{{ form.tipoPago.errors }}</span>
          
 
       </div>
 
       <div class="form-group col-4">
 
-        <label for="{{ form.categoria_uuid.id_for_label }}">categoria_uuid:</label>
-            {% render_field form.categoria_uuid class="form-control" %}
+        <label for="{{ form.identificador.id_for_label }}">identificador:</label>
+            {% render_field form.identificador class="form-control" %}
 
-            <span class="help-block">{{ form.categoria_uuid.errors }}</span>
+            <span class="help-block">{{ form.identificador.errors }}</span>
 
 
         
@@ -36,74 +43,37 @@
       <div class="form-group col-4">
 
 
-        <label for="{{ form.codigo.id_for_label }}">codigo:</label>
+        <label for="{{ form.monto.id_for_label }}">monto:</label>
             
-        {% render_field form.codigo  class="form-control" %}
-            <span class="help-block">{{ form.codigo.errors }}</span>
+        {% render_field form.monto  class="form-control" %}
+            <span class="help-block">{{ form.monto.errors }}</span>
       </div>
     
       
       <div class="form-group col-4">
-        <label for="{{ form.porcion.id_for_label }}">porcion:</label>
-            {% render_field form.porcion class="form-control" %}
+        <label for="{{ form.monto_propina.id_for_label }}">monto_propina:</label>
+            {% render_field form.monto_propina class="form-control" %}
 
-            <span class="help-block">{{ form.porcion.errors }}</span>
+            <span class="help-block">{{ form.monto_propina.errors }}</span>
       </div>
 
       <div class="form-group col-4">
-        <label for="{{ form.unidadMedida.id_for_label }}">unidadMedida:</label>
-            {% render_field form.unidadMedida class="form-control" %}
+        <label for="{{ form.pedido_uuid.id_for_label }}">pedido_uuid:</label>
+            {% render_field form.pedido_uuid class="form-control" %}
 
-            <span class="help-block">{{ form.unidadMedida.errors }}</span>
+            <span class="help-block">{{ form.pedido_uuid.errors }}</span>
       </div>
     </div>
+</div><!--end cardbody -->
+<div class="card-footer">
 
-
-
-    
-    <div class="row">
-      
-      <div class="form-group col-6">
-        <label for={ form.fechaElaboracion.id_for_label }}">fechaElaboracion:</label>
-            {% render_field form.fechaElaboracion class="form-control"  %}
-
-            <span class="help-block">{{ form.fechaElaboracion.errors }}</span>
-      </div>
-
-      <div class="form-group col-6">
-        <label for="{{ form.fechaExpiracion.id_for_label }}">fechaExpiracion:</label>
-         
-            {% render_field  form.fechaExpiracion class="form-control" %}
-       
-            <span class="help-block">{{ form.fechaExpiracion.errors }}</span>
-      </div>
-    </div>
-
-
-    <div class="row">
-      
-      <div class="form-group col-6">
-        <label for="{{ form.precio.id_for_label }}">precio:</label>
-            {% render_field form.precio class="form-control" %}
-
-            <span class="help-block">{{ form.precio.errors }}</span>
-      </div>
-
-      <div class="form-group col-6">
-        <label for="{{ form.status.id_for_label }}">status:</label>
-            {% render_field form.status class="form-control" %}
-
-            <span class="help-block">{{ form.status.errors }}</span>
-      </div>
-    </div>
-
-
-
-
-                <input type="submit" value="Crear" class="btn btn-default" />
+                
                 <input type="button" value="Cancelar" class="btn btn-default"/>
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
             </form>
-        </div>
+        
+</div>
     
 
 

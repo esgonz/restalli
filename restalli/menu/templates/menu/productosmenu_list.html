@@ -100,10 +100,27 @@
 
 
     <div class="col-2">
-      HERE SOMETHING
-    </div>
+                <div class="row">
+                    <div class="card" style="">
+                        <div class="card-title">
+                            Categorias
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for categoria in categorias_list %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a>
+                                </li>
+                                {% endfor %} 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
   </div>
-  
+  3
   
 
   <p class="small text-center text-muted my-5">

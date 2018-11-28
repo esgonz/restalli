@@ -1,148 +1,196 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
+    {% extends "base.html" %}
 
-<section class="main row">
-  <!--xs movil, sm y md tablets, lg pc-->
-  <article class="col-md-8">
-    <div class="row">
-      <div class="col-12">
-        <h3>Menú/ </h3>  <h4> Desayunos</h4>
-      </div>
-    </div>
+    {% block content %}
 
 
-    <div class="row">
-      <div class="col-12">
-        <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-      </div>
-    </div>
-    <div class="row">
-      {% if productoStock_list %}
-      <!-- code here to list the books -->
-      {% else %}
-      <p>No Existen Platillos/ productos.</p>
-      {% endif %}
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Menu</li>
+      </ol>
 
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
 
-              <th>Producto</th>
-              <th>Stock actual</th>
-              <th>Stock variacion</th>
-              <th>Stock previo</th>
-              <th>Fecha </th>
-              <th>Ultimo precio</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="row">
+        <div class="col-10">
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Menu / 
+              <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
+            </div>
+            <div class="card-body">
+              {% if productoStock_list %}
+              <!-- code here to list the books -->
+              {% else %}
+              <p>No Existen Platillos/ productos.</p>
+              {% endif %}
 
-            {% for stock in stock_list %}
-            <tr>
-              <!--Producto-->
-              <td>
-                <div class="row">
-                  <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                     <th>Producto</th>
+                     <th>Stock actual</th>
+                     <th>Stock variacion</th>
+                     <th>Stock previo</th>
+                     <th>Fecha </th>
+                     <th>Ultimo precio</th>
+                     <th>Estado</th>
+                   </tr>
+                 </thead>
+                 <tfoot>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Stock actual</th>
+                    <th>Stock variacion</th>
+                    <th>Stock previo</th>
+                    <th>Fecha </th>
+                    <th>Ultimo precio</th>
+                    <th>Estado</th>
+
+                  </tr>
+                </tfoot>
+                <tbody>
+                 {% for stock in stock_list %}
+                 <tr>
+                  <!--Producto-->
+                  <td>
+
                     <p class="small">{{stock.producto_uuid}}</p>
-                  </div>
 
-                </div>
-              </td>
-              <!-- s actual -->
-              <td>
-                <div class="row">
-                  <div class="col-12">
+                  </td>
+                  <!-- s actual -->
+                  <td>
+
+
                     <p class="small">{{stock.stock_final}}</p>
-                  </div>
 
-                </div>
 
-              </td>
 
-              <!-- s Variacion -->
-              <td>
-                <div class="row">
+                  </td>
 
-                  <div class="col-12">
+                  <!-- s Variacion -->
+                  <td>
+
+
                     <a href="">{{ stock.stock_descontado }}</a>
-                  </div>
-                </div>
-              </td>
 
-              <!-- s previo -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{stock.stock_inicial}}</p>
-                </div>
-              </td>
+                  </td>
 
-              <!-- Fecha -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{stock.created}}</p>
-                </div>
-              </td>
+                  <!-- s previo -->
+                  <td>
 
-              <!-- precio -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{stock.precio}}</p>
-                </div>
-              </td>
+                    <p class="small">{{stock.stock_inicial}}</p>
 
-              <!-- estado -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{stock.status}}</p>
-                </div>
-              </td>
-            </tr>
-            {% endfor %}
+                  </td>
 
-          </tbody>
-        </table> 
-        <hr>
+                  <!-- Fecha -->
+                  <td>
+
+                    <p class="small">{{stock.created}}</p>
+
+                  </td>
+
+                  <!-- precio -->
+                  <td>
+
+                    <p class="small">{{stock.precio}}</p>
+
+                  </td>
+
+                  <!-- estado -->
+                  <td>
+
+                    <p class="small">{{stock.status}}</p>
+
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            {% block pagination %}
+            {% if is_paginated %}
+            <div class="pagination">
+              <span class="page-links">
+                {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+              </span>
+            </div>
+            {% endif %}
+            {% endblock %}
+
+
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+        </div>
       </div>
     </div>
 
 
-    {% block pagination %}
-    {% if is_paginated %}
-    <div class="pagination">
-      <span class="page-links">
-        {% if page_obj.has_previous %}
-        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="page-current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        {% if page_obj.has_next %}
-        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-        {% endif %}
-      </span>
-    </div>
-    {% endif %}
-    {% endblock %}
 
-  </article>
 
-  <aside class="col-md-4">
-    <br>
-    <h4>Categorías del Menú</h4> <hr>
-    <div class="listaCategoria">
-      <ul class="list-group">
-        {% for categoria in categorias_list %}
-        <li class="list-group-item">
-          <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-          {% endfor %}    
-        </ul>                    
+    <div class="col-2">
+
+      <div class="row">
+
+        <div class="card" style="">
+          <div class="card-title">
+            Categorias
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              {% for categoria in categorias_list %}
+              <li class="list-group-item">
+                <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+                {% endfor %} 
+
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+       
       </div>
-      <hr>
 
-    </aside>
-  </section>
 
-  {% endblock %}
+    </div>
+  </div>
+  
+  
+
+  <p class="small text-center text-muted my-5">
+    <em>More table examples coming soon...</em>
+  </p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
+
+
+
+

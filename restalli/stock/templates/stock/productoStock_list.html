@@ -1,149 +1,194 @@
 {% extends "base.html" %}
-{% load static %}
+
 {% block content %}
 
-<section class="main row">
-  <!--xs movil, sm y md tablets, lg pc-->
-  <article class="col-md-8">
-    <div class="row">
-      <div class="col-12">
-        <h3>Menú/ </h3>  <h4> Desayunos</h4>
-      </div>
-    </div>
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Stock</li>
+    </ol>
 
 
     <div class="row">
-      <div class="col-12">
-        <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-      </div>
-    </div>
-    <div class="row">
-      {% if productoStock_list %}
-      <!-- code here to list the books -->
-      {% else %}
-      <p>No Existen Platillos/ productos.</p>
-      {% endif %}
+        <div class="col-10">
+            <!-- DataTables Example -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Stock / 
+                    <a class="btn btn-primary ml-3 right" href="{% url "stock:create" %}">Registrar Producto</a>
+                </div>
+                <div class="card-body">
+                    {% if productoStock_list %}
+                    <!-- code here to list the books -->
+                    {% else %}
+                    <p>No Existen Platillos/ productos.</p>
+                    {% endif %}
 
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                    <th>Porciones</th>
+                                    <th>Unidad Porcion</th>
+                                    <th>Perecible</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                    <th>Porciones</th>
+                                    <th>Unidad Porcion</th>
+                                    <th>Perecible</th>
+                                    <th>Estado</th>
+
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for producto in productoStock_list %}
+                                <tr>
+                                    <!--codigo-->
+                                    <td>
 
 
-              <th>Código</th>
-              <th>Nombre</th>
-              <th>Categoria</th>
-              <th>Porciones</th>
-              <th>Unidad Porcion</th>
-              <th>Perecible</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
+                                        <p class="small">{{producto.codigo}}</p>
 
-            {% for producto in productoStock_list %}
-            <tr>
-              <!--codigo-->
-              <td>
+                                    </td>
+                                    <!-- nombre -->
+                                    <td>
+                                        <div class="row">
+
+                                            <p class="small">{{producto.nombre}}</p>
+
+
+                                        </td>
+
+                                        <!-- categoria -->
+                                        <td>
+
+                                            <a href="">{{ producto.categoria }}</a>
+
+                                        </td>
+
+                                        <!-- porciones -->
+                                        <td>
+
+                                            <p class="small">{{producto.porcion}}</p>
+
+                                        </td>
+
+                                        <!-- unidad medida -->
+                                        <td>
+
+                                            <p class="small">{{producto.unidad_medida}}</p>
+
+                                        </td>
+
+                                        <!-- perecible -->
+                                        <td>
+
+                                            <p class="small">{{producto.no_perecible}}</p>
+
+                                        </td>
+
+                                        <!-- estado -->
+                                        <td>
+
+                                            <p class="small">{{producto.status}}</p>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                        </table>
+
+                            {% block pagination %}
+                            {% if is_paginated %}
+                            <div class="pagination">
+                                <span class="page-links">
+                                    {% if page_obj.has_previous %}
+                                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                                    {% endif %}
+                                    <span class="page-current">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                    {% if page_obj.has_next %}
+                                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endif %}
+                            {% endblock %}
+
+
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">
+                    Updated yesterday at 11:59 PM
+                </div>
+            </div><!--end card -->
+        </div><!--end col 10-->
+
+
+
+
+            <div class="col-2">
                 <div class="row">
-                  <div class="col-12">
-                    <p class="small">{{producto.codigo}}</p>
-                  </div>
-
+                    <div class="card" style="">
+                        <div class="card-title">
+                            Categorias
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for categoria in categorias_list %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a>
+                                </li>
+                                {% endfor %} 
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-              </td>
-              <!-- nombre -->
-              <td>
-                <div class="row">
-                  <div class="col-12">
-                    <p class="small">{{producto.nombre}}</p>
-                  </div>
 
-                </div>
 
-              </td>
+            </div>
+    </div><!--end row -->
+</div><!--end container -->
 
-              <!-- categoria -->
-              <td>
-                <div class="row">
 
-                  <div class="col-12">
-                    <a href="">{{ producto.categoria }}</a>
-                  </div>
-                </div>
-              </td>
 
-              <!-- porciones -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{producto.porcion}}</p>
-                </div>
-              </td>
+        <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+        </p>
 
-              <!-- unidad medida -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{producto.unidad_medida}}</p>
-                </div>
-              </td>
-
-              <!-- perecible -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{producto.no_perecible}}</p>
-                </div>
-              </td>
-
-              <!-- estado -->
-              <td>
-                <div class="col-12">
-                  <p class="small">{{producto.status}}</p>
-                </div>
-              </td>
-            </tr>
-            {% endfor %}
-
-          </tbody>
-        </table> 
-        <hr>
-      </div>
     </div>
+    <!-- /.container-fluid -->
 
-
-    {% block pagination %}
-    {% if is_paginated %}
-    <div class="pagination">
-      <span class="page-links">
-        {% if page_obj.has_previous %}
-        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="page-current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        {% if page_obj.has_next %}
-        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-        {% endif %}
-      </span>
-    </div>
-    {% endif %}
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright © Your Website 2018</span>
+            </div>
+        </div>
+    </footer>
     {% endblock %}
 
-  </article>
 
-  <aside class="col-md-4">
-    <br>
-    <h4>Categorías del Menú</h4> <hr>
-    <div class="listaCategoria">
-      <ul class="list-group">
-        {% for categoria in categorias_list %}
-        <li class="list-group-item">
-          <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-          {% endfor %}    
-        </ul>                    
-      </div>
-      <hr>
 
-    </aside>
-  </section>
 
-  {% endblock %}
+
+
+
+
