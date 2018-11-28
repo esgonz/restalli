@@ -3,136 +3,124 @@
 
 {% block content %}
 
-<section class="main row">
-                <!--xs movil, sm y md tablets, lg pc-->
-                <article class="col-md-8">
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-10">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Menu / 
+        <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Platos/ Productos</th>
+                  <th>Precio</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Platos/ Productos</th>
+                  <th>Precio</th>
+                  <th>Accion</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for menu in object_list %}
+                <tr>
+                  <td colspan="" rowspan="" headers="">
+                     <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
+                  </td>
+
+                  <td colspan="" rowspan="" headers="">
                     <div class="row">
-                        <div class="col-12">
-                            <h3>Menú/ </h3>  <h4> Desayunos</h4>
-                        </div>
+                      <div class="col-12">
+                        <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
+
+
+                      </div>
+                      <div class="col-12">
+                        <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
+
+
+                      </div>
                     </div>
-
-
                     <div class="row">
-                        <div class="col-12">
-                            <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-                        </div>
+                      <div class="col-12">
+                        <p class="small">{{menu.descripcion}}</p>
+                      </div>
+
+                    </div>
+                  </td>
+
+                  <td colspan="" rowspan="" headers="">
+                    <p><strong>${{ menu.precio }}</strong></p>
+                  </td>
+
+                  <td colspan="" rowspan="" headers="">
+                    <div class="row">
+                      <div class="col-12">
+                        <a class="btn-sm btn-primary" href="{% url "menu:update" pk=menu.uuid %}">Editar </a>
+                      </div>
                     </div>
                     <div class="row">
-                        {% if object_list %}
-                          <!-- code here to list the books -->
-                        {% else %}
-                          <p>No Existen Platillos/ productos.</p>
-                        {% endif %}
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Platos/ Productos</th>
-                                        <th>Precio</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {% for menu in object_list %}
-                                    <tr>
-                                        <td>
-                                            <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
-                                        </td>
-                                        <td>
-
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
-
-                                                    
-                                                </div>
-                                                <div class="col-12">
-                                                    <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
-
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">{{menu.descripcion}}</p>
-                                                </div>
-                                               
-                                            </div>
-
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                    <h3>${{ menu.precio }}</h3>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a class="btn-sm btn-primary" href="{% url "menu:update" pk=menu.uuid %}">Editar </a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a class="btn-sm btn-danger" href="{% url "menu:delete" pk=menu.uuid %}">Eliminar </a>
-                                                </div>
-                                            </div>
-                                          
-                                          
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-
-                                </tbody>
-                            </table> 
-                            <hr>
-                        </div>
+                      <div class="col-12">
+                        <a class="btn-sm btn-danger" href="{% url "menu:delete" pk=menu.uuid %}">Eliminar </a>
+                      </div>
                     </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+    </div>
 
 
-                    {% block pagination %}
-                      {% if is_paginated %}
-                          <div class="pagination">
-                              <span class="page-links">
-                                  {% if page_obj.has_previous %}
-                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                                  {% endif %}
-                                  <span class="page-current">
-                                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                  </span>
-                                  {% if page_obj.has_next %}
-                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                                  {% endif %}
-                              </span>
-                          </div>
-                      {% endif %}
-                    {% endblock %}
 
-                </article>
 
-                <aside class="col-md-4">
-                    <br>
-                    <h4>Categorías del Menú</h4> <hr>
-                    <div class="listaCategoria">
-                        <ul class="list-group">
-                            {% for categoria in categorias_list %}
-                            <li class="list-group-item">
-                                <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                            {% endfor %}    
-                        </ul>                    
-                    </div>
-                    <hr>
+    <div class="col-2">
+      HERE SOMETHING
+    </div>
+  </div>
+  
+  
 
-                </aside>
-            </section>
+  <p class="small text-center text-muted my-5">
+    <em>More table examples coming soon...</em>
+  </p>
 
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
 {% endblock %}
-
 
 

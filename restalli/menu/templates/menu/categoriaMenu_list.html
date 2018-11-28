@@ -4,35 +4,95 @@
 {% block content %}
 
 
-<div class="col-12">
-    <div class="row">
-        <div class="col-12">
-            <h4>Categorías del Menú</h4> <hr>
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">menu</li>
+    <li class="breadcrumb-item active">categorias</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-10">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Menu / 
+        <a class="btn btn-primary ml-3 right" href="{% url "menu:catCreate" %}">Agregar Categoria</a>
         </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+        
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Categoria</th>
+        
+                  <th>Accion</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for categoria in object_list %}
+                <tr>
+                  <td colspan="" rowspan="" headers="">
+                    
+                      <a  class="">
+                       {{ categoria.nombre }}
+                      </a>
+                  </td>
+
+
+                  <td colspan="" rowspan="" headers="">
+                   
+                        <a class="btn-sm btn-primary left mr-3" href="{% url "menu:catUpdate" pk=categoria.uuid %}">Editar </a>
+                   
+                    
+                        <a class="btn-sm btn-danger right" href="{% url "menu:catDelete" pk=categoria.uuid %}">Eliminar </a>
+                   
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <a class="btn btn-primary pull-right" href="{% url "menu:catCreate" %}">+ Categorias</a>  
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="list-group">
-              <!-- <a  class="list-group-item list-group-item-action active ">-->
-              {% for categoria in object_list %}
-              <a  class="list-group-item list-group-item-action">
-               {{ categoria.nombre }}
-              </a>
-            
-              {% endfor %}
 
-            </div>
-        </div>
+
+    <div class="col-2">
+      HERE SOMETHING
     </div>
+  </div>
+  
+  
+
+  <p class="small text-center text-muted my-5">
+    <em>More table examples coming soon...</em>
+  </p>
+
 </div>
-            
+<!-- /.container-fluid -->
 
-
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
 {% endblock %}

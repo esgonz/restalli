@@ -1,40 +1,57 @@
 
+
 {% extends "base.html" %}
 
 {% block content %}
 
-<section class="main row">
 
-    
-    <!--xs movil, sm y md tablets, lg pc-->
-    <article class="col-md-7">
-        <div class="row">
-            <div class="col-12">
-                <h3>Menú/ </h3>  <h4> Desayunos</h4>
-            </div>
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-8">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Menu / 
+        <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
         </div>
+        <div class="card-body">
+          {% if productoStock_list %}
+          <!-- code here to list the books -->
+          {% else %}
+          <p>No Existen Platillos/ productos.</p>
+          {% endif %}
 
-
-        <div class="row">
-            <div class="col-12">
-                <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-            </div>
-        </div>
-        <div class="row">
-            {% if productosMenu_list %}
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Imagen</th>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
                             <th>Platos/ Productos</th>
                             <th>Precio</th>
                             <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for menu in productosMenu_list %}
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>Imagen</th>
+                            <th>Platos/ Productos</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                  
+                </tr>
+              </tfoot>
+              <tbody>
+             {% for menu in productosMenu_list %}
                         <tr>
                             <td>
                                 <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
@@ -90,73 +107,82 @@
                             </td>
                         </tr>
                         {% endfor %}
+              </tbody>
+            </table>
 
-                    </tbody>
-                </table> 
-                <hr>
-            </div>
-            {% else %}
-            <p>No Existen Platillos/ productos.</p>
-            {% endif %}
+            {% block pagination %}
+    {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
+    {% endblock %}
 
-            
+
+          </div>
         </div>
-
-
-        {% block pagination %}
-        {% if is_paginated %}
-        <div class="pagination">
-          <span class="page-links">
-              {% if page_obj.has_previous %}
-              <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Anterior</a>
-              {% endif %}
-              <span class="page-current">
-                  Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-              </span>
-              {% if page_obj.has_next %}
-              <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Siguiente</a>
-              {% endif %}
-          </span>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+    
+        </div>
       </div>
-      {% endif %}
-      {% endblock %}
-
-  </article>
-
-  <aside class="col-md-5">
-
-    <div class="row">
-      <div class="col-md-12">
-        <h4>Categorías del Menú</h4> <hr>
-        <div class="listaCategoria">
-            <ul class="list-group">
-                {% for categoria in categorias_list %}
-                <li class="list-group-item">
-                    <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                    {% endfor %}    
-                </ul>                    
-            </div>
-            <hr>
-
-        </div>  
     </div>
 
 
-    <div class="row">
+
+
+    <div class="col-4">
+    
+      <div class="row">
         
+        <div class="card" style="">
+          <div class="card-title">
+            Categorias
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              {% for categoria in categorias_list %}
+                <li class="list-group-item">
+                    <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
+                    {% endfor %} 
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
         
-        <h4>Pedido Actual:</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <form method="post">
-                    {% csrf_token %}
-                    <thead>
-                        <th>Ctdad.</th>
+        <div class="card" style="">
+          <div class="card-title">
+            Seleccion
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <form method="post">
+              {% csrf_token %}
+              <thead>
+                <th>Ctdad.</th>
                         <th>Producto</th>
                         <th>Precio</th>
-                    </thead>
-                    <tbody>
-                        {% for cartProduct in cart_list %}   
+              </thead>
+              <tfoot>
+                <th>Ctdad.</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+              </tfoot>
+            
+         
+              <tbody>
+                {% for cartProduct in cart_list %}   
                         <tr>
                             <td>
                                 <input class="form-control form-sm " id="cantidad" type="number" min="1" max="10" value="{{cartProduct.qty}}">
@@ -171,8 +197,7 @@
                             </td>                                         
                         </tr>
                         {% endfor %}
-                        <!--FIN PRUEBA-->
-                        <tr>
+                <tr>
                             <td colspan="2" >
                                 <p align="right"> TOTAL:</p>
                             </td>
@@ -189,9 +214,7 @@
                                 
                             </td>
                         </tr>
-
-
-                        <tr>
+                  <tr>
                             
                             <td colspan="4" align="right">
                                 <a class="btn btn-success" href="{% url 'pedidos:create' %}">Continuar</a>
@@ -201,13 +224,37 @@
 
                     </tbody>
                 </form>
-            </table>
+            
+          </table>
         </div>
-    </div>
-</aside>
-</section>
+          </div>
+        </div>
+      </div>
 
+
+    </div>
+  </div>
+  
+  
+
+  <p class="small text-center text-muted my-5">
+    <em>More table examples coming soon...</em>
+  </p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
 {% endblock %}
+
+
 
 
 
