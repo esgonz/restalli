@@ -9,7 +9,9 @@
     <li class="breadcrumb-item">
       <a href="#">Dashboard</a>
     </li>
-    <li class="breadcrumb-item active">Menu</li>
+    <li class="breadcrumb-item ">Menu</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
   </ol>
 
 
@@ -19,8 +21,8 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table"></i>
-        Menu / 
-        <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
+        Detalle Producto
+       
         </div>
         <div class="card-body">
           {% if productoStock_list %}
@@ -106,8 +108,7 @@
 
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
-    
+        <div class="card-footer small text-muted">Menu
         </div>
       </div>
     </div>
