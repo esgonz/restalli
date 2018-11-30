@@ -204,8 +204,7 @@ class ProductosMenuStockList(generic.ListView):
 		self.request.session['seleccion'] = seleccion
 		context['seleccion_list'] = self.request.session['seleccion']
 		context['producto'] = ProductosMenu.objects.get(uuid= self.productoMenu_uuid)
-
-
+		context['categorias_list'] = ProductoStock.CATEGORIA_NOMBRE
 		print("NUEVO seleccion:")
 		print(context['seleccion_list'])
 		return context

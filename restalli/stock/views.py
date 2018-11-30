@@ -91,6 +91,10 @@ class stocklogCreate(generic.CreateView):
             'producto_uuid': self.kwargs['pk'],
             'stock_inicial': producto.stock_disponible,
             'stock_final' :  producto.stock_disponible,
+            'fecha_elaboracion': None,
+            'fecha_expiracion': None,
+            'precio_unitario': 0,
+            'precio_total': 0
         }
 
     def get(self, request, *args, **kwargs):
@@ -105,7 +109,7 @@ class stocklogCreate(generic.CreateView):
         
         #self.object = self.get_object(queryset=Publisher.objects.all())
         self.producto_uuid = kwargs.get("pk")
-        return super().get(request, *args, **kwargs)"""
+        return super(stocklogCreate, self).get(request, *args, **kwargs)"""
     
     def form_valid(self, form):
         accion =self.kwargs['accion']
@@ -133,6 +137,7 @@ class stocklogCreate(generic.CreateView):
         print(str(self.kwargs['pk']))
 
         context['producto'] = ProductoStock.objects.get(uuid= self.kwargs['pk'])
+        context['accion'] = self.kwargs['accion']
         print("CONTEXT")
         print(context)
 

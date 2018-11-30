@@ -10,7 +10,7 @@ class StockForm(forms.ModelForm):
     class Meta:
         model = ProductoStock
         fields = ['nombre', 'codigo','porcion', 'unidad_medida', 
-        'no_perecible', 'categoria', 'status' ]
+        'no_perecible', 'categoria' ]
         
 
         labels = {
@@ -19,8 +19,7 @@ class StockForm(forms.ModelForm):
             'porcion': 'Porciones por unidad',
             'unidad_medida': 'Und. medida porciones',
             'no_perecible': '¿No perecible?',
-            'categoria': 'Categoria',
-            'status': 'Estado'
+            'categoria': 'Categoria'
         } 
 class StocklogForm(forms.ModelForm):
 
@@ -33,9 +32,9 @@ class StocklogForm(forms.ModelForm):
             'stock_final', 
             'fecha_elaboracion',
             'fecha_expiracion', 
-            'precio',
-            'observaciones',
-            'status'
+            'precio_unitario',
+            'precio_total',
+            'observaciones'
 
         ]
 
@@ -46,9 +45,9 @@ class StocklogForm(forms.ModelForm):
             'stock_final': 'Stock Final',
             'fecha_elaboracion': 'Fecha Elaboración',
             'fecha_expiracion': 'Fecha Expiración',
-            'precio': 'Precio compra',
-            'observaciones': 'Observaciones',
-            'status': 'Estado',
+            'precio_unitario': 'Precio unitario compra',
+            'precio_total': 'Costo total',
+            'observaciones': 'Observaciones'
         } 
 
         widgets = {
@@ -57,6 +56,8 @@ class StocklogForm(forms.ModelForm):
             'fecha_expiracion' : forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
             'stock_inicial' : forms.TextInput(attrs={'readonly':True, 'class': 'form-control'}),
             'stock_final' : forms.TextInput(attrs={'readonly':True, 'class': 'form-control'}),
-            'producto_uuid' : forms.Select(attrs={'readonly':True, 'class': 'form-control'})
+            'producto_uuid' : forms.Select(attrs={'readonly':True, 'class': 'form-control'}),
+            'precio_unitario': forms.TextInput(attrs={ 'type':'number', 'step':'any',  'class': 'form-control'}),
+            'stock_descontado' : forms.TextInput(attrs={  'class': 'form-control'}),
             
         }      

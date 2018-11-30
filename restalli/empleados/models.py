@@ -9,7 +9,7 @@ class Empleados(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated= models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     personas = models.ForeignKey(Personas, on_delete=models.SET_NULL, null=True)
 
 # ¿FALTA REFERENCIA A PERFIL EMPLEADO?

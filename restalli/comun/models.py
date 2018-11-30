@@ -23,7 +23,7 @@ class Restaurantes(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	updated= models.DateTimeField(auto_now=True)
 	deleted = models.DateTimeField(auto_now=True)
-	status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+	status = models.IntegerField(default=1)
 	
 	def __str__(self):
 		return "%s" % (self.nombre)
@@ -56,7 +56,7 @@ class Personas(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	updated= models.DateTimeField(auto_now=True)
 	deleted = models.DateTimeField(auto_now=True)
-	status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+	status = models.IntegerField(default=1)
 	restaurante_uuid = models.ForeignKey(Restaurantes, on_delete=models.CASCADE)
 
 	def __str__(self):

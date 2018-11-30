@@ -13,7 +13,7 @@ class CategoriaMenu(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated= models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     
     def __str__(self):
         return "%s" % (self.nombre)
@@ -31,7 +31,7 @@ class ProductosMenu(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.SET_NULL, null=True)
     restaurant_uuid = models.ForeignKey(Restaurantes, on_delete=models.SET_NULL, null=True)
     user_uuid = models.CharField(max_length=36)
@@ -58,7 +58,7 @@ class ProductosMenuStock(models.Model):
     productoStock_uuid = models.ForeignKey(ProductoStock, on_delete=models.CASCADE)
     productosMenu_uuid = models.ForeignKey(ProductosMenu, on_delete=models.CASCADE)
     porciones = models.IntegerField()
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
@@ -81,6 +81,6 @@ class ofertas(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
 
 

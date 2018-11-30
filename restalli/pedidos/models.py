@@ -49,7 +49,7 @@ class Pedido(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     estadoPedido = models.CharField(
         max_length=5,
         choices=ESTADO_PEDIDO_CHOICES,
@@ -92,7 +92,7 @@ class PedidoItem(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     pedido_uuid = models.ForeignKey(Pedido, on_delete=models.CASCADE, null= True)
     estadoPedido = models.CharField(
         max_length=5,

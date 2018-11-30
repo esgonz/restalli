@@ -46,7 +46,7 @@ class ProductoStock(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados,on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     user_uuid = models.CharField(max_length=36)
     stock_disponible = models.IntegerField(null=False, default=0)
 
@@ -69,9 +69,10 @@ class Stock(models.Model):
     deleted = models.DateTimeField(auto_now=True)
     fecha_elaboracion = models.DateField(blank=True, null=True)
     fecha_expiracion = models.DateField(blank=True, null=True)
-    precio = models.DecimalField(max_digits=9, decimal_places=2, null=False)
+    precio_unitario = models.DecimalField(max_digits=9, decimal_places=2, null=False)
+    precio_total = models.DecimalField(max_digits=9, decimal_places=2, null=False)
     observaciones = models.CharField(max_length=200, default="", null=True)
-    status = models.ForeignKey(Estados,on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     user_uuid = models.CharField(max_length=36)
    
     def __str__(self):

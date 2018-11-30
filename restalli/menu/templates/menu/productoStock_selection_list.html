@@ -15,147 +15,184 @@
   </ol>
 
 
+
   <div class="row">
-    <div class="col-8">
+    <div class="col-12">
+      <div class="card mb-3" style="">
+        <div class="card-header">
+          <h3>Nuevo Producto</h3>
+        </div>
+        <div class="card-body">
+          Nombre: {{producto.nombre}}<br>
+          Precio: {{producto.precio}}<br>
+          Categoria: {{producto.categoria_uuid}}<br>
+          Descripcion: {{producto.descripcion}}
+
+        </div>
+
+        <div class="card-footer">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <!-- DataTables Example -->
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table"></i>
-        Detalle Producto
-       
+          <h3>Seleccionar Stock</h3>
+
         </div>
         <div class="card-body">
-          {% if productoStock_list %}
-          <!-- code here to list the books -->
-          {% else %}
-          <p>No Existen Platillos/ productos.</p>
-          {% endif %}
+          <div class="row">
+            <div class="col-9">
+              {% if productoStock_list %}
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Stock actual</th>
+                      <th>Agregar</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Stock actual</th>
+                      <th>Agregar</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for stock in productoStock_list %}
+                    <tr>
+                      <!--Producto-->
+                      <td>
 
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-              <th>Stock actual</th>
-              <th>Agregar</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>Producto</th>
-              <th>Stock actual</th>
-              <th>Agregar</th>
-                </tr>
-              </tfoot>
-              <tbody>
-                {% for stock in productoStock_list %}
-            <tr>
-              <!--Producto-->
-              <td>
-       
-                    <p class="small">{{stock.nombre}}</p>
-                
-              </td>
-              <!-- s actual -->
-              <td>
-         
-                    <p class="small">{{stock.stock_disponible}}</p>
-           
-              </td>
+                        <p class="small">{{stock.nombre}}</p>
 
-              <td>
-                <form method="post">
-                  {% csrf_token %}
-                  <div class="row">
-                    <div class="form-group col-5">
-                      <input type="hidden" id="uuid" name="uuid" value="{{stock.uuid}}">
-                      <input type="hidden" id="nombre" name="nombre" value="{{stock.nombre}}">
-                      <input type="hidden" id="add" name="add" value="add">
-                      <input class="form-control" min="1" type="number" name="porciones" id="porciones" value="0" placeholder="0">
+                      </td>
+                      <!-- s actual -->
+                      <td>
 
-                    </div>
-                    <div class="col-7">
-                      <input type="submit" value="Agregar" class="btn-sm btn-primary">
-                    </div>
+                        <p class="small">{{stock.stock_disponible}}</p>
+
+                      </td>
+
+                      <td>
+                        <form method="post">
+                          {% csrf_token %}
+                          <div class="row">
+                            <div class="form-group col-5">
+                              <input type="hidden" id="uuid" name="uuid" value="{{stock.uuid}}">
+                              <input type="hidden" id="nombre" name="nombre" value="{{stock.nombre}}">
+                              <input type="hidden" id="add" name="add" value="add">
+                              <input class="form-control" min="1" type="number" name="porciones" id="porciones" value="0" placeholder="0">
+
+                            </div>
+                            <div class="col-7">
+                              <input type="submit" value="Agregar" class="btn-sm btn-primary">
+                            </div>
+                          </div>
+                        </form>
+
+
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                {% block pagination %}
+                {% if is_paginated %}
+                <div class="pagination">
+                  <span class="page-links">
+                    {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                  </span>
+                </div>
+                {% endif %}
+                {% endblock %}
+              </div>
+              {% else %}
+              <p>No Existen productos.</p>
+              {% endif %}
+            </div>
+
+            <div class="col-3">
+
+              <div class="row">
+
+                <div class="card" style="">
+                  <div class="card-header">
+                    Categorias
                   </div>
-                </form>
-
-
-              </td>
-            </tr>
-            {% endfor %}
-              </tbody>
-            </table>
-
-            {% block pagination %}
-    {% if is_paginated %}
-    <div class="pagination">
-      <span class="page-links">
-        {% if page_obj.has_previous %}
-        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="page-current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        {% if page_obj.has_next %}
-        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-        {% endif %}
-      </span>
-    </div>
-    {% endif %}
-    {% endblock %}
-
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      {% for categoria_id, categoria_nombre in categorias_list %}
+                      <li class="list-group-item">
+                        <a href="{% url 'menu:list' %}?categoria={{ categoria_id }}">{{categoria_nombre}}</a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
 
           </div>
+          
         </div>
         <div class="card-footer small text-muted">Menu
         </div>
       </div>
-    </div>
 
 
 
 
-    <div class="col-4">
-    
-      <div class="row">
-        
-        <div class="card" style="">
-          <div class="card-title">
-            Categorias
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              {% for categoria in categorias_list %}
-              <li class="list-group-item">
-                <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a>
-              </li>
-                {% endfor %}
-            </ul>
-          </div>
+      <div class="card mb-3" style="">
+        <div class="card-header">
+          Seleccion
         </div>
-      </div>
-
-      <div class="row">
-        
-        <div class="card" style="">
-          <div class="card-title">
-            Seleccion
-          </div>
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <form method="post">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <form method="post">
               {% csrf_token %}
               <thead>
                 <th>Porciones.</th>
                 <th>Producto</th>
               </thead>
-              <tfoot>
-                <th>Porciones.</th>
-                <th>Producto</th>
-              </tfoot>
-            
-         
+
+
+
               <tbody>
                 {% for selectProduct in seleccion_list %}   
                 <tr>
@@ -169,11 +206,11 @@
                     <p>{{selectProduct.nombre}}</p>
                   </td>
 
-                                              
+
                 </tr>
                 {% endfor %}
                 <!--FIN PRUEBA-->
-    
+
                 <tr>
                   <td colspan="2" align="left">
 
@@ -182,35 +219,40 @@
 
 
                   </td>
-                 </tr>
-                  </form>
-                  
-                  <tr>
-                    <form method="post">
-                      {% csrf_token %}
-                      <td colspan="2" align="right">
-                        <button type="submit" name="save" class="btn btn-primary">Guardar</button>
-                      </td>
-                    </form>
-                  </tr>
-                  
-              </tbody>
-            
+                </tr>
+              </form>
+
+              <tr>
+                <form method="post">
+                  {% csrf_token %}
+                  <td colspan="2" align="right">
+                    <button type="submit" name="save" class="btn btn-primary">Guardar</button>
+                  </td>
+                </form>
+              </tr>
+
+            </tbody>
+
           </table>
-        </div>
-          </div>
         </div>
       </div>
 
+    </div><!--end col 12-->
 
-    </div>
+
+
+
+    
+
+
   </div>
-  
-  
+</div>
 
-  <p class="small text-center text-muted my-5">
-    <em>More table examples coming soon...</em>
-  </p>
+
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
 
 </div>
 <!-- /.container-fluid -->

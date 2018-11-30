@@ -14,5 +14,5 @@ class Mesas(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=1)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.SET_NULL, null=True)
