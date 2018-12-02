@@ -4,6 +4,8 @@
 
 
 <div class="container-fluid">
+  
+
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
@@ -13,16 +15,25 @@
     <li class="breadcrumb-item ">Nuevo</li>
     <li class="breadcrumb-item active">Detalle</li>
   </ol>
+  <!-- / Breadcrumbs-->
 
 
 
+  <!-- row nuevo producto card-->
   <div class="row">
     <div class="col-12">
+      <!--card-->
       <div class="card mb-3" style="">
+        
+        <!--card header-->
         <div class="card-header">
           <h3>Nuevo Producto</h3>
         </div>
+        <!--/card header-->
+
+        <!--card body-->
         <div class="card-body">
+          <!--descripcion -->
           <dl class="row">
             <dt class="col-sm-3">Nombre:</dt>
             <dd class="col-sm-9"><p>{{producto.nombre}}</p></dd>
@@ -36,35 +47,22 @@
             <dt class="col-sm-3">Descripcion:</dt>
             <dd class="col-sm-9"><p>{{producto.descripcion}}</p></dd>
           </dl>
-
+          <!-- /descripcion -->
         </div>
 
         <div class="card-footer">
         </div>
-      </div>
 
-    </div>
-  </div>
+      </div>
+      <!--/ card-->
+
+    </div><!-- /col-->
+  </div><!-- /row -->
+
+  
+  <!-- row seleccion stock-->
   <div class="row">
     <div class="col-12">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <!-- DataTables Example -->
       <div class="card mb-3">
         <div class="card-header">
@@ -113,12 +111,12 @@
                           {% csrf_token %}
                           <div class="row">
                             <div class="form-group col-5">
-                              
+  
                               <input type="hidden" id="uuid" name="uuid" value="{{stock.uuid}}">
                               
                               <input type="hidden" id="nombre" name="nombre" value="{{stock.nombre}}">
                               
-          
+
                               
                               <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
 
@@ -135,133 +133,131 @@
                     {% endfor %}
                   </tbody>
                 </table>
-
-                {% block pagination %}
-                {% if is_paginated %}
-                <div class="pagination">
-                  <span class="page-links">
-                    {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="page-current">
-                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span>
-                    {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                    {% endif %}
-                  </span>
-                </div>
-                {% endif %}
-                {% endblock %}
-              </div>
-              {% else %}
-              <p>No Existen productos.</p>
+              </div><!-- / table resp -->
               {% endif %}
-            </div>
+            </div> <!-- / col -->
 
+            <!-- col sidebar -->
             <div class="col-3">
 
               <div class="row">
 
                 <div class="card" style="">
                   <div class="card-header">
-                    Categorias
+                    Filtrar por Categorias
+
+                    <a href="{{producto.uuid}}?" class="btn btn-sm btn-success">limpiar</a>
                   </div>
                   <div class="card-body">
                     <ul class="list-group list-group-flush">
                       {% for categoria_id, categoria_nombre in categorias_list %}
                       <li class="list-group-item">
-                        <a href="{% url 'menu:list' %}?categoria={{ categoria_id }}">{{categoria_nombre}}</a>
+
+                        <a href="{{producto.uuid}}?categoria={{ categoria_id }}">{{categoria_nombre}}</a>
                       </li>
                       {% endfor %}
                     </ul>
                   </div>
                 </div>
               </div>
-            </div>
+            </div><!-- /col sidebar -->
+
+
+          </div><!-- / row c bdy-->
           
+        </div><!--/ card body-->
 
-          </div>
-          
+
+        <div class="card-footer small text-muted">
+          Menu
         </div>
-        <div class="card-footer small text-muted">Menu
-        </div>
-      </div>
 
-
-
-
-      <div class="card mb-3" style="">
-        <div class="card-header">
-          Seleccion
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <form method="post">
-              {% csrf_token %}
-              <thead>
-                <th>Porciones.</th>
-                <th>Producto</th>
-              </thead>
-
-
-
-              <tbody>
-                {% for selectProduct in seleccion_list %}   
-                <tr>
-                  <td>
-                    <input id="uuid" type="hidden" value="{{selectProduct.uuid}}">
-
-                    <input class="form-control form-sm" id="qty" type="number" min="1" max="10" value="{{selectProduct.qty}}">
-
-                    <input type="hidden" name="nombre" value="{{selectProduct.nombre}}">
-                  </td>
-
-                  <td>
-                    <p>{{selectProduct.nombre}}</p>
-                  </td>
-
-
-                </tr>
-                {% endfor %}
-                <!--FIN PRUEBA-->
-
-                <tr>
-                  <td colspan="2" align="left">
-
-                    <button type="submit" name="clear" class="btn btn-sm btn-danger mr-2">Limpiar selección</button>
-                    
-                  </td>
-                </tr>
-              </form>
-
-              <tr>
-                <form method="post">
-                  {% csrf_token %}
-                  <td colspan="2" align="right">
-                    <button type="submit" name="save" class="btn btn-primary">Guardar</button>
-                  </td>
-                </form>
-              </tr>
-
-            </tbody>
-
-          </table>
-        </div>
-      </div>
-
+      </div><!--end card -->
     </div><!--end col 12-->
-
-
-
-
-    
-
-
   </div>
-</div>
+  <!-- /row seleccion stock-->
+
+  <!-- row seleccionado -->
+  <div class="row">
+    <div class="col-12">
+      <!--card -->
+      <div class="card mb-3" style="">
+        
+        <div class="card-header">
+          <h3>Selección</h3>
+        </div>
+        
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              
+                <thead>
+                  <th>Porciones.</th>
+                  <th>Producto</th>
+                </thead>
 
 
+
+                <tbody>
+                  {% for selectProduct in seleccion_list %}   
+                  <tr>
+                    <td>
+
+                      <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" id="obj_uuid" name="obj_uuid" value="{{selectProduct.obj_uuid}}">
+
+
+
+                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+
+                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+
+                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+
+                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
+
+                      </form>
+                    </td>
+
+                    <td>
+                      <p>{{selectProduct.nombre}}</p>
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                  <!--FIN PRUEBA-->
+                  <form method="post">
+                    <tr>
+                      <td colspan="2" align="left">
+
+                        <button type="submit" name="clear" class="btn btn-sm btn-danger mr-2">Limpiar selección</button>
+                        
+                      </td>
+                    </tr>
+                    
+                    
+                    <tr>
+                      
+                        {% csrf_token %}
+                        <td colspan="2" align="right">
+                          <button type="submit" name="save" class="btn btn-primary">Guardar</button>
+                        </td>
+                      
+                    </tr>
+                  </form>
+
+                </tbody>
+              
+            </table>
+          </div><!--/ table responsive -->
+        </div><!--/ card body-->
+
+
+        <div class="card-footer">
+      </div><!--/card-->
+    </div><!-- /col-->
+  </div><!-- / row -->
 
 <p class="small text-center text-muted my-5">
   <em>More table examples coming soon...</em>
@@ -283,37 +279,37 @@
 
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function() {
-  
+
     $('#dataTable').DataTable({
       "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
       "language": {
-          search: "_INPUT_",
-          searchPlaceholder: "Buscar...",
-      "decimal":        "",
-      "emptyTable":     "Sin informacion disponible para la tabla",
-      "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
-      "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
-      "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
-      "infoPostFix":    "",
-      "thousands":      ",",
-      "lengthMenu":     "Mostrar _MENU_ Entradas",
-      "loadingRecords": "Cargando...",
-      "processing":     "Procesando...",
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
 
-      "zeroRecords":    "No se encontro nada",
-      "paginate": {
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
           "first":      "Primera",
           "last":       "Última",
           "next":       "Próxima",
           "previous":   "Anterior"
-      },
-      "aria": {
+        },
+        "aria": {
           "sortAscending":  ": activate to sort column ascending",
           "sortDescending": ": activate to sort column descending"
+        }
+
+
       }
-
-
-          }
     });
   });
 </script>

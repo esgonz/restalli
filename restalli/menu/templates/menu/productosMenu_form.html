@@ -1,8 +1,22 @@
-
 {% extends "base.html" %}
 {% load widget_tweaks %}
-
 {% block content %}
+
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{% url 'menu:list' %}">Menu</a></li>
+    <li class="breadcrumb-item active">Nuevo Producto</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
 <div class="card mb-3">
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
@@ -27,7 +41,7 @@
 
 			<div class="row">
 				<div class="form-group col-8">
-					<label for="{{ form.nombre.id_for_label }}"> Nombre nombre:</label>
+					<label for="{{ form.nombre.id_for_label }}"> Nombre:</label>
 					{% render_field form.nombre class="form-control" %}
 
 					<span class="help-block">{{ form.nombre.errors }}</span>
@@ -37,7 +51,7 @@
 
 				<div class="form-group col-4">
 
-					<label for="{{ form.categoria_uuid.id_for_label }}">categoria_uuid:</label>
+					<label for="{{ form.categoria_uuid.id_for_label }}">Categoria:</label>
 					{% render_field form.categoria_uuid class="form-control" %}
 
 					<span class="help-block">
@@ -65,7 +79,7 @@
 					<span>Imagen del Producto:</span>
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" name="imagen" id="imagen">
-						<label class="custom-file-label" for="customFile">Choose file</label>
+						<label class="custom-file-label" for="customFile">Elegir archivo</label>
 					</div>
 				</div>
 
@@ -91,14 +105,44 @@
 
 			</div>
 
+			
 
-		</div>
+
+		</div><!-- / card body -->
 		<div class="card-footer mb-3">
 			<input type="button" value="Cancelar" class="btn btn-default"/>
 			<input type="submit" value="Guardar" class="btn btn-primary"/>
-		</div>
+		</div><!-- / card footer -->
 	</form>
-</div>
-{% endblock %}
+</div><!--end card -->
+</div><!--end col 10-->
 
+
+
+
+
+</div><!--end row -->
+</div><!--end container -->
+
+
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+{% endblock %}
 
