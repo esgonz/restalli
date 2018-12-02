@@ -1,93 +1,190 @@
-
 {% extends "base.html" %}
 {% load widget_tweaks %}
-
 {% block content %}
-<div class="col-12">
-    <pre>{{form.errors}}</pre>
-		<form method="post">
-			{% csrf_token %}
-			<table>
-				<tbody>
-			{{form.as_table}}
-				</tbody>
-			</table>
-
-			<input type="submit" value="Aceptar Pedido" class="btn btn-primary"/>
-		</form>
 
 
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Pedidos</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+
+
+  
 <div class="row">
-        
-        
-        <h4>Pedido Actual:</h4>
-        <div class="table-responsive">
-            <table class="table">
-                
-                    
-                    <thead>
-                        <th>Ctdad.</th>
-                        <th>Producto</th>
-                        <th>Precio</th>
-                    </thead>
+    <div class="col-12">
+          <div class="card" style="">
+            <div class="card-header">
+              Nuevo Pedido / Detalle
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  
+                  <thead>
+                            <th>Ctdad.</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                  </thead>
+
                     <tbody>
-                        {% for cartProduct in cart_list %}   
-                        <tr>
-                            <td>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" id="uuid" name="uuid" value="{{cartProduct.uuid}}">
-                                    <input type="hidden" id="update" name="update" value="Actualizar">
-                                    <input class="form-control" min="1" type="number" name="qty" id="qty" value="{{cartProduct.qty}}" placeholder="0">
+                  {% for selectProduct in cart_list %}   
+                  <tr>
+                    <td>
 
-                                    <button type="submit" name="update" value="Actualizar" class="btn btn-default">Actualizar</button>
-                                </form>
-                            </td>
-
-                            <td>
-                                <p>{{cartProduct.nombre}}</p>
-                            </td>
-
-                            <td>
-                                <b>${{cartProduct.precio}}</b>
-                            </td>                                         
-                        </tr>
-                        {% endfor %}
-                        <!--FIN PRUEBA-->
-                        <tr>
-                            <td colspan="2" >
-                                <p align="right"> TOTAL:</p>
-                            </td>
-                            <td colspan="2">
-                                <b>{{total_cart}}</b> </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" align="left">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
-                                </form>
-
-                                
-                            </td>
-                        </tr>
+                      <form method="post">
+                      {% csrf_token %}
+                      
 
 
-                        <tr>
-                            
-                            <td colspan="4" align="right">
-                                <a class="btn btn-success" href="{% url 'pedidos:create' %}">Continuar</a>
-                            </td>
-                            
-                        </tr>
 
-                    </tbody>
+                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+
+                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+
+                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+
+                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
+
+                      </form>
+                    </td>
+
+                    <td>
+                      <p>{{selectProduct.nombre}}</p>
+                    </td>
+                    <td>
+                      <b>${{selectProduct.precio}}</b>
+                    </td> 
+                  </tr>
+
+                  {% endfor %}
+
+                </tbody>
                 
-            </table>
+              </table>
+              </div><!-- / table resp-->
+            </div><!-- / card body-->
+
+            <div class="card-footer mb-3">
+              
+
+              <div class="row">
+
+            
+                
+
+              </div>
+                
+
+                <form method="post">
+                      {% csrf_token %}
+                <div class="row">
+
+                    <div class="form-group col-4">
+                       
+                        {% render_field form.estadoPedido class="form-control" %}
+
+                        <span class="help-block">{{ form.estadoPedido.errors }}</span>
+                    </div>
+                    <div class="col-8">
+                        <h3>TOTAL: <span class="badge badge-secondary">${{total_cart}}</span></h3>
+                
+                    </div>
+
+                    
+
+
+                </div>
+
+
+
+                  <div class="row">
+                    <div class="col-12">
+                        
+                          
+
+                          <button type="submit" name="save" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                  </div>
+               </form>
+                
+              
+
+              
+            </div><!-- / card footer -->
         </div>
     </div>
+  </div><!-- / row -->
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
 </div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+        "paging" : false,
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
 {% endblock %}
+
+
+
 
 

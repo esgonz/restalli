@@ -1,20 +1,48 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% load widget_tweaks %}
-
 {% block content %}
-<form method="post">
-<div class="card">
-  
-    {% csrf_token %}
 
-    <div class="card-body">
-    <div class="row">
-      <div class="alert alert-warning" role="alert">
-        <p>{{ form.errors}}</p>
-      </div>     
-    </div>
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:list' %}">Stock</a></li>
+    <li class="breadcrumb-item active">Nuevo</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+
+        
+      <form method="post">
+        {% csrf_token %}
+      
+
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Ventas / </a>
+        <h3>Registrar Venta</h3>
+      </div>
+      <div class="card-body">
+
+        {% if form.errors%}
+        <div class="row">
+          <div class="alert alert-warning" role="alert">
+
+
+            <p>{{form.errors}} </p>
+
+            <hr>
+
+          </div>
+        </div>
+        {% endif %}
 
     
     <div class="row">
@@ -59,22 +87,20 @@
 
       <div class="form-group col-4">
         <label for="{{ form.pedido_uuid.id_for_label }}">pedido_uuid:</label>
-            {% render_field form.pedido_uuid class="form-control" %}
+            {% render_field form.pedido_uuid class="form-control" readonly="true" %}
 
             <span class="help-block">{{ form.pedido_uuid.errors }}</span>
       </div>
     </div>
 </div><!--end cardbody -->
 <div class="card-footer">
-
-                
-                <input type="button" value="Cancelar" class="btn btn-default"/>
+  <input type="button" value="Cancelar" class="btn btn-default"/>
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 </div>
-            </form>
+            
         
 </div>
-    
+</form>
 
 
   

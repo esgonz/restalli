@@ -1,217 +1,211 @@
 
+
 {% extends "base.html" %}
 
 {% block content %}
 
 
 <div class="container-fluid">
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Menu</li>
-    </ol>
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card" style="">
+        <div class="card-header">
+          Seleccion
+        </div>
 
 
-    <div class="row">
-        <div class="col-10">
-            <!-- DataTables Example -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Menu / 
-                    <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
-                </div>
-                <div class="card-body">
-                    {% if productoStock_list %}
-                    <!-- code here to list the books -->
-                    {% else %}
-                    <p>No Existen Platillos/ productos.</p>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+
+                  <th>Nº Pedido</th>
+                  <th>Pagar</th>
+                  <th>Mesa</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nº Pedido</th>
+                  <th>Pagar</th>
+                  <th>Mesa</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for pedido in pedidos_list %}
+                <tr>
+                  <td>
+                    <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
+                  </td>
+
+                  <td>
+
+                    {% if pedido.estadoPedido == "INIT" %}
+                    <a class="btn btn-sm btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+                    {% elif pedido.estadoPedido == "FNLZ" %}
+                    <span class="badge badge-pill badge-success">PAGADO</span>
                     {% endif %}
+                  </td>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-
-                                    <th>Nº Pedido</th>
-                                    <th>Pagar</th>
-                                    <th>Mesa</th>
-                                    <th>Total</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Hora Termino</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Nº Pedido</th>
-                                    <th>Pagar</th>
-                                    <th>Mesa</th>
-                                    <th>Total</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Hora Termino</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                {% for pedido in pedidos_list %}
-                                <tr>
-                                    <td>
-                                        <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
-                                    </td>
-
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
-                                    </td>
-
-                                    <td>
-
-                                      
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <p class="small">Mesa 2</p>
-                                            </div>
-                                            
-                                        </div>
-
-                                        <td>
-
-                                          
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">${{pedido.total}}</p>
-                                                </div>
-                                                
-                                            </div>
+                  <td>
 
 
-                                            <td>
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="small">Mesa 2</p>
+                      </div>
 
-                                              
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <p class="small">{{pedido.created}}</p>
-                                                    </div>
-                                                    
-                                                </div>
+                    </div>
 
-                                            </td>
-                                            <td>
-                                                <div class="row">
-                                                    
-                                                    <div class="col-12">
-                                                      <p class="small">{{pedido.created}}</p>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                  <p class="small">{{pedido.modified}}</p>
-                                              </div>
-                                          </div>
-                                      </td>
-                                      <td>
-                                        <div class="row">
-                                            
-                                            <div class="col-12">
-                                              <p class="small">{{pedido.estadoPedido}}</p>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td>
-                                    <div class="row">
-                                        
-                                        <div class="col-12">
-                                          <p class="small"></p>
-                                      </div>
-                                  </div>
-                              </td>
-
-                          </tr>
-                          {% endfor %}
-                      </tbody>
-                  </table>
-
-                  {% block pagination %}
-                  {% if is_paginated %}
-                  <div class="pagination">
-                    <span class="page-links">
-                        {% if page_obj.has_previous %}
-                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                        {% endif %}
-                        <span class="page-current">
-                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                        </span>
-                        {% if page_obj.has_next %}
-                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                        {% endif %}
-                    </span>
-                </div>
-                {% endif %}
-                {% endblock %}
+                    <td>
 
 
-            </div>
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+                      <div class="row">
+                        <div class="col-12">
+                          <p class="small">${{pedido.total}}</p>
+                        </div>
 
-        </div>
-    </div>
-</div>
+                      </div>
+
+
+                      <td>
+
+
+                        <div class="row">
+                          <div class="col-12">
+                            <p class="small">{{pedido.created}}</p>
+                          </div>
+
+                        </div>
+
+                      </td>
+
+
+                      <td>
+                        <div class="row">
+
+                          <div class="col-12">
+                            
+
+                            {% if pedido.estadoPedido == "INIT" %}
+                            <span class="badge badge-pill badge-primary">Pendiente</span>
+                            {% elif pedido.estadoPedido == "WAIT" %}
+                            <span class="badge badge-pill badge-warning">Espera</span>
+                            {% elif pedido.estadoPedido == "OK" %}
+                            <span class="badge badge-pill badge-info">Entregado</span>
+                            {% elif pedido.estadoPedido == "CNCL" %}
+                            <span class="badge badge-pill badge-danger">Cancelado</span>
+                            {% elif pedido.estadoPedido == "FNLZ" %}
+                            <span class="badge badge-pill badge-success">Finalizado</span>
+                            {% endif %}
 
 
 
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
 
-<div class="col-2">    
-    <div class="row">
+                          <div class="col-12">
+                            <p class="small"></p>
+                          </div>
+                        </div>
+                      </td>
 
-        <div class="card" style="">
-            <div class="card-header">
-                Categorias
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    {% for categoria in categorias_list %}
-                    <li class="list-group-item">
-                        <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                        {% endfor %} 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
 
-
-</div>
-</div>
+              </div><!-- /table resp-->
 
 
+            </div><!-- /card body-->
 
-<p class="small text-center text-muted my-5">
-    <em>More table examples coming soon...</em>
-</p>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
 
-</div>
-<!-- /.container-fluid -->
+            </div><!-- /card footer-->
+          </div><!-- /card-->
 
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
+        </div><!-- / row -->
+
+
+
+        <p class="small text-center text-muted my-5">
+          <em>More table examples coming soon...</em>
+        </p>
+
+      </div> <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
             <span>Copyright © Your Website 2018</span>
+          </div>
         </div>
-    </div>
-</footer>
-{% endblock %}
+      </footer>
+
+
+      <script  type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+          $('#dataTable').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+            "language": {
+              search: "_INPUT_",
+              searchPlaceholder: "Buscar...",
+              "decimal":        "",
+              "emptyTable":     "Sin informacion disponible para la tabla",
+              "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+              "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+              "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing":     "Procesando...",
+
+              "zeroRecords":    "No se encontro nada",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Próxima",
+                "previous":   "Anterior"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+
+
+            }
+          });
+
+        });
+      </script>
+
+
+      {% endblock %}
 
 
 

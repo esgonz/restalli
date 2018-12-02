@@ -20,8 +20,15 @@ class PedidoCreation(generic.edit.CreateView):
 	form_class = PedidoForm
 	success_url = reverse_lazy('pedidos:list')
 	
+
+	def get_initial(self):
+		print("GET INITIAL:")
+		total_cart = self.request.session.get('total_cart', [])
+		
+
+
 	def get_context_data(self, **kwargs):
-		print("NUEVO LIST CART:")
+		print("get context:")
 		# Call the base implementation first to get a context
 		context = super().get_context_data(**kwargs)
 
@@ -40,7 +47,7 @@ class PedidoCreation(generic.edit.CreateView):
 
 
 
-		print("NUEVO LIST CART 2:")
+		print("CART pedido:")
 		print(context['cart_list'])
 		return context
 	
@@ -55,7 +62,11 @@ class PedidoCreation(generic.edit.CreateView):
 
 		if 'clear' in request.POST:
 			request.session.flush()
-		elif 'add' in request.POST:
+		
+
+		elif 'add' in request.POST or 'upde' in request.POST  :
+			print("*ADD")
+			#si se pulso "agregar" desde la lista de productos disponibles
 			uuid_producto = request.POST['uuid']
 			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
 			qty_producto = request.POST['qty']
@@ -69,56 +80,56 @@ class PedidoCreation(generic.edit.CreateView):
 
 			temp_index = 0
 			
-			total_cart = 0
+			#sumar qty si ya existe en el carro
 			for index, prod in enumerate(request.session['cart']):
-				print("PROD Add")
+				print("PROD")
 				print(prod)
-				print("PRECIO")
-				print(prod['precio'])
-				total_cart = total_cart + float(prod['precio'])
-				print("total_cart")
-				print(total_cart)
+
+				
+
+				#si existe el id en el carro
 				if prod['uuid'] == uuid_producto:
 					#prev save object
 					producto_temp = prod
 					#then delete product
 					request.session['cart'].remove(prod)
 					
-					#change qty
-					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
-					productoToAdd["qty"] = temp_qty
-					break
+					#change qty and add like a new brand
+					if 'add' in request.POST:
+						pass
+						temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					else:
+						temp_qty = int(productoToAdd["qty"])
 
-			request.session['total_cart'] = total_cart
-			request.session['cart'].append(productoToAdd)
+
+					productoToAdd["qty"] = temp_qty
+					
+				
+
+			if int(productoToAdd['qty'])>0:
+				request.session['cart'].append(productoToAdd)
 			print(request.session['cart'])
 
-		elif 'update' in request.POST:
-			uuid_producto = request.POST['uuid']
-			qty_producto = request.POST['qty']
-			
+			#recaulcular total
 			total_cart = 0
 			for index, prod in enumerate(request.session['cart']):
-				print("PROD update")
-				print(prod)
-				print("PRECIO")
-				print(prod['precio'])
-				total_cart = total_cart +  float(float(prod['precio']) * int(qty_producto))
-				print("total_cart")
-				print(total_cart)
-				if prod['uuid'] == uuid_producto:
-					prod['qty'] = qty_producto
-
-
+				total_cart = total_cart +  float(float(prod['precio']) * int(prod["qty"]))
+				print("total:")
+				print(total_cart)	
+			#agregar producto al carro seleccion
+			
 			request.session['total_cart'] = total_cart
-			print(request.session['cart'])
+		
 
-
-
-		return super(PedidoCreation, self).post(request, *args, **kwargs)
+		elif 'save' in request.POST :
+			print("SAVE PEDIDO**")
+			return super(PedidoCreation, self).post(request, *args, **kwargs)
+		
+		return super().post(request, *args, **kwargs)
 
 	def form_valid(self, form):
 		print("form_valid")
+		form.instance.total = self.request.session.get('total_cart', 0)
 		pedido = form.save()#commit false doesnt save in the DB, only create in memory
 		print(pedido.uuid)
 		print(str(pedido.total))
@@ -138,13 +149,11 @@ class PedidoCreation(generic.edit.CreateView):
 				cantidad = prod['qty'],
 				precioVenta = producto_temp.precio,
 				subtotal = int(prod['qty'])* producto_temp.precio,
-				status = None,
+				status = 1,
 				pedido_uuid = pedido
 			)
 			pedidoItem_to_save.save()
 					
-
-
 		print ("END FORM VALID")
 		return super(PedidoCreation, self).form_valid(form)
 
@@ -191,14 +200,21 @@ class PedidoList(generic.ListView):
 
 	def get_queryset(self):
 		#leo el parametro que viene desde get(url)
-		filter_val = self.request.GET.get('categoria', '')
+		filter_val = self.request.GET.get('estado', '')
 		if filter_val!='':
 			#si el parametro existe, aplico el filtro.
-			return Pedido.objects.filter(numero=filter_val)
+			return Pedido.objects.filter(estadoPedido=filter_val)
 		else:
 			#si no, devuelvo todos los productos
 			return Pedido.objects.all()
-    	
+    
+
+
+
+
+
+
+"""Menu Oferta """    	
 class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
@@ -216,9 +232,10 @@ class MenuOfertList(MenuList):
 
 		if 'clear' in request.POST:
 			request.session.flush()
-		elif 'add' in request.POST:
-			
-
+		
+		elif 'add' in request.POST or 'upde' in request.POST  :
+			print("*ADD")
+			#si se pulso "agregar" desde la lista de productos disponibles
 			uuid_producto = request.POST['uuid']
 			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
 			qty_producto = request.POST['qty']
@@ -232,26 +249,48 @@ class MenuOfertList(MenuList):
 
 			temp_index = 0
 			
-			total_cart = 0
+			#sumar qty si ya existe en el carro
 			for index, prod in enumerate(request.session['cart']):
 				print("PROD")
 				print(prod)
-				print("PROD")
-				total_cart = total_cart + float(prod['precio'])
+
+				
+
+				#si existe el id en el carro
 				if prod['uuid'] == uuid_producto:
 					#prev save object
 					producto_temp = prod
 					#then delete product
 					request.session['cart'].remove(prod)
 					
-					#change qty
-					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
-					productoToAdd["qty"] = temp_qty
-					break
+					#change qty and add like a new brand
+					if 'add' in request.POST:
+						pass
+						temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					else:
+						temp_qty = int(productoToAdd["qty"])
 
-			request.session['total_cart'] = total_cart
-			request.session['cart'].append(productoToAdd)
+
+					productoToAdd["qty"] = temp_qty
+					
+				
+
+			if int(productoToAdd['qty'])>0:
+				request.session['cart'].append(productoToAdd)
 			print(request.session['cart'])
+
+			#recaulcular total
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				total_cart = total_cart +  float(float(prod['precio']) * int(prod["qty"]))
+				print("total:")
+				print(total_cart)	
+			#agregar producto al carro seleccion
+			
+			request.session['total_cart'] = total_cart
+			
+
+		
 		return super().get(request, *args, **kwargs)
 
 

@@ -7,13 +7,13 @@ class PedidoForm(forms.ModelForm):
 	class Meta:
 		model = Pedido
 		fields = [
-		'total',
-		'status',
 		'estadoPedido',
 		]
-    #nombreProducto =  forms.CharField()
-    #descripcion = forms.CharField(widget=forms.Textarea)
-
+    	#nombreProducto =  forms.CharField()
+    	#descripcion = forms.CharField(widget=forms.Textarea)
+		widgets = {
+        	'total': forms.TextInput(attrs={ 'type':"hidden"}),
+        }
 
 
 class PedidoItemForm(forms.ModelForm):
