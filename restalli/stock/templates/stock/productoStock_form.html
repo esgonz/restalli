@@ -1,94 +1,157 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% load widget_tweaks %}
-
 {% block content %}
-<div class="col-12">
-  <form method="post">
-    {% csrf_token %}
 
-    <div class="row">
-      <div class="form-group col-8">
-        <label for="{{ form.nombre.id_for_label }}">{{form.nombre.label}}:</label>
-            {% render_field form.nombre class="form-control" %}
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:list' %}">Stock</a></li>
+    <li class="breadcrumb-item active">Nuevo</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+
+        
+
+
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Stock / </a>
+        <h3>Registrar Producto</h3>
+      </div>
+      <div class="card-body">
+
+        {% if form.errors%}
+        <div class="row">
+          <div class="alert alert-warning" role="alert">
+
+
+            <p>{{form.errors}} </p>
+
+            <hr>
+
+          </div>
+        </div>
+        {% endif %}
+        
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="form-group col-8">
+              <label for="{{ form.nombre.id_for_label }}">{{form.nombre.label}}:</label>
+              {% render_field form.nombre class="form-control" %}
 
               <span class="help-block">{{ form.nombre.errors }}</span>
-         
 
+
+            </div>
+
+            <div class="form-group col-4">
+
+              <label for="{{ form.categoria.id_for_label }}">{{form.categoria.label}}:</label>
+              {% render_field form.categoria class="form-control" %}
+
+              <span class="help-block">{{ form.categoria.errors }}</span>
+
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-4">
+
+
+              <label for="{{ form.codigo.id_for_label }}">{{form.codigo.label}}:</label>
+
+              {% render_field form.codigo  class="form-control" %}
+              <span class="help-block">{{ form.codigo.errors }}</span>
+            </div>
+
+
+            <div class="form-group col-4">
+              <label for="{{ form.porcion.id_for_label }}">{{form.porcion.label}}:</label>
+              {% render_field form.porcion class="form-control" %}
+
+              <span class="help-block">{{ form.porcion.errors }}</span>
+            </div>
+
+            <div class="form-group col-4">
+              <label for="{{ form.unidad_medida.id_for_label }}">{{form.unidad_medida.label}}:</label>
+              {% render_field form.unidad_medida class="form-control" %}
+
+              <span class="help-block">{{ form.unidad_medida.errors }}</span>
+            </div>
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="form-group col-2">
+              <label for={{ form.no_perecible.id_for_label }}">{{form.no_perecible.label}}:</label>
+              {% render_field form.no_perecible class="form-control"  %}
+
+              <span class="help-block">{{ form.no_perecible.errors }}</span>
+            </div>
+
+            <div class="form-group col-10xw">
+
+            </div>
+
+          </div>
+
+
+
+
+
+        </form>
       </div>
 
-      <div class="form-group col-4">
 
-        <label for="{{ form.categoria.id_for_label }}">{{form.categoria.label}}:</label>
-            {% render_field form.categoria class="form-control" %}
+      <div class="card-footer small text-muted">
 
-            <span class="help-block">{{ form.categoria.errors }}</span>
-
-
-        
+        <input type="button" value="Cancelar" class="btn btn-default"/>
+        <input type="submit" value="Crear" class="btn btn-primary" />
       </div>
+    </div><!--end card -->
+  </div><!--end col 10-->
+
+
+
+
+
+</div><!--end row -->
+</div><!--end container -->
+
+
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
     </div>
-
-    <div class="row">
-      <div class="form-group col-4">
-
-
-        <label for="{{ form.codigo.id_for_label }}">{{form.codigo.label}}:</label>
-            
-        {% render_field form.codigo  class="form-control" %}
-            <span class="help-block">{{ form.codigo.errors }}</span>
-      </div>
-    
-      
-      <div class="form-group col-4">
-        <label for="{{ form.porcion.id_for_label }}">{{form.porcion.label}}:</label>
-            {% render_field form.porcion class="form-control" %}
-
-            <span class="help-block">{{ form.porcion.errors }}</span>
-      </div>
-
-      <div class="form-group col-4">
-        <label for="{{ form.unidad_medida.id_for_label }}">{{form.unidad_medida.label}}:</label>
-            {% render_field form.unidad_medida class="form-control" %}
-
-            <span class="help-block">{{ form.unidad_medida.errors }}</span>
-      </div>
-    </div>
+  </div>
+</footer>
 
 
 
-    
-    <div class="row">
-      <div class="form-group col-2">
-        <label for={{ form.no_perecible.id_for_label }}">{{form.no_perecible.label}}:</label>
-            {% render_field form.no_perecible class="form-control"  %}
-
-            <span class="help-block">{{ form.no_perecible.errors }}</span>
-      </div>
-      
-      <div class="form-group col-10xw">
-        
-      </div>
-
-      <div class="form-group col-6">
-        <label for="{{ form.status.id_for_label }}">status:</label>
-            {% render_field form.status class="form-control" %}
-
-            <span class="help-block">{{ form.status.errors }}</span>
-      </div>
-    </div>
-
-
-
-
-                <input type="submit" value="Crear" class="btn btn-default" />
-                <input type="button" value="Cancelar" class="btn btn-default"/>
-            </form>
-        </div>
-    
-
-
-  
 
 {% endblock %}

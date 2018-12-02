@@ -115,8 +115,11 @@ class stocklogCreate(generic.CreateView):
         accion =self.kwargs['accion']
         if accion == 'descontar':
             form.instance.stock_final = (form.instance.stock_inicial)-(form.instance.stock_descontado)
+            form.instance.precio_unitario = 0
+            form.instance.precio_total = 0
         else:
             form.instance.stock_final = (form.instance.stock_inicial)+(form.instance.stock_descontado)
+        
         
         productoStock_to_update = ProductoStock.objects.get(uuid= self.kwargs['pk'])
         

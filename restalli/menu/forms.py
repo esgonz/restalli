@@ -9,10 +9,10 @@ class ProductosMenuForm(forms.ModelForm):
 		'descripcion',
 		'imagen',
 		'precio',
-		'status',
 		'categoria_uuid'] # list of fields you want from model
 		widgets = {
         	'descripcion': forms.Textarea(attrs={'cols': 5, 'rows': 4}),
+        	'descripcion': forms.TextInput(attrs={'min': 0, 'type':"number"}),
         }
     #nombreProducto =  forms.CharField()
     #descripcion = forms.CharField(widget=forms.Textarea)

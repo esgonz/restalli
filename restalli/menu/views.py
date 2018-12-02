@@ -42,7 +42,7 @@ class MenuDelete(generic.DeleteView):
 
 class MenuList(generic.ListView):
 	model = ProductosMenu
-	paginate_by = 10
+	paginate_by = 50
 	context_object_name = 'productosMenu_list'
 
 	def get_context_data(self, **kwargs):
@@ -132,7 +132,7 @@ class ProductosMenuStockList(generic.ListView):
 	model = ProductoStock
 	template_name ='menu/productoStock_selection_list.html'
 	context_object_name = 'productoStock_list'
-	paginate_by = 5
+	paginate_by = 50
 
 
 	def post(self, request, *args, **kwargs):
@@ -151,22 +151,42 @@ class ProductosMenuStockList(generic.ListView):
 		# Do stuff with cart
 		request.session['seleccion'] = seleccion
 
-
+		
 		if 'clear' in request.POST:
 			request.session.flush()
 		elif 'add' in request.POST:
 			
-			nombre_producto = request.POST['nombre']
-			uuid_producto = request.POST['uuid']
-			qty_porciones = request.POST['porciones']
 
-			productoStock_to_add = {
-					"nombre": str(nombre_producto),
-					"uuid": str(uuid_producto),
-					"porciones": str(qty_porciones),
+			uuid_producto = request.POST['uuid']
+			productoObject = ProductoStock.objects.get(uuid=uuid_producto)
+			qty_producto = request.POST['qty']
+
+			productoToAdd = {
+					"uuid": str(productoObject.uuid),
+					"nombre": str(productoObject.nombre),
+					"qty":str(qty_producto)
 				} 
-			request.session['seleccion'].append(productoStock_to_add)
+
+			temp_index = 0
+			
+		
+			for index, prod in enumerate(request.session['seleccion']):
+				print("PROD")
+				print(prod)
+				if prod['uuid'] == uuid_producto:
+					#prev save object
+					producto_temp = prod
+					#then delete product
+					request.session['seleccion'].remove(prod)
+					
+					#change qty
+					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					productoToAdd["qty"] = temp_qty
+					break
+
+			request.session['seleccion'].append(productoToAdd)
 			print(request.session['seleccion'])
+		
 		elif 'save' in request.POST:
 			print("SAVE***")
 			for index, prod in enumerate(request.session['seleccion']):
@@ -177,8 +197,8 @@ class ProductosMenuStockList(generic.ListView):
 				productoMenu_to_save = ProductosMenuStock.objects.create(
 					productoStock_uuid = productoStock_aux,
 					productosMenu_uuid = productoMenu,
-					porciones = int(prod['porciones']),
-					)
+					porciones = int(prod['qty']),
+				)
 				#print(productoMenu_to_save)
 				#productoMenu_to_save.save()
 

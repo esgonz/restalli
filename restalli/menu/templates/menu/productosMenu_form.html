@@ -6,33 +6,43 @@
 <div class="card mb-3">
 	<form method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		<div class="row">
-	      <div class="alert alert-warning" role="alert">
-	        <p>{{ form.errors}}</p>
-	      </div>     
-	    </div>
+
 		<div class="card-header">
 			<h3>Crear Producto en el menu</h3>
 		</div>
 		<div class="card-body mb-3">
+
+			{% if form.errors%}
+			<div class="row">
+				<div class="alert alert-warning" role="alert">
+
+
+					<p>{{form.errors}} </p>
+
+					<hr>
+
+				</div>
+			</div>
+			{% endif %}
+
 			<div class="row">
 				<div class="form-group col-8">
 					<label for="{{ form.nombre.id_for_label }}"> Nombre nombre:</label>
-			        {% render_field form.nombre class="form-control" %}
+					{% render_field form.nombre class="form-control" %}
 
-			          <span class="help-block">{{ form.nombre.errors }}</span>
-			     
+					<span class="help-block">{{ form.nombre.errors }}</span>
+
 
 				</div>
 
 				<div class="form-group col-4">
 
 					<label for="{{ form.categoria_uuid.id_for_label }}">categoria_uuid:</label>
-			        {% render_field form.categoria_uuid class="form-control" %}
+					{% render_field form.categoria_uuid class="form-control" %}
 
-				    <span class="help-block">
-				        {{ form.categoria_uuid.errors }}
-				    </span>
+					<span class="help-block">
+						{{ form.categoria_uuid.errors }}
+					</span>
 				</div>
 			</div>
 
@@ -41,62 +51,53 @@
 
 
 					<label for="{{ form.descripcion.id_for_label }}">Descripción:</label>
-			        
+
 					{% render_field form.descripcion type='textarea' class="form-control" %}
-			        <span class="help-block">{{ form.descripcion.errors }}</span>
+					<span class="help-block">{{ form.descripcion.errors }}</span>
 				</div>
 			</div>
 
 			<div class="row">
-				
-				
-				
+
+
+
 				<div class="form-group col-6">
 					<span>Imagen del Producto:</span>
 					<div class="custom-file">
-					  <input type="file" class="custom-file-input" name="imagen" id="imagen">
-					  <label class="custom-file-label" for="customFile">Choose file</label>
+						<input type="file" class="custom-file-input" name="imagen" id="imagen">
+						<label class="custom-file-label" for="customFile">Choose file</label>
 					</div>
 				</div>
 
 				<div class="form-group col-6">
 					<div class="image-responsive">
-						
+
 					</div>
 				</div>
-				
+
 			</div>
 
 
 
 			<div class="row">
-				
+
 				<div class="form-group col-6">
 					<label for="{{ form.precio.id_for_label }}">Precio:</label>
-			        {% render_field form.precio class="form-control" %}
+					{% render_field form.precio class="form-control" %}
 
-			        <span class="help-block">{{ form.precio.errors }}</span>
+					<span class="help-block">{{ form.precio.errors }}</span>
 				</div>
 
-				<div class="form-group col-6">
-					<label for="{{ form.status.id_for_label }}">status:</label>
-			        {% render_field form.status class="form-control" %}
 
-			        <span class="help-block">{{ form.status.errors }}</span>
-				</div>
 			</div>
 
-			<div class="row">
-				
-			</div>
 
-    
 		</div>
 		<div class="card-footer mb-3">
 			<input type="button" value="Cancelar" class="btn btn-default"/>
-	        <input type="submit" value="Guardar" class="btn btn-primary"/>
-    	</div>
-    </form>
+			<input type="submit" value="Guardar" class="btn btn-primary"/>
+		</div>
+	</form>
 </div>
 {% endblock %}
 

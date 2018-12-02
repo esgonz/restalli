@@ -60,4 +60,48 @@ class StocklogForm(forms.ModelForm):
             'precio_unitario': forms.TextInput(attrs={ 'type':'number', 'step':'any',  'class': 'form-control'}),
             'stock_descontado' : forms.TextInput(attrs={  'class': 'form-control'}),
             
-        }      
+        }
+
+        
+        help_texts = {
+            'producto_uuid': 'Producto', 
+            'stock_inicial': 'Stock existente', 
+            'stock_descontado': 'Cantidad a agregar/descontar',
+            'stock_final': 'Stock final luego de aplicar agregar/descontar stock',
+            'fecha_elaboracion': 'Fecha Elaboración',
+            'fecha_expiracion': 'Fecha Expiración',
+            'precio_unitario': 'Precio unitario compra',
+            'precio_total': 'Costo total (precio unitario x cantidad)',
+            'observaciones': 'Mensaje o registro'
+        }
+        error_messages = {
+            'producto_uuid': {
+                'required': "Debe ingresar precio unitario",
+            },
+            'stock_inicial': {
+                'required': "Debe existir un stock previo",
+            },
+            'stock_descontado': {
+                'required': "Debe ingresar una cantidad",
+            },
+            'stock_final': {
+                'required': "Debe existir un stock final",
+            },
+            'fecha_elaboracion': {
+                'required': "Debe ingresar fecha de elaboracion",
+            },
+            'fecha_expiracion': {
+                'required': "Debe ingresar fecha de expiracion",
+            },
+            'precio_unitario': {
+                'required': "Debe ingresar precio unitario",
+            },
+            'precio_total': {
+                'required': "Debe ingresar precio total",
+            },
+            'observaciones': {
+                'required': "Debe ingresar observaciones",
+            }
+        }
+
+
