@@ -18,10 +18,8 @@
     <div class="col-12">
       <div class="card" style="">
         <div class="card-header">
-          Lista mesas 
-          <a href="{%url 'mesas:create' %}" class="btn btn-primary">
-            Crear Mesa
-          </a>
+          Lista Reservas 
+          
         </div>
 
 
@@ -32,51 +30,64 @@
                 <tr>
 
                   <th>Identificador Mesa</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Nº Personas</th>
+                  <th>Numero contacto</th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
                   <th>Identificador Mesa</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Nº Personas</th>
+                  <th>Numero contacto</th>
                 </tr>
               </tfoot>
               <tbody>
-                {% for mesa in mesas_list %}
+                {% for reserva in reserva_list %}
                 <tr>
                   <td>
-                    <a class="" href="{% url 'mesas:detail' pk=mesa.uuid %}">{{ mesa.identificador }} </a>
+                    <a class="" href="{% url 'mesas:detail' pk=reserva.uuid %}">{{ reserva.mesa_uuid.uuuid }} </a>
                   </td>
 
                   <td>
                         <div class="row">
 
                           <div class="col-12">
-                            
+                            <p> {{reserva.cliente_nombre}}</p>
 
-                            {% if mesa.estado == "FRE" %}
-                            <span class="badge badge-pill badge-success">Libre</span>
-                            {% elif mesa.estado == "OCP" %}
-                            <span class="badge badge-pill badge-warning">Ocupada</span>
-                            {% elif mesa.estado == "RSV" %}
-                            <span class="badge badge-pill badge-info">Reservada</span>
-                            {% endif %}
+                            
                           </div>
                         </div>
-                      </td>
+                  </td>
+
+                  <td>
+                        <div class="row">
+
+                          <div class="col-12">
+                            <p> {{reserva.num_personas}}</p>
+
+                            
+                          </div>
+                        </div>
+                  </td>
+                  
+                  <td>
+                        <div class="row">
+
+                          <div class="col-12">
+                            <p> {{reserva.cliente_numero1}}</p>
+
+                            
+                          </div>
+                        </div>
+                  </td>
                   <td>
                     <div class="row">
                       <div class="col-12">
-                        <a class="btn btn-sm btn-info" href="{% url 'mesas:update' pk=mesa.uuid %}"> Editar 
-                        </a>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-12">
-                        <a class="btn btn-sm btn-secondary" href="{% url 'mesas:resCreate' %}?mesa={{mesa.uuid}}"> Reservar 
+                        <a class="btn btn-sm btn-info" href="{% url 'mesas:resUpdate' pk=reserva.uuid %}"> Editar 
                         </a>
                       </div>
                     </div>

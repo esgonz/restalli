@@ -172,11 +172,29 @@
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<h6 class="dropdown-header">Ventas:</h6>
 					<a class="dropdown-item" href="{% url 'venta:list' %}">Ver registros</a>
-					<a class="dropdown-item" href="{% url "pedidos:list"%}?estado=INIT">Registrar venta</a>
+					<a class="dropdown-item" href="{% url 'pedidos:list' %}?estado=INIT">Registrar venta</a>
 					<div class="dropdown-divider"></div>					
 				</div>
 			</li>
 			<!--/ Ventas -->
+
+
+			<!--Mesas -->
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-fw fa-folder"></i>
+					<span>Mesas</span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
+					<h6 class="dropdown-header">Mesas:</h6>
+					<a class="dropdown-item" href="{% url 'mesas:list' %}">Ver Mesas</a>
+					<a class="dropdown-item" href="{% url 'mesas:create'%}">Registrar mesa</a>
+					<div class="dropdown-divider"></div>
+					<h6 class="dropdown-header">Reservas:</h6>
+					<a class="dropdown-item" href="{% url 'mesas:resList' %}" >Ver Reservas</a>					
+				</div>
+			</li>
+			<!--/ Mesas -->
 
 
 		

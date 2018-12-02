@@ -32,8 +32,7 @@ class Reserva(models.Model):
 
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    identificador = models.CharField(max_length=20)
-    fecha =  models.DateField(blank=True, null=True)
+    fecha =  models.DateTimeField(blank=True, null=True)
     cliente_nombre = models.CharField(max_length=200, blank=False, null=False)
     cliente_numero1 = models.CharField(max_length=30, blank=False, null=False)
     cliente_numero2 = models.CharField(max_length=30, blank=True, null=True)
