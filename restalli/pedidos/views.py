@@ -189,7 +189,7 @@ class PedidoList(generic.ListView):
 	model = Pedido
 
 	context_object_name = 'pedidos_list'
-	paginate_by = 10
+	paginate_by = 50
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context

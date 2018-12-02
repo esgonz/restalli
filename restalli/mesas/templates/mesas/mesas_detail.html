@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Menu</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+
+  <!-- row nuevo producto card-->
+  <div class="row">
+    <div class="col-12">
+      <!--card-->
+      <div class="card mb-3" style="">
+        
+        <!--card header-->
+        <div class="card-header">
+          <h3>Mesa</h3>
+        </div>
+        <!--/card header-->
+
+        <!--card body-->
+        <div class="card-body">
+          <!--descripcion -->
+          <dl class="row">
+            <dt class="col-sm-3">Identificador:</dt>
+            <dd class="col-sm-9"><p>{{object.identificador}}</p></dd>
+
+            <dt class="col-sm-3">Estado:</dt>
+
+            <dd class="col-sm-9">
+                            {% if object.estado == "FRE" %}
+                            <span class="badge badge-pill badge-success">Libre</span>
+                            {% elif object.estado == "OCP" %}
+                            <span class="badge badge-pill badge-warning">Ocupada</span>
+                            {% elif object.estado == "RSV" %}
+                            <span class="badge badge-pill badge-info">Reservada</span>
+                            {% endif %}
+            </dd>
+
+            
+          </dl>
+          <!-- /descripcion -->
+        </div>
+
+        <div class="card-footer">
+          <a href="{% url 'mesas:list' %}" class="btn btn-secondary btn-sm right">Volver </a>
+        </div>
+
+      </div>
+      <!--/ card-->
+
+    </div><!-- /col-->
+  </div><!-- /row -->
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+
+
