@@ -302,3 +302,5 @@ class ProductosMenuStockList(generic.ListView):
 
 		return super().get(request, *args, **kwargs)
 
+
+

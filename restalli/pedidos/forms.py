@@ -16,6 +16,14 @@ class PedidoForm(forms.ModelForm):
         	'total': forms.TextInput(attrs={ 'type':"hidden"}),
         }
 
+		error_messages = {
+            'estadoPedido': {
+                'required': "Debe seleccionar un estado para el pedido",
+            },
+            'mesa': {
+                'required': "Debe seleccionar una mesa para el pedido",
+            }
+        }
 
 class PedidoItemForm(forms.ModelForm):
 	class Meta:

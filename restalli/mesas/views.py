@@ -10,6 +10,13 @@ class MesaList(generic.ListView):
 	context_object_name = 'mesas_list'
 	paginate_by = 100
 
+class MesaListMovil(MesaList):
+	model = Mesas
+	context_object_name = 'mesas_list'
+	template_name = "mesas/mesas_list_movil.html"
+	paginate_by = 100
+
+
 class MesaCreation(generic.edit.CreateView):
 	model = Mesas
 	form_class = MesasForm

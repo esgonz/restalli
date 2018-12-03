@@ -29,6 +29,9 @@
             </div>
 
             <div class="card-body">
+              
+
+
               <dl class="row">
                 <dt class="col-sm-3">Numero:</dt>
                 <dd class="col-sm-9"><h2> PEDIDO Nº{{object.numero}}</h2></dd>
@@ -38,7 +41,12 @@
 
                 <dt class="col-sm-3">Mesa:</dt>
                 <dd class="col-sm-9"><p>{{object.mesa.identificador}}</p></dd>
-            </dl>
+              </dl>
+              {% if pedido.estadoPedido == "INIT" %}
+                <a class="btn btn-block btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+                {% elif pedido.estadoPedido == "FNLZ" %}
+                <span class="badge badge-pill badge-success">PAGADO</span>
+              {% endif %}
 
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -71,6 +79,7 @@
                 
                 </table>
               </div><!-- / table resp-->
+
             </div><!-- / card body-->
 
             <div class="card-footer mb-3">

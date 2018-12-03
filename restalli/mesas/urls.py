@@ -4,6 +4,7 @@ from . import views
 app_name = 'mesas'
 urlpatterns = [
     path('', views.MesaList.as_view(), name='list'),
+    path('movil/', views.MesaListMovil.as_view(), name='mlist'),
     path('crear/', views.MesaCreation.as_view(), name='create'),
     path('editar/<pk>', views.MesaUpdate.as_view(), name='update'),
     path('ver/<pk>', views.MesaDetailView.as_view(), name='detail'),

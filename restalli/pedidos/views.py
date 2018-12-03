@@ -124,9 +124,9 @@ class PedidoCreation(generic.edit.CreateView):
 
 		elif 'save' in request.POST :
 			print("SAVE PEDIDO**")
-			return super(PedidoCreation, self).post(request, *args, **kwargs)
+			
 		
-		return super().post(request, *args, **kwargs)
+		return super(PedidoCreation, self).post(request, *args, **kwargs)
 
 	def form_valid(self, form):
 		print("form_valid")
@@ -241,7 +241,7 @@ class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
 	template_name = 'pedidos/menuOfertas_list.html'
-	paginate_by = 10
+	paginate_by = 100
 
 	
 
@@ -352,4 +352,8 @@ class MenuOfertList(MenuList):
 			return ProductosMenu.objects.all()
 
 
+
+"""Menu Oferta Movil """
+class MenuOfertaListMovil(MenuOfertList):
+	template_name = 'pedidos/menuOfertas_list_movil.html'
     	

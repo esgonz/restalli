@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
 # Create your views here.aa
 class stockListView(generic.ListView):
     model = ProductoStock
-    paginate_by = 3
+    paginate_by = 100
     context_object_name = 'productoStock_list'
 
 
