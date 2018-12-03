@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Pedidos</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+  
+<div class="row">
+    <div class="col-12">
+          <!-- colla2-->
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+         Ver Pedido Actual
+        </h5>
+      </div>
+      <div id="form">
+      
+        <div class="card-body">
+          <!-- seleccion -->
+
+
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+              <thead>
+                <th>Producto</th>
+              </thead>
+
+
+              <tbody>
+                {% for selectProduct in cart_list %}   
+                <tr>
+                  <td>
+
+                    <form method="post">
+                      {% csrf_token %}
+
+                      <div class="row">
+                        <div class="col-12">
+                        <h4>{{selectProduct.nombre}}</h4>
+                        </div>
+                      </div>
+                      <div class="row">
+                         <div class="col-12">
+                          <h5><span class="badge badge-danger">${{selectProduct.precio}}</span></h5>
+                         </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-4">
+                          
+                          <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+                          
+                          <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+                        </div>
+                         <div class="col-6">
+                          <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+                          <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
+                        </div>
+                      </div>
+
+                    </form>
+                    
+                  </td>
+                </tr>
+
+                {% endfor %}
+
+              </tbody>
+
+            </table>
+          </div><!-- / table resp-->
+
+
+
+
+
+          <div class="row" >
+            
+            <div class="col-12">
+              <p align="right"> TOTAL:</p>
+            </div>
+            <div class="col-12">
+              <p align="right">  <b>{{total_cart}}</b></p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-footer mb-3">
+              
+
+              <div class="row">
+
+            
+                
+
+              </div>
+                
+
+                <form method="post">
+                      {% csrf_token %}
+                <div class="row mb-3">
+    
+                    <div class="form-group col-12">
+                       
+                        {% render_field form.estadoPedido class="form-control" %}
+
+                        {% for error in form.estadoPedido.errors %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          {{error}}
+                        </small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group col-12">
+                       
+                        {% render_field form.mesa class="form-control" %}
+                        {% for error in form.mesa.errors %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          {{error}}
+                        </small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <h3>TOTAL: <span class="badge badge-danger">${{total_cart}}</span></h3>
+                
+                    </div>
+
+                    
+
+
+                </div>
+
+
+
+                  <div class="row mb-3">
+                    <div class="col-12">
+                        
+                          
+
+                          <button type="submit" name="save" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                  </div>
+               </form>
+            </div><!-- / card footer -->
+
+
+      </div>
+    </div>
+
+
+    </div>
+  </div><!-- / row -->
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+        "paging" : false,
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+
+
+
+
+

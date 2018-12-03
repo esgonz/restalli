@@ -66,8 +66,11 @@
                     {% for menu in productosMenu_list %}
                     <tr>
                       <td>
-                        <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
-
+                        <div class="row">
+                          <div class="col-12">
+                            <center><img src="{{menu.imagen.url}}" alt="Platillo" width="85" height="80"></center>
+                          </div>
+                        </div>
 
                         <div class="row">
                           <div class="col-12">
@@ -107,7 +110,7 @@
                           </div>
                           <div class="row">
                             <div class="col-12">
-                              <input type="submit" value="Add" class="btn-sm btn-primary">
+                              <input type="submit" value="Agregar" class="btn-sm btn-primary">
                             </div>
                           </div>
                         </form>
@@ -158,17 +161,29 @@
                     <form method="post">
                       {% csrf_token %}
 
+                      <div class="row">
+                        <div class="col-12">
+                        <h4>{{selectProduct.nombre}}</h4>
+                        </div>
+                      </div>
+                      <div class="row">
+                         <div class="col-12">
+                          <h5><span class="badge badge-danger">${{selectProduct.precio}}</span></h5>
+                         </div>
+                      </div>
 
-
-                      <h5>{{selectProduct.nombre}}</h5>
-                    <b>${{selectProduct.precio}}</b>
-                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
-
-                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
-
-                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
-                      <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
-                      
+                      <div class="row">
+                        <div class="col-4">
+                          
+                          <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+                          
+                          <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+                        </div>
+                         <div class="col-6">
+                          <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+                          <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
+                        </div>
+                      </div>
 
                     </form>
                     
@@ -187,14 +202,7 @@
 
 
           <div class="row" >
-
-            <div class="col-12">
-              <form method="post">
-                {% csrf_token %}
-                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
-              </form>
-            </div>
-
+            
             <div class="col-12">
               <p align="right"> TOTAL:</p>
             </div>
@@ -203,12 +211,23 @@
             </div>
 
 
+            
+
+            
           </div>
-
+          
           <div class="row">
-            <div class="col-12">
 
-              <a class="btn btn-success btn-block" href="{% url 'pedidos:create' %}">Continuar</a>
+            <div class="col-6">
+              <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
+              </form>
+            </div>
+
+            <div class="col-6">
+
+              <a class="btn btn-success btn-block" href="{% url 'pedidos:mcreate' %}">Continuar</a>
             </div>
           </div>
 
@@ -219,23 +238,7 @@
         </div>
       </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </div>
 
 
     <p class="small text-center text-muted my-5">

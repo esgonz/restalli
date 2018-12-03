@@ -162,6 +162,13 @@ class PedidoCreation(generic.edit.CreateView):
 		print ("END FORM VALID")
 		return super(PedidoCreation, self).form_valid(form)
 
+class PedidoCreationMovil(PedidoCreation):
+	template_name = "pedidos/pedido_form_movil.html"
+	success_url = reverse_lazy('pedidos:mlist')
+	model = Pedido
+	form_class = PedidoForm
+	
+
 
 
 class PedidoDetail(generic.DetailView):
@@ -230,7 +237,8 @@ class PedidoList(generic.ListView):
 			#si no, devuelvo todos los productos
 			return Pedido.objects.all()
     
-
+class PedidoListMovil(PedidoList):
+	template_name = "pedidos/pedido_list_movil.html"
 
 
 
