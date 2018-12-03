@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from menu.models import ProductosMenu, CategoriaMenu
 from comun.models import Estados, Restaurantes, Sucursal
+from mesas.models import Mesas
 # Create your models here.
 
 
@@ -45,6 +46,7 @@ class Pedido(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     numero = models.IntegerField(('Code'), default=ids, unique=True, editable=False)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.SET_NULL, null=True)
+    mesa =  models.ForeignKey(Mesas, on_delete=models.SET_NULL, null=True)
     total = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

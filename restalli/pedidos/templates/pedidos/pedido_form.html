@@ -90,15 +90,23 @@
                 <form method="post">
                       {% csrf_token %}
                 <div class="row">
-
+    
                     <div class="form-group col-4">
                        
                         {% render_field form.estadoPedido class="form-control" %}
 
                         <span class="help-block">{{ form.estadoPedido.errors }}</span>
                     </div>
-                    <div class="col-8">
-                        <h3>TOTAL: <span class="badge badge-secondary">${{total_cart}}</span></h3>
+
+                    <div class="form-group col-4">
+                       
+                        {% render_field form.mesa class="form-control" %}
+
+                        <span class="help-block">{{ form.mesa.errors }}</span>
+                    </div>
+
+                    <div class="col-4">
+                        <h3>TOTAL: <span class="badge badge-danger">${{total_cart}}</span></h3>
                 
                     </div>
 

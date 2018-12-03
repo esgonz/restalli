@@ -8,6 +8,7 @@ class PedidoForm(forms.ModelForm):
 		model = Pedido
 		fields = [
 		'estadoPedido',
+		'mesa'
 		]
     	#nombreProducto =  forms.CharField()
     	#descripcion = forms.CharField(widget=forms.Textarea)

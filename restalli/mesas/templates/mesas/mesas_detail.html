@@ -49,10 +49,20 @@
                             <span class="badge badge-pill badge-info">Reservada</span>
                             {% endif %}
             </dd>
+            
+          
+            
+            {% for pedido in pedidos %}
+              <dt class="col-sm-3">Pedido:</dt>
+              <dd class="col-sm-9"><a href="{% url 'pedidos:detail' pk=pedido.uuid %}">Pedido Nº {{pedido}}</a>  - Total ${{pedido.total}}</dd>
+            {% endfor %}
+           
 
             
           </dl>
           <!-- /descripcion -->
+
+
         </div>
 
         <div class="card-footer">

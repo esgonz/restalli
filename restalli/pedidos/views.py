@@ -10,6 +10,7 @@ from .forms import PedidoForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from menu.forms import ProductosMenuForm
 from menu.views import MenuList
+from mesas.models import Mesas
 
 #from .forms import ProductosMenuForm
 # Create your views here.
@@ -153,7 +154,11 @@ class PedidoCreation(generic.edit.CreateView):
 				pedido_uuid = pedido
 			)
 			pedidoItem_to_save.save()
-					
+		
+
+		#mesa_temp = Mesa.objects.get(uuid = form.instance.mesa.uuid)
+		form.instance.mesa.estado = "OCP"
+		form.instance.mesa.save()
 		print ("END FORM VALID")
 		return super(PedidoCreation, self).form_valid(form)
 
@@ -173,8 +178,25 @@ class PedidoDetail(generic.DetailView):
 		'estadoPedido'
 	]
 
-	#template_name = 'menu/editar.html'
-	#
+	def get_context_data(self, **kwargs):
+		print("get context:")
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+
+		pedidosItems = PedidoItem.objects.filter(pedido_uuid= self.kwargs['pk']) 
+		
+		context['items_list'] = []
+		for pitem in pedidosItems:
+
+			pitem_to_show = {
+				'uuid' : pitem.productoMenu.uuid, 
+				'nombre':pitem.productoMenu.nombre,
+				'qty': pitem.cantidad,
+				'precio': pitem.precioVenta, 
+	        }              	
+			context['items_list'].append(pitem_to_show)
+		#context['items_list']
+		return context
 
 class PedidoUpdate(generic.UpdateView):
 	model = Pedido

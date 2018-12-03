@@ -4,6 +4,7 @@ from django.views import generic
 from django.urls import reverse, reverse_lazy
 from .models import Mesas, Reserva
 from .forms import MesasForm, ReservasForm
+from pedidos.models import Pedido
 class MesaList(generic.ListView):
 	model = Mesas
 	context_object_name = 'mesas_list'
@@ -23,6 +24,16 @@ class MesaUpdate(generic.UpdateView):
 class MesaDetailView(generic.DetailView):
     model = Mesas
 
+    def get_context_data(self, **kwargs):
+    	context = super().get_context_data(**kwargs)
+    	context['reservas'] = Reserva.objects.filter(mesa_uuid= self.kwargs['pk'])
+    	context['pedidos'] = Pedido.objects.filter(mesa= self.kwargs['pk'])
+    	
+    	print("PEDIDO")
+    	context['pedidos']
+    	print("Reservas")
+    	context['reservas']
+    	return context
 
 
 
@@ -71,8 +82,12 @@ class ReservaDetailView(generic.DetailView):
     model = Mesas
     form_class = ReservasForm
     success_url = reverse_lazy('mesas:resList')
+    
     def get_context_data(self, **kwargs):
     	context = super().get_context_data(**kwargs)
     	context['mesa'] = Mesas.objects.get(pk= self.request.GET['mesa'])
+    	context['pedido'] = Pedido.objects.filter(mesa= self.request.GET['mesa'])
+    	print("PEDIDO")
+    	context['pedido']
     	return context
 
