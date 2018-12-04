@@ -26,6 +26,12 @@ https://pypi.org/project/django-widget-tweaks/
 #generic_views Español
 https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Generic_views
 
+
+
+#absolute url
+https://godjango.com/67-understanding-get_absolute_url/
+
+
 #media
 https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 

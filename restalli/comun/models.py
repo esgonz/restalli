@@ -45,3 +45,19 @@ class Sucursal(models.Model):
 		return "%s" % (self.nombre)
 
 
+class Personas(models.Model):
+	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+	nombres = models.CharField(max_length=50)
+	apellidoPaterno = models.CharField(max_length=50)
+	apellidoMaterno = models.CharField(max_length=50)
+	sexo = models.CharField(max_length=1) # DEFINIR LARGO
+	direccion = models.CharField(max_length=50)
+	telefono = models.CharField(max_length=15)
+	created = models.DateTimeField(auto_now_add=True)
+	updated= models.DateTimeField(auto_now=True)
+	deleted = models.DateTimeField(auto_now=True)
+	status = models.ForeignKey(Estados, on_delete=models.SET_NULL, null=True)
+	restaurante_uuid = models.ForeignKey(Restaurantes, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return "%s" % (self.nombre)

@@ -1,0 +1,150 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="main row">
+
+                
+                <!--xs movil, sm y md tablets, lg pc-->
+                <article class="col-md-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Pedidos/ </h3>  <h4></h4>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if pedidos_list %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nº Pedido</th>
+                                        <th>Mesa</th>
+                                        <th>Total</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Hora Termino</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for pedido in pedidos_list %}
+                                    <tr>
+                                        <td>
+                                            <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
+                                        </td>
+
+                                        <td>
+
+                                          
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="small">Mesa 2</p>
+                                                </div>
+                                               
+                                            </div>
+
+                                        <td>
+
+                                          
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="small">${{pedido.total}}</p>
+                                                </div>
+                                               
+                                            </div>
+
+
+                                        <td>
+
+                                          
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="small">{{pedido.created}}</p>
+                                                </div>
+                                               
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small">{{pedido.created}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small">{{pedido.modified}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small">{{pedido.estadoPedido}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                      <p class="small"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+    
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table> 
+                            <hr>
+                        </div>
+                        {% else %}
+                          <p>No Existen Platillos/ productos.</p>
+                        {% endif %}
+
+                        
+                    </div>
+
+
+                    {% block pagination %}
+                      {% if is_paginated %}
+                          <div class="pagination">
+                              <span class="page-links">
+                                  {% if page_obj.has_previous %}
+                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Anterior</a>
+                                  {% endif %}
+                                  <span class="page-current">
+                                      Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                                  </span>
+                                  {% if page_obj.has_next %}
+                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Siguiente</a>
+                                  {% endif %}
+                              </span>
+                          </div>
+                      {% endif %}
+                    {% endblock %}
+                </article>
+            </section>
+
+{% endblock %}
+
+
+

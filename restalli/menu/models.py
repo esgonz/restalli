@@ -24,8 +24,9 @@ class CategoriaMenu(models.Model):
 class ProductosMenu(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     nombre = models.CharField(max_length=45)
-    slug = models.SlugField(unique=True, max_length=255)
+    slug = models.SlugField(unique=False, max_length=255)
     descripcion = models.CharField(max_length=250)
+    imagen = models.ImageField(upload_to='productos_menu', blank=True, default ="nodisponible.png", unique=False)
     precio = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -34,17 +35,10 @@ class ProductosMenu(models.Model):
     categoria_uuid = models.ForeignKey(CategoriaMenu, on_delete=models.SET_NULL, null=True)
     restaurant_uuid = models.ForeignKey(Restaurantes, on_delete=models.SET_NULL, null=True)
     user_uuid = models.CharField(max_length=36)
+    
     def get_absolute_url(self):
-            return('producto_detail', (),
-                {
-                    'slug':self.slug,
-                    'categoria': self.categoria_uuid
-                })
+        return reverse('detail', kwargs={'pk': self.uuid})
 
-    def save( self, *args, **kwargs):
-        if not self.slug:
-            self.slug= slugify(self.nombre)
-            super(ProductosMenu, self).save(*args, **kwargs)
 
     def __str__(self):
         return "%s" % (self.nombre)

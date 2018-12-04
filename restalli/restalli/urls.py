@@ -16,19 +16,33 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('menu/', include('menu.urls')),
     path('stock/', include('stock.urls')),
+    path('mesas/', include('mesas.urls')),
+    path('empleados/', include('empleados.urls')),
     path('venta/', include('venta.urls')),
+
     #PATHS DE REGISTRARSE
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', include('registration.urls', namespace='signup')),
     path('perfiles/', include('registration.urls', namespace='perfiles')),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('pedidos/', include('pedidos.urls'))
+
 
 if settings.DEBUG:
     from django.conf.urls.static import static
+    urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('pedidos/', include('pedidos.urls'))
+
+
