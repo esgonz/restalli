@@ -4,12 +4,14 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.template import loader
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import ProductoStock, Stock, CategoriaStock
-from .forms import StockForm, CatForm, StocklogForm
+from .models import ProductoStock, Stock
+from .forms import StockForm, StocklogForm
 
 
 # index 
+@method_decorator(login_required, name='dispatch')
 class IndexView(generic.ListView):
     context_object_name = 'latest_stock_list'
 
@@ -21,6 +23,7 @@ class StaffRequiredMixin(object):
         return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)   
 
 # Create your views here.aa
+@method_decorator(login_required, name='dispatch')
 class stockListView(generic.ListView):
     model = ProductoStock
     paginate_by = 100
@@ -43,12 +46,12 @@ class stockListView(generic.ListView):
                 return ProductoStock.objects.all()
         
 
-
+@method_decorator(login_required, name='dispatch')
 class stockDetailView(generic.DetailView):
     model = ProductoStock
 #success_url = reverse_lazy('stock:list')
 
-@method_decorator(staff_member_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class stockCreate(generic.CreateView):
     model = ProductoStock
     form_class = StockForm
@@ -57,7 +60,7 @@ class stockCreate(generic.CreateView):
     #def form_valid(self, form):
     #  form.instance.ProductoStock = self.request.categoria_uuid
     #  return redirect('/')
-@method_decorator(staff_member_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class stockUpdate(generic.UpdateView):
     model = ProductoStock
     form_class = StockForm
@@ -69,19 +72,22 @@ class stockUpdate(generic.UpdateView):
      #   return ProductoStock.objects.get(uuid=self.kwargs.get("uuid"))
     #def get_success_url(self):
      #   return reverse_lazy('stock:list', args=[self.uuid.UUID(), ])
-@method_decorator(staff_member_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class stockDelete(generic.DeleteView):
     model = ProductoStock
     success_url = reverse_lazy('stock:list')
 
 #Stock Logico
 
+@method_decorator(login_required, name='dispatch')
 class stocklogListView(generic.ListView):
     model = Stock
 
+@method_decorator(login_required, name='dispatch')
 class stocklogDetailView(generic.DetailView):
     model = Stock
 
+@method_decorator(login_required, name='dispatch')
 class stocklogCreate(generic.CreateView):
     model = Stock
     form_class = StocklogForm
@@ -155,7 +161,7 @@ class stocklogCreate(generic.CreateView):
     
 
         
-
+@method_decorator(login_required, name='dispatch')
 class stocklogUpdate(generic.UpdateView):
     model = Stock
     form_class = StocklogForm
@@ -166,6 +172,7 @@ class stocklogUpdate(generic.UpdateView):
    # def get_success_url(self):
        # return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
 
+@method_decorator(login_required, name='dispatch')
 class stocklogDelete(generic.DeleteView):
     model = Stock
     success_url = reverse_lazy('stock:logList')
