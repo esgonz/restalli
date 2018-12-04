@@ -1,0 +1,161 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Usuarios</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="">
+                <div class="card-header">
+                    Lista de Usuarios
+                </div>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+
+                                    <th>Usuario</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido </th>
+                                    <th>Tipo</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido </th>
+                                    <th>Tipo</th>
+                                    <th>Accion</th>
+
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for usuario in usuarios_list %}
+                                <tr>
+                                    <td>
+                                        <p class="small">{{usuario.email}}</p>
+                                    </td>
+
+                                    <td>
+                                        <p class="small">{{usuario.first_name}}</p>
+                                    </td>
+
+                                    <td>
+                                        <p class="small">{{usuario.last_name}}</p>
+                                    </td>
+
+                                    <td>
+                                        {% if usuario.perfil == "MNG" %}
+                                          <span class="badge badge-pill badge-success">Administrador(a)</span>
+                                        {% elif usuario.perfil == "MSR" %}
+                                          <span class="badge badge-pill badge-success">Mesero(a)</span>
+                                        {% elif usuario.perfil == "CJA" %}
+                                          <span class="badge badge-pill badge-info">Cajero(a)</span>
+                                        
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'registration:update' pk=usuario.id%}">Editar</a>
+                                    </td>
+                                    
+                                   
+
+                                    
+                                </tr>
+                                {% endfor %}
+
+                                    
+                                    </tbody>
+                                </table>
+
+                     </div><!-- /table resp-->
+
+
+                </div><!-- /card body-->
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+            </div><!-- /card footer-->
+        </div><!-- /card-->
+
+    </div><!-- / row -->
+
+
+
+            <p class="small text-center text-muted my-5">
+                <em>More table examples coming soon...</em>
+            </p>
+
+</div> <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright © Your Website 2018</span>
+                </div>
+            </div>
+        </footer>
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+  
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+      "decimal":        "",
+      "emptyTable":     "Sin informacion disponible para la tabla",
+      "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+      "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+      "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix":    "",
+      "thousands":      ",",
+      "lengthMenu":     "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing":     "Procesando...",
+
+      "zeroRecords":    "No se encontro nada",
+      "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+      },
+      "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+      }
+
+
+          }
+    });
+
+  });
+</script>
+{% endblock %}
+
+
+
+
+
+
+

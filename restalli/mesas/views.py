@@ -2,32 +2,38 @@ from django.shortcuts import render
 from django.views import generic
 
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import Mesas, Reserva
 from .forms import MesasForm, ReservasForm
 from pedidos.models import Pedido
+
+@method_decorator(login_required, name='dispatch')
 class MesaList(generic.ListView):
 	model = Mesas
 	context_object_name = 'mesas_list'
 	paginate_by = 100
 
+@method_decorator(login_required, name='dispatch')
 class MesaListMovil(MesaList):
 	model = Mesas
 	context_object_name = 'mesas_list'
 	template_name = "mesas/mesas_list_movil.html"
 	paginate_by = 100
 
-
+@method_decorator(login_required, name='dispatch')
 class MesaCreation(generic.edit.CreateView):
 	model = Mesas
 	form_class = MesasForm
 	success_url = reverse_lazy('mesas:list')
 
-
+@method_decorator(login_required, name='dispatch')
 class MesaUpdate(generic.UpdateView):
     model = Mesas
     form_class = MesasForm
     success_url = reverse_lazy('mesas:list')
 
+@method_decorator(login_required, name='dispatch')
 class MesaDetailView(generic.DetailView):
     model = Mesas
 

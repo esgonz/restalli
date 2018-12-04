@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('menu/', include('menu.urls')),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('pedidos/', include('pedidos.urls')),
     #PATHS DE REGISTRARSE
     path('accounts/', include('django.contrib.auth.urls')),
+    path('usuarios/', include('registration.urls')),
     path('signup/', include('registration.urls', namespace='signup')),
     path('perfiles/', include('registration.urls', namespace='perfiles')),
 

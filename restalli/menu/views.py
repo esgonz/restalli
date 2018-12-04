@@ -3,14 +3,15 @@ from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from .forms import ProductosMenuForm
 
 from stock.models import ProductoStock
 
 """Vistas de menu productos"""
-
+@method_decorator(login_required, name='dispatch')
 class MenuCreation(generic.edit.CreateView):
 	model = ProductosMenu
 	"""fields = [
@@ -25,23 +26,24 @@ class MenuCreation(generic.edit.CreateView):
 	form_class = ProductosMenuForm
 	#success_url = reverse_lazy('menu:list')
 
-
+@method_decorator(login_required, name='dispatch')
 class MenuDetail(generic.DetailView):
 	model = ProductosMenu
 	#template_name = 'menu/editar.html'
 	#
-
+@method_decorator(login_required, name='dispatch')
 class MenuUpdate(generic.UpdateView):
 	model = ProductosMenu
 	form_class = ProductosMenuForm
 	success_url = reverse_lazy('menu:list')
 	template_name = 'menu/productosMenu_edit.html'
 
-
+@method_decorator(login_required, name='dispatch')
 class MenuDelete(generic.DeleteView):
 	model = ProductosMenu
 	success_url = reverse_lazy('menu:list')
 
+@method_decorator(login_required, name='dispatch')
 class MenuList(generic.ListView):
 	model = ProductosMenu
 	paginate_by = 50
@@ -69,7 +71,7 @@ class MenuList(generic.ListView):
 
 """Vistas de categorias"""
 
-
+@method_decorator(login_required, name='dispatch')
 class CategoriaCreation(generic.edit.CreateView):
 	model = CategoriaMenu
 	fields = [
@@ -77,10 +79,10 @@ class CategoriaCreation(generic.edit.CreateView):
 		'status'
 	]
 	success_url = reverse_lazy('menu:catList')
-
+@method_decorator(login_required, name='dispatch')
 class CategoriaDetail(generic.DetailView):
 	model = CategoriaMenu
-
+@method_decorator(login_required, name='dispatch')
 class CategoriaUpdate(generic.UpdateView):
 	model = CategoriaMenu
 	fields = [
@@ -88,11 +90,11 @@ class CategoriaUpdate(generic.UpdateView):
 		'status'
 	]
 	success_url = reverse_lazy('menu:catList')
-
+@method_decorator(login_required, name='dispatch')
 class CategoriaDelete(generic.DeleteView):
 	model = CategoriaMenu
 	success_url = reverse_lazy('menu:catList')
-
+@method_decorator(login_required, name='dispatch')
 class CategoriaList(generic.ListView):
 	model = CategoriaMenu
 
@@ -102,7 +104,7 @@ class CategoriaList(generic.ListView):
 
 
 """Vistas del menu stock"""
-
+@method_decorator(login_required, name='dispatch')
 class ProductosMenuStockCreation(generic.edit.CreateView):
 	model = ProductosMenuStock
 	fields = [
@@ -110,10 +112,10 @@ class ProductosMenuStockCreation(generic.edit.CreateView):
     	'porciones',
     	'status'
 	]
-
+@method_decorator(login_required, name='dispatch')
 class ProductosMenuStockDetail(generic.DetailView):
 	model = ProductosMenu
-
+@method_decorator(login_required, name='dispatch')
 class ProductosMenuStockUpdate(generic.UpdateView):
 	model = ProductosMenuStock
 	fields = [
@@ -122,14 +124,14 @@ class ProductosMenuStockUpdate(generic.UpdateView):
     	'status'
 	]
 	success_url = reverse_lazy('menu:catList')
-
+@method_decorator(login_required, name='dispatch')
 class ProductosMenuStockDelete(generic.DeleteView):
 	model = ProductosMenuStock
 	success_url = reverse_lazy('menu:catList')
 
 
 
-
+@method_decorator(login_required, name='dispatch')
 class ProductosMenuStockList(generic.ListView):
 	model = ProductoStock
 	template_name ='menu/productoStock_selection_list.html'
@@ -170,7 +172,7 @@ class ProductosMenuStockList(generic.ListView):
 		#
 		if 'clear' in request.POST:
 			print("*CLEAR")
-			request.session.flush()
+			#request.session.flush()
 		
 
 		elif 'add' in request.POST or 'upde' in request.POST  :
@@ -241,7 +243,8 @@ class ProductosMenuStockList(generic.ListView):
 				productoMenu_to_save.save()
 
 		else:
-			request.session.flush()
+			pass
+			#request.session.flush()
 
 
 		return super().get(request, *args, **kwargs)
@@ -275,7 +278,7 @@ class ProductosMenuStockList(generic.ListView):
 		#if we are editing selected stock producots
 		if self.updateSelected and 'add' not in request.POST:
 			print("updateSelected TRUE")
-			request.session.flush()
+			#request.session.flush()
 			selectedProducts_list = ProductosMenuStock.objects.filter(productosMenu_uuid = self.productoMenu_uuid)
 			seleccion = []
 			request.session['seleccion'] = seleccion
@@ -298,7 +301,7 @@ class ProductosMenuStockList(generic.ListView):
 				request.session['seleccion'].append(productoToAdd)
 		else:
 			print("updateSelected FALSE")
-			request.session.flush()
+			#request.session.flush()
 
 		return super().get(request, *args, **kwargs)
 

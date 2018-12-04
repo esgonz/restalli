@@ -58,3 +58,6 @@ Mac-Pro-de-Griselli-durant:restalli grisellidurant$
 
 #usar el admin
 https://tutorial.djangogirls.org/es/django_admin/
+
+#login logout
+https://wsvincent.com/django-user-authentication-tutorial-login-and-logout/

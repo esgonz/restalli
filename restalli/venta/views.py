@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.template import loader
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import Venta
 from .forms import VentaForm
 from pedidos.models import Pedido
@@ -10,20 +12,25 @@ from pedidos.models import Pedido
 
 #venta Logica
 
+@method_decorator(login_required, name='dispatch')
 class ventaListView(generic.ListView):
     model = Venta
     context_object_name = 'ventas_list'
 
+@method_decorator(login_required, name='dispatch')
 class ventaListViewMovil(ventaListView):
     template_name="venta/venta_list_movil.html"
 
+@method_decorator(login_required, name='dispatch')
 class ventaDetailView(generic.DetailView):
     model = Venta
 
+@method_decorator(login_required, name='dispatch')
 class ventaDetailViewMovil(ventaDetailView):
     template_name="venta/venta_detail_movil.html"
 
 
+@method_decorator(login_required, name='dispatch')
 class ventaCreate(generic.CreateView):
     model = Venta
     form_class = VentaForm
@@ -116,10 +123,12 @@ class ventaCreate(generic.CreateView):
         #context['categorias_list'] = CategoriaMenu.objects.all()
         return contextxw"""
 
+@method_decorator(login_required, name='dispatch')
 class ventaCreateMovil(ventaCreate):
     template_name="venta/venta_form_movil.html"
     success_url = reverse_lazy('venta:mlist')
 
+@method_decorator(login_required, name='dispatch')
 class ventaUpdate(generic.UpdateView):
     model = Venta
     form_class = VentaForm
@@ -130,6 +139,7 @@ class ventaUpdate(generic.UpdateView):
    # def get_success_url(self):
        # return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
 
+@method_decorator(login_required, name='dispatch')
 class ventaDelete(generic.DeleteView):
     model = Venta
     success_url = reverse_lazy('venta:list')

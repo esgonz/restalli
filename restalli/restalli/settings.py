@@ -142,6 +142,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'restalli/media')
 LOGIN_REDIRECT_URL = 'stock:list'  # aqui el login
 LOGOUT_REDIRECT_URL = 'stock:list' # ejemplo de home
 
+
+AUTH_USER_MODEL = 'registration.User'
 # emails por smtp de prueba
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"

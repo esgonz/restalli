@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import Pedido, PedidoItem
 from .forms import PedidoForm, PedidoUpdateForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
@@ -15,7 +15,7 @@ from mesas.models import Mesas
 #from .forms import ProductosMenuForm
 # Create your views here.
 """Vistas de menu productos"""
-
+@method_decorator(login_required, name='dispatch')
 class PedidoCreation(generic.edit.CreateView):
 	model = Pedido
 	form_class = PedidoForm
@@ -162,6 +162,7 @@ class PedidoCreation(generic.edit.CreateView):
 		print ("END FORM VALID")
 		return super(PedidoCreation, self).form_valid(form)
 
+@method_decorator(login_required, name='dispatch')
 class PedidoCreationMovil(PedidoCreation):
 	template_name = "pedidos/pedido_form_movil.html"
 	success_url = reverse_lazy('pedidos:mlist')
@@ -170,7 +171,7 @@ class PedidoCreationMovil(PedidoCreation):
 	
 
 
-
+@method_decorator(login_required, name='dispatch')
 class PedidoDetail(generic.DetailView):
 	model = Pedido
 	fields = [
@@ -205,9 +206,11 @@ class PedidoDetail(generic.DetailView):
 		#context['items_list']
 		return context
 
+@method_decorator(login_required, name='dispatch')
 class PedidoDetailMovil(PedidoDetail):
 	template_name = "pedidos/pedido_detail_movil.html"
 
+@method_decorator(login_required, name='dispatch')
 class PedidoUpdate(generic.UpdateView):
 	model = Pedido
 	form_class = PedidoUpdateForm
@@ -247,14 +250,16 @@ class PedidoUpdate(generic.UpdateView):
 		return context
 
 
-
+@method_decorator(login_required, name='dispatch')
 class PedidoUpdateMovil(PedidoUpdate):
 	template_name = "pedidos/pedido_update_movil.html"
 
+@method_decorator(login_required, name='dispatch')
 class PedidoDelete(generic.DeleteView):
 	model = Pedido
 	#success_url = reverse_lazy('menu:list')
 
+@method_decorator(login_required, name='dispatch')
 class PedidoList(generic.ListView):
 	model = Pedido
 
@@ -277,7 +282,9 @@ class PedidoList(generic.ListView):
 		else:
 			#si no, devuelvo todos los productos
 			return Pedido.objects.all()
-    
+
+
+@method_decorator(login_required, name='dispatch')    
 class PedidoListMovil(PedidoList):
 	template_name = "pedidos/pedido_list_movil.html"
 
@@ -285,7 +292,9 @@ class PedidoListMovil(PedidoList):
 
 
 
-"""Menu Oferta """    	
+"""Menu Oferta """
+
+@method_decorator(login_required, name='dispatch')    	
 class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
@@ -403,6 +412,7 @@ class MenuOfertList(MenuList):
 
 
 """Menu Oferta Movil """
+@method_decorator(login_required, name='dispatch')
 class MenuOfertaListMovil(MenuOfertList):
 	template_name = 'pedidos/menuOfertas_list_movil.html'
     	
