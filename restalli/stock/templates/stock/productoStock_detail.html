@@ -1,10 +1,10 @@
-{% extends "stock/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="col-12">	
 		<div class="row">
 			<div class="col-12">
-				<h2>{{object.nombreProducto}}</h2>
+				<h2>{{object.nombre}}</h2>
 			</div>
 		</div>
 		<div class="row">
@@ -15,19 +15,17 @@
 			<div class="col-6">
 				<div class="row">
 					<div class="col-12">
-						<span class="font-weight-bold">precio:</span><br>
-						<p class="lead">{{object.precio}}</p>
+					
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-6">
 						<span class="font-weight-bold">Categoria:</span><br>
-						<p>{{object.categoria_uuid}}</p>
+						<p>{{object.categoria}}</p>
 					</div>
 
 					<div class="col-6">
-						<span class="font-weight-bold">Precio:</span><br>
-						<p>{{object.precio}}</p>
+					
 					</div>
 				</div>
 			</div>

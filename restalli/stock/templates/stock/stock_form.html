@@ -1,24 +1,253 @@
-{% extends "stock/base.html" %}
-{% load static %}
-{% block content %}
+{% extends "base.html" %}
 {% load widget_tweaks %}
+{% block content %}
 
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <div>
-            <form action="" method="post">{% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                </table>
-                <br>
-                <input type="submit" value="Crear página" />
-            </form>
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:list' %}">Stock</a></li>
+    <li class="breadcrumb-item active">Nuevo Registro</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        <form method="post">
+          {% csrf_token %}
+
+          
+
+
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+          Stock / </a>
+          <h3>Registrar Producto</h3>
         </div>
+        <div class="card-body">
+        
+          {% if form.errors%}
+            <div class="row">
+              <div class="alert alert-warning" role="alert">
+
+
+                <p>{{form.errors}} </p>
+
+                <hr>
+
+              </div>
+            </div>
+            {% endif %}
+
+        <div class="row">
+          <div class="form-group col-8">
+            <label for="{{ form.producto_uuid.id_for_label }}">{{form.producto_uuid.label}}:</label>
+            {% render_field form.producto_uuid class="form-control"  %}
+            <span class="help-block">{{ form.producto_uuid.errors }}</span>
+          </div>
+        </div>
+        
+        <div class="row">
+
+          <div class="form-group col-4">
+
+            {% if accion != 'descontar'%}
+            <label for="{{ form.stock_descontado.id_for_label }}">Agregar:</label>
+            {% else %}
+            <label for="{{ form.stock_descontado.id_for_label }}">Descontar:</label>
+            {% endif %}
+
+            {% render_field form.stock_descontado  class="form-control" %}
+            <span class="help-block">{{ form.stock_descontado.errors }}</span>
+          </div>
+
+
+          <div class="form-group col-4">
+
+            <label for="{{ form.stock_inicial.id_for_label }}">{{form.stock_inicial.label}}:</label>
+            {% render_field form.stock_inicial class="form-control" %}
+
+            <span class="help-block">{{ form.stock_inicial.errors }}</span>
+          </div>
+
+          <div class="form-group col-4">
+
+            <label for="{{ form.stock_final.id_for_label }}">{{form.stock_final.label}}:</label>
+            {% render_field form.stock_final class="form-control" %}
+
+            <span class="help-block">{{ form.stock_final.errors }}</span>
+          </div>
+        </div>
+
+
+
+
+        {% if accion != 'descontar'%}
+        <div class="row">
+          <div class="form-group col-6">
+            <label for={{ form.precio_unitario.id_for_label }}">{{form.precio_unitario.label}}:</label>
+            {% render_field form.precio_unitario class="form-control"  %}
+
+            <span class="help-block">{{ form.precio_unitario.errors }}</span>
+          </div>
+
+
+          <div class="form-group col-6">
+            <label for={{ form.precio_total.id_for_label }}">{{form.precio_total.label}}:</label>
+            {% render_field form.precio_total class="form-control"  %}
+
+            <span class="help-block">{{ form.precio_total.errors }}</span>
+          </div>
+        </div>
+
+        {% else %}
+        <div class="row">
+          {% render_field form.precio_unitario type="hidden" %}
+          {% render_field form.precio_total type="hidden" %}
+        </div>
+        {% endif %}
+
+
+        {% if accion != 'descontar' and producto.no_perecible == False %}
+        <div class="row">
+
+          <div class="form-group col-3">
+            <label for="{{ form.fecha_elaboracion.id_for_label }}">{{form.fecha_elaboracion.label}}:</label>
+            {% render_field form.fecha_elaboracion class="form-control" %}
+
+            <span class="help-block">{{ form.fecha_elaboracion.errors }}</span>
+          </div>
+
+          <div class="form-group col-3">
+            <label for={{ form.fecha_expiracion.id_for_label }}">{{form.fecha_expiracion.label}}:</label>
+            {% render_field form.fecha_expiracion class="form-control"  %}
+
+            <span class="help-block">{{ form.fecha_expiracion.errors }}</span>
+          </div>
+
+
+
+        </div>
+        {% endif %}
+
+
+
+        <div class="row">
+          <div class="form-group col-12">
+            <label for="{{ form.observaciones.id_for_label }}">observaciones:</label>
+            {% render_field form.observaciones class="form-control" %}
+
+            <span class="help-block">{{ form.observaciones.errors }}</span>
+          </div>
+        </div>
+
+
+
+
+      </div><!--end card body -->
+
+
+      <div class="card-footer small text-muted">
+
+        <input type="button" value="Cancelar" class="btn btn-default"/>
+        <input type="submit" value="Crear" class="btn btn-primary" />
       </div>
+    </form>
+  </div><!--end card -->
+</div><!--end col 10-->
+
+
+
+
+
+</div><!--end row -->
+</div><!--end container -->
+
+
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
     </div>
   </div>
-</main>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+
+  $( document ).ready(function() {
+    console.log( "document ready!" );
+
+    let fecha_el_input_id = {{ form.fecha_elaboracion.id_for_label }};
+    let fecha_ex_input_id = {{ form.fecha_expiracion.id_for_label }};
+
+    var now = new Date();
+    var today =  now.getFullYear()  + '-'  + (now.getMonth() + 1) + '-'  + now.getDate()  + '';
+    +
+    $(fecha_el_input_id).val(today);
+    $(fecha_ex_input_id).val(today);
+
+  });
+
+
+  let pu_input_id = {{ form.precio_unitario.id_for_label }};
+  let pt_input_id = {{ form.precio_total.id_for_label }};
+  let sd_input_id = {{ form.stock_descontado.id_for_label }};
+  let sf_input_id = {{ form.stock_final.id_for_label }};
+  let si_input_id = {{ form.stock_inicial.id_for_label }};
+  let accion = "{{accion}}";
+
+
+  $(pu_input_id).on("change", function() {
+//alert("change")
+let total = parseFloat($(pu_input_id).val()) * parseInt($(sd_input_id).val());
+//alert(total)
+$(pt_input_id).val(total);
+
+}); 
+
+  $(sd_input_id).on("change", function() {
+//alert("change")
+let total = parseFloat($(pu_input_id).val()) * parseInt($(sd_input_id).val());
+
+
+let stock_final = 0;
+
+//descontar stock 
+if (accion == 'descontar') {
+  stock_final =  parseInt($(si_input_id).val()) -  
+  parseInt($(sd_input_id).val());
+}
+else {
+  stock_final =  parseInt($(si_input_id).val()) +  parseInt($(sd_input_id).val());
+}
+
+//alert(total)
+$(pt_input_id).val(total);
+$(sf_input_id).val(stock_final);
+
+
+}); 
+
+
+
+</script>
+
+
 
 {% endblock %}

@@ -1,0 +1,145 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Ventas</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="">
+                <div class="card-header">
+                    Lista
+                </div>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+
+                                    <th>Nº Pedido</th>
+                            </thead>
+                         
+                            </tfoot>
+                            <tbody>
+                                {% for venta in ventas_list %}
+                                <tr>
+                                    <td>
+                                        <p class="small">{{venta.pedido_uuid}}</p>
+                                    
+                                        {% if venta.tipoPago == "EFE" %}
+                                          <span class="badge badge-pill badge-info">Efectivo</span>
+                                        {% elif venta.tipoPago == "DEB" %}
+                                          <span class="badge badge-pill badge-secondary">Debito</span>
+                                        {% elif venta.tipoPago == "CRE" %}
+                                          <span class="badge badge-pill badge-default">Credito</span>
+                                        {% elif venta.tipoPago == "CHE" %}
+                                          <span class="badge badge-pill badge-danger">Cheque</span>
+                                        {% endif %}
+                                    
+                                        {% if venta.identificador %}
+                                        <p class="small">{{venta.identificador}}</p>
+                                        {% else %}
+                                        <p class="small">--</p>
+
+                                        {% endif %}
+                                   
+                                        <p class="small"> ${{venta.monto}}</p>
+                                    
+                                        <p class="small"> $ {{venta.monto_propina}}</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                    
+                                    </tbody>
+                                </table>
+
+                     </div><!-- /table resp-->
+
+
+                </div><!-- /card body-->
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+            </div><!-- /card footer-->
+        </div><!-- /card-->
+
+    </div><!-- / row -->
+
+
+
+            <p class="small text-center text-muted my-5">
+                <em>More table examples coming soon...</em>
+            </p>
+
+</div> <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright © Your Website 2018</span>
+                </div>
+            </div>
+        </footer>
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+  
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+      "decimal":        "",
+      "emptyTable":     "Sin informacion disponible para la tabla",
+      "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+      "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+      "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix":    "",
+      "thousands":      ",",
+      "lengthMenu":     "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing":     "Procesando...",
+
+      "zeroRecords":    "No se encontro nada",
+      "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+      },
+      "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+      }
+
+
+          }
+    });
+
+  });
+</script>
+
+
+        {% endblock %}
+
+
+
+
+
+
+

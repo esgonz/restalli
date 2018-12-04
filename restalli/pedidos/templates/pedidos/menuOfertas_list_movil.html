@@ -1,0 +1,346 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+
+  <div class="accordion" id="accordionExample">
+    <!--1-->
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Seleccionar Producto
+          </button>
+        </h5>
+      </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div class="card-body">
+          <!--menu -->
+
+
+
+
+
+          <div class="row">
+            <div class="col-12">
+              {% if productosMenu_list %}
+              <!-- code here to list the books -->
+              {% else %}
+              <p>No Existen Platillos/ productos.</p>
+              {% endif %}
+              
+
+                      <span><b><center>Filtro Categoria</center></b></span>
+                      <select class="form-control block" id="filtrocat" name="filtrocat" onchange="reloadFilter()">
+                        {% for categoria in categorias_list %}
+                          <option value="{{ categoria.uuid }}">{{categoria.nombre}}</option>
+                        {% endfor %}
+                        option
+                      </select>
+                      <a class="btn btn-block btn-danger" href="{% url 'pedidos:mmenu' %}">limpiar</a>
+                      <hr>
+
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for menu in productosMenu_list %}
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-12">
+                            <center><img src="{{menu.imagen.url}}" alt="Platillo" width="85" height="80"></center>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12">
+                            <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
+
+
+                          </div>
+                          <div class="col-12">
+                            <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
+
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <p class="small">{{menu.descripcion}}</p>
+                          </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                          <div class="col-12">
+                            <h3>${{ menu.precio }}</h3>
+                          </div>
+                        </div>
+
+                        <form method="post">
+                          {% csrf_token %}
+                          <div class="row">
+                            <div class="form-group col-12">
+                              <input type="hidden" id="uuid" name="uuid" value="{{menu.uuid}}">
+                              <input type="hidden" id="add" name="add" value="add">
+                              <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12">
+                              <input type="submit" value="Agregar" class="btn-sm btn-primary">
+                            </div>
+                          </div>
+                        </form>
+
+
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table><!--/ table-->
+              </div><!-- /table resp-->
+            </div><!--/ col 12-->
+
+
+
+          </div><!--/ row-->
+        </div><!-- col12-->
+      </div><!-- collapse 2-->
+    </div>
+    <!-- colla2-->
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Ver Pedido Actual
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      
+        <div class="card-body">
+          <!-- seleccion -->
+
+
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+              <thead>
+                <th>Producto</th>
+              </thead>
+
+
+              <tbody>
+                {% for selectProduct in cart_list %}   
+                <tr>
+                  <td>
+
+                    <form method="post">
+                      {% csrf_token %}
+
+                      <div class="row">
+                        <div class="col-12">
+                        <h4>{{selectProduct.nombre}}</h4>
+                        </div>
+                      </div>
+                      <div class="row">
+                         <div class="col-12">
+                          <h5><span class="badge badge-danger">${{selectProduct.precio}}</span></h5>
+                         </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-4">
+                          
+                          <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+                          
+                          <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+                        </div>
+                         <div class="col-6">
+                          <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+                          <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
+                        </div>
+                      </div>
+
+                    </form>
+                    
+                  </td>
+                </tr>
+
+                {% endfor %}
+
+              </tbody>
+
+            </table>
+          </div><!-- / table resp-->
+
+
+
+
+
+          <div class="row" >
+            
+            <div class="col-12">
+              <p align="right"> TOTAL:</p>
+            </div>
+            <div class="col-12">
+              <p align="right">  <b>{{total_cart}}</b></p>
+            </div>
+
+
+            
+
+            
+          </div>
+          
+          <div class="row">
+
+            <div class="col-6">
+              <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
+              </form>
+            </div>
+
+            <div class="col-6">
+
+              <a class="btn btn-success btn-block" href="{% url 'pedidos:mcreate' %}">Continuar</a>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <p class="small text-center text-muted my-5">
+      <em>More table examples coming soon...</em>
+    </p>
+
+  </div>
+  <!-- /.container-fluid -->
+
+  <!-- Sticky Footer -->
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright © Your Website 2018</span>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script  type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+      $('#dataTable').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+        "paging": false,
+        "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+          "decimal":        "",
+          "emptyTable":     "Sin informacion disponible para la tabla",
+          "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+          "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+          "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+          "infoPostFix":    "",
+          "thousands":      ",",
+          "lengthMenu":     "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing":     "Procesando...",
+
+          "zeroRecords":    "No se encontro nada",
+          "paginate": {
+            "first":      "Primera",
+            "last":       "Última",
+            "next":       "Próxima",
+            "previous":   "Anterior"
+          },
+          "aria": {
+            "sortAscending":  ": activate to sort column ascending",
+            "sortDescending": ": activate to sort column descending"
+          }
+
+
+        }
+      });
+
+      $('#dataTable2').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+        "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+          "decimal":        "",
+          "emptyTable":     "Sin informacion disponible para la tabla",
+          "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+          "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+          "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+          "infoPostFix":    "",
+          "thousands":      ",",
+          "lengthMenu":     "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing":     "Procesando...",
+
+          "zeroRecords":    "No se encontro nada",
+          "paginate": {
+            "first":      "Primera",
+            "last":       "Última",
+            "next":       "Próxima",
+            "previous":   "Anterior"
+          },
+          "aria": {
+            "sortAscending":  ": activate to sort column ascending",
+            "sortDescending": ": activate to sort column descending"
+          }
+
+
+        }
+      });
+    });
+
+
+    function reloadFilter(){
+      var value = document.getElementById("filtrocat").value;
+      alert("reload"+ value)
+      location.href = "{% url 'pedidos:mmenu' %}"+"?categoria="+value;
+      //href="{% url 'pedidos:menu' %}?categoria={{ categoria.uuid }}"
+    }
+
+    
+  </script>
+  {% endblock %}
+
+
+
+
+

@@ -1,36 +1,112 @@
-{% extends "stock/base.html" %}
+    {% extends "base.html" %}
 
-{% block content %}
-<div class="col-12">	
-		<div class="row">
-			<div class="col-12">
-				<h2>{{object.nombreProducto}}</h2>
-			</div>
-		</div>
-		<div class="row">
-			
-			
-			
-			
-			<div class="col-6">
-				<div class="row">
-					<div class="col-12">
-						<span class="font-weight-bold">precio:</span><br>
-						<p class="lead">{{object.precio}}</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-6">
-						<span class="font-weight-bold">Categoria:</span><br>
-						<p>{{object.categoria_uuid}}</p>
-					</div>
+    {% block content %}
 
-					<div class="col-6">
-						<span class="font-weight-bold">Precio:</span><br>
-						<p>{{object.precio}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+ <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Menu</li>
+      </ol>
+
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          Registro
+        </div>
+
+        <div class="card-body">
+
+
+<dl class="row">
+  <dt class="col-sm-3">Producto
+              </dt>
+  <dd class="col-sm-9"><p>{{ stock.producto_uuid }}</p></dd>
+  
+  <dt class="col-sm-3">Precio
+    
+  </dt>
+  <dd class="col-sm-9">
+    <p>{{ stock.precio }}</p>
+  </dd>
+
+  <dt class="col-sm-3">Stock Previo
+    </dt>
+  <dd class="col-sm-9"><p>{{ stock.stock_inicial }}</p></dd>
+
+  <dt class="col-sm-3">Stock registrado</dt>
+  <dd class="col-sm-9">
+    <p>{{ stock.stock_descontado }}</p></dd>
+
+  <dt class="col-sm-3">Stock final
+    </dt>
+  <dd class="col-sm-9">
+    <p>{{ stock.stock_final }}</p>
+  </dd>
+
+  <dt class="col-sm-3">Fecha elaboracion
+    </dt>
+  <dd class="col-sm-9">
+    <p>{{ stock.fecha_elaboracion }}</p>
+  </dd>
+
+
+  <dt class="col-sm-3">Fecha expiracion
+    
+    </dt>
+  <dd class="col-sm-9">
+   <p>{{ stock.fecha_expiracion }}</p>
+  </dd>
+
+  <dt class="col-sm-3">Observaciones
+    
+    </dt>
+  <dd class="col-sm-9">
+    <p>{{ stock.observaciones }}</p>
+  </dd>
+
+
+</dl>
+
+
+
+          
+
+
+    
+    
+    
+    
+    
+
+    
+
+    
+
+
+    
+    
+
+    
+
+
+
+    
+        </div>
+
+        <div class="card-footer">
+          <a href="#">Volver</a>
+        </div>
+  </div>
 </div>
-{% endblock %}
+
+
+
+  
+
+  {% endblock %}

@@ -1,20 +1,47 @@
 from django import forms
-from .models import Mesas
+from .models import Mesas, Reserva
 
 class MesasForm(forms.ModelForm):
     class Meta:
         model = Mesas
-        fields = ['identificador', 'estado', 'pedido', 'empleado', 'fecha', 'inicio', 'termino','status']
+        fields = ['identificador', 'estado']
         widgets = {
-            'identificador' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
-            'estado': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Inserte Codigo'}),
-            'pedido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Porcion'}),
-            'empleado': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Medida'}),
-            'fecha': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Precio'}),
-            'inicion': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de elaboración '}),
-            'termino': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de Expiración '}),
-            'status': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'status'})
+            'identificador' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Mesa 01'}),
         }
         labels = {
-            'identificador': '', 'estado': '', 'pedido': '', 'empleado': '', 'fecha': '', 'inicio': '', 'termino': '', 'status': ''
+            'identificador': 'Identificador(numero)', 
+            'estado': 'Estado',
         }
+
+
+
+
+class ReservasForm(forms.ModelForm):
+    class Meta:
+        model = Reserva
+        
+        fields = [
+            'fecha', 
+            'cliente_nombre',
+            'cliente_numero1', 
+            'cliente_numero2',
+            'cliente_email',
+            'num_personas',
+            'comentarios',
+            'mesa_uuid'
+        ]
+        
+        widgets = {
+            #'identificador' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Mesa 01'}),
+        }
+        labels = {
+            'fecha': 'Fecha y Hora reserva' , 
+            'cliente_nombre': 'Nombre Cliente' ,
+            'cliente_numero1': 'Telefono contacto' , 
+            'cliente_numero2': 'Telefono contacto alternativo' ,
+            'cliente_email': 'Email de contacto' ,
+            'num_personas': 'Numero de personas' ,
+            'comentarios': 'Comentarios' ,
+            'mesa_uuid': 'Mesa'
+        }
+

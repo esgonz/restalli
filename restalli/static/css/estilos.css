@@ -38,4 +38,7 @@ footer {
 	background: #16a085;
 	color: #fff;
 }
+body {
+	background-color: black !important;
+}
 

@@ -1,66 +1,172 @@
-{% extends "mesas/base.html" %}
-{% load static %}
+
+
+{% extends "base.html" %}
+
 {% block content %}
 
-<main role="main">
-        <div class="container">
-            <div class="col-12">
-            <h2 align="center">Mesas</h2>
-            <hr>
-            </div>
-            </div>
-          
 
-            
-        <div class="row" id="search">
-            <div class="col-6">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 col-6" type="search" placeholder="Buscar producto por nombre" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-              </form>
-            </div>
-  
-            <div class="col-6"></div>
-          </div>
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Mesas</li>
+  </ol>
 
-      </main>
+  <div class="row">
+    <div class="col-12">
+      <div class="card" style="">
+        <div class="card-header">
+          Lista mesas 
+          <a href="{%url 'mesas:create' %}" class="btn btn-primary">
+            Crear Mesa
+          </a>
+        </div>
 
-      <hr>
-      <div class="row" id="table">
-      <table class="table table-striped">
-          <div class="col-12">
-          <thead>
-              <tr>
-                  <th>N° de Mesa</th>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+
+                  <th>Identificador Mesa</th>
                   <th>Estado</th>
-                  <th>N° de Pedido</th>
-                  <th>Atendido por</th>
-                  <th>Fecha</th>
-                  <th>Hora de Inicio</th>
-                  <th>Hora de Término</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for mesas in object_list %}
-                  <tr>
-                  <td>{{ mesas.identificador }}</td>
-                  <td>{{ mesas.estado  }}</td>
-                  <td>{{ mesas.pedido }}</td>
-                  <td>{{ mesas.empleado  }}</td>
-                  <td>{{ mesas.fecha }}</td>
-                  <td>{{ mesas.inicio }}</td>
-                  <td>{{ mesas.termino }}</td>
-                  <td><a class="btn btn-info" href="{% url 'mesas:update' pk=mesas.uuid %}">Editar</a>
-                     <a class="btn btn-danger" href="{% url 'mesas:delete' pk=mesas.uuid  %}">Eliminar</a>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Identificador Mesa</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for mesa in mesas_list %}
+                <tr>
+                  <td>
+                    <a class="" href="{% url 'mesas:detail' pk=mesa.uuid %}">{{ mesa.identificador }} </a>
                   </td>
-              </tr>
-              {% endfor %}
-             
-              
-          </tbody>
 
-        </table>
-        <a class="btn btn-primary" href="{% url 'mesas:create'  %}">Agregar</a>
-    </div>
+                  <td>
+                        <div class="row">
 
-{% endblock %}
+                          <div class="col-12">
+                            
+
+                            {% if mesa.estado == "FRE" %}
+                            <span class="badge badge-pill badge-success">Libre</span>
+                            {% elif mesa.estado == "OCP" %}
+                            <span class="badge badge-pill badge-warning">Ocupada</span>
+                            {% elif mesa.estado == "RSV" %}
+                            <span class="badge badge-pill badge-info">Reservada</span>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </td>
+                  <td>
+                    <div class="row">
+                      <div class="col-12">
+                        <a class="btn btn-sm btn-info" href="{% url 'mesas:update' pk=mesa.uuid %}"> Editar 
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <a class="btn btn-sm btn-secondary" href="{% url 'mesas:resCreate' %}?mesa={{mesa.uuid}}"> Reservar 
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+
+                  
+                    
+                      
+
+                      
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div><!-- /table resp-->
+
+
+            </div><!-- /card body-->
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+            </div><!-- /card footer-->
+          </div><!-- /card-->
+
+        </div><!-- / row -->
+
+
+
+        <p class="small text-center text-muted my-5">
+          <em>More table examples coming soon...</em>
+        </p>
+
+      </div> <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © Your Website 2018</span>
+          </div>
+        </div>
+      </footer>
+
+
+      <script  type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+          $('#dataTable').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+            "language": {
+              search: "_INPUT_",
+              searchPlaceholder: "Buscar...",
+              "decimal":        "",
+              "emptyTable":     "Sin informacion disponible para la tabla",
+              "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+              "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+              "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing":     "Procesando...",
+
+              "zeroRecords":    "No se encontro nada",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Próxima",
+                "previous":   "Anterior"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+
+
+            }
+          });
+
+        });
+      </script>
+
+
+      {% endblock %}
+
+
+
+
+
+
+

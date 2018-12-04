@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Menu</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+
+  <!-- row nuevo producto card-->
+  <div class="row">
+    <div class="col-12">
+      <!--card-->
+      <div class="card mb-3" style="">
+        
+        <!--card header-->
+        <div class="card-header">
+          <h3>Nuevo Producto</h3>
+        </div>
+        <!--/card header-->
+
+        <!--card body-->
+        <div class="card-body">
+          <!--descripcion -->
+          <dl class="row">
+            <dt class="col-sm-3">Nombre:</dt>
+            <dd class="col-sm-9"><p>{{producto.nombre}}</p></dd>
+
+            <dt class="col-sm-3">Precio:</dt>
+            <dd class="col-sm-9"><p>{{producto.precio}}</p></dd>
+
+            <dt class="col-sm-3">Categoria:</dt>
+            <dd class="col-sm-9"><p>{{producto.categoria_uuid}}</p></dd>
+
+            <dt class="col-sm-3">Descripcion:</dt>
+            <dd class="col-sm-9"><p>{{producto.descripcion}}</p></dd>
+          </dl>
+          <!-- /descripcion -->
+        </div>
+
+        <div class="card-footer">
+        </div>
+
+      </div>
+      <!--/ card-->
+
+    </div><!-- /col-->
+  </div><!-- /row -->
+
+  
+  <!-- row seleccion stock-->
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+          <h3>Seleccionar Stock</h3>
+
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-9">
+              {% if productoStock_list %}
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Stock actual</th>
+                      <th>Agregar</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Stock actual</th>
+                      <th>Agregar</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for stock in productoStock_list %}
+                    <tr>
+                      <!--Producto-->
+                      <td>
+
+                        <p class="small">{{stock.nombre}}</p>
+
+                      </td>
+                      <!-- s actual -->
+                      <td>
+
+                        <p class="small">{{stock.stock_disponible}}</p>
+
+                      </td>
+
+                      <td>
+                        <form method="post">
+                          {% csrf_token %}
+                          <div class="row">
+                            <div class="form-group col-5">
+  
+                              <input type="hidden" id="uuid" name="uuid" value="{{stock.uuid}}">
+                              
+                              <input type="hidden" id="nombre" name="nombre" value="{{stock.nombre}}">
+                              
+
+                              
+                              <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
+
+                            </div>
+                            <div class="col-7">
+                              <input type="submit" value="Agregar" name="add" class="btn-sm btn-primary">
+                            </div>
+                          </div>
+                        </form>
+
+
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div><!-- / table resp -->
+              {% endif %}
+            </div> <!-- / col -->
+
+            <!-- col sidebar -->
+            <div class="col-3">
+
+              <div class="row">
+
+                <div class="card" style="">
+                  <div class="card-header">
+                    Filtrar por Categorias
+
+                    <a href="{{producto.uuid}}?" class="btn btn-sm btn-success">limpiar</a>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      {% for categoria_id, categoria_nombre in categorias_list %}
+                      <li class="list-group-item">
+
+                        <a href="{{producto.uuid}}?categoria={{ categoria_id }}">{{categoria_nombre}}</a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /col sidebar -->
+
+
+          </div><!-- / row c bdy-->
+          
+        </div><!--/ card body-->
+
+
+        <div class="card-footer small text-muted">
+          Menu
+        </div>
+
+      </div><!--end card -->
+    </div><!--end col 12-->
+  </div>
+  <!-- /row seleccion stock-->
+
+  <!-- row seleccionado -->
+  <div class="row">
+    <div class="col-12">
+      <!--card -->
+      <div class="card mb-3" style="">
+        
+        <div class="card-header">
+          <h3>Selección</h3>
+        </div>
+        
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              
+                <thead>
+                  <th>Porciones.</th>
+                  <th>Producto</th>
+                </thead>
+
+
+
+                <tbody>
+                  {% for selectProduct in seleccion_list %}   
+                  <tr>
+                    <td>
+
+                      <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" id="obj_uuid" name="obj_uuid" value="{{selectProduct.obj_uuid}}">
+
+
+
+                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+
+                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+
+                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+
+                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
+
+                      </form>
+                    </td>
+
+                    <td>
+                      <p>{{selectProduct.nombre}}</p>
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                  <!--FIN PRUEBA-->
+                  <form method="post">
+                    <tr>
+                      <td colspan="2" align="left">
+
+                        <button type="submit" name="clear" class="btn btn-sm btn-danger mr-2">Limpiar selección</button>
+                        
+                      </td>
+                    </tr>
+                    
+                    
+                    <tr>
+                      
+                        {% csrf_token %}
+                        <td colspan="2" align="right">
+                          <button type="submit" name="save" class="btn btn-primary">Guardar</button>
+                        </td>
+                      
+                    </tr>
+                  </form>
+
+                </tbody>
+              
+            </table>
+          </div><!--/ table responsive -->
+        </div><!--/ card body-->
+
+
+        <div class="card-footer">
+      </div><!--/card-->
+    </div><!-- /col-->
+  </div><!-- / row -->
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+
+

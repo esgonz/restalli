@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{% url 'venta:mlist' %}">Venta</a></li>
+    <li class="breadcrumb-item active">Nuevo</li>
+  </ol>
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+
+        
+      <form method="post">
+        {% csrf_token %}
+      
+
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        Ventas / </a>
+        <h3>Registrar Venta</h3>
+      </div>
+      <div class="card-body">
+
+        {% if form.errors%}
+        <div class="row">
+          <div class="alert alert-warning" role="alert">
+
+
+            <p>{{form.errors}} </p>
+
+            <hr>
+
+          </div>
+        </div>
+        {% endif %}
+
+    
+    <div class="row">
+      <div class="form-group col-12">
+        <label for="{{ form.tipoPago.id_for_label }}"> tipoPago:</label>
+            {% render_field form.tipoPago class="form-control" %}
+
+              <span class="help-block">{{ form.tipoPago.errors }}</span>
+         
+
+      </div>
+
+      <div class="form-group col-12">
+
+        <label for="{{ form.identificador.id_for_label }}">identificador:</label>
+            {% render_field form.identificador class="form-control" %}
+
+            <span class="help-block">{{ form.identificador.errors }}</span>
+
+
+        
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-12">
+
+
+        <label for="{{ form.monto.id_for_label }}">monto:</label>
+            
+        {% render_field form.monto  class="form-control" %}
+            <span class="help-block">{{ form.monto.errors }}</span>
+      </div>
+    
+      
+      <div class="form-group col-12">
+        <label for="{{ form.monto_propina.id_for_label }}">monto_propina:</label>
+            {% render_field form.monto_propina class="form-control" %}
+
+            <span class="help-block">{{ form.monto_propina.errors }}</span>
+      </div>
+
+      <div class="form-group col-12">
+        <label for="{{ form.pedido_uuid.id_for_label }}">pedido_uuid:</label>
+            {% render_field form.pedido_uuid class="form-control" readonly="true" %}
+
+            <span class="help-block">{{ form.pedido_uuid.errors }}</span>
+      </div>
+    </div>
+</div><!--end cardbody -->
+<div class="card-footer">
+  <input type="button" value="Cancelar" class="btn btn-default"/>
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            
+        
+</div>
+</form>
+
+
+  
+
+{% endblock %}

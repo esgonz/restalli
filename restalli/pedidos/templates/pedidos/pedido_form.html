@@ -1,72 +1,205 @@
-
 {% extends "base.html" %}
 {% load widget_tweaks %}
-
 {% block content %}
-<div class="col-12">
-		<form method="post">
-			{% csrf_token %}
-			<table>
-				<tbody>
-			{{form.as_table}}
-				</tbody>
-			</table>
 
-			<input type="submit" value="Aceptar Pedido" class="btn btn-primary"/>
-		</form>
+
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Pedidos</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+
+
+  
+<div class="row">
+    <div class="col-12">
+          <div class="card" style="">
+            <div class="card-header">
+              Nuevo Pedido / Detalle
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  
+                  <thead>
+                            <th>Ctdad.</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                  </thead>
+
+                    <tbody>
+                  {% for selectProduct in cart_list %}   
+                  <tr>
+                    <td>
+
+                      <form method="post">
+                      {% csrf_token %}
+                      
+
+
+
+                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+
+                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+
+                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+
+                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
+
+                      </form>
+                    </td>
+
+                    <td>
+                      <p>{{selectProduct.nombre}}</p>
+                    </td>
+                    <td>
+                      <b>${{selectProduct.precio}}</b>
+                    </td> 
+                  </tr>
+
+                  {% endfor %}
+
+                </tbody>
+                
+              </table>
+              </div><!-- / table resp-->
+            </div><!-- / card body-->
+
+            <div class="card-footer mb-3">
+              
+
+              <div class="row">
+
+            
+                
+
+              </div>
+                
+
+                <form method="post">
+                      {% csrf_token %}
+                  <div class="row mb-3">
+    
+                    <div class="form-group col-4">
+                       
+                        {% render_field form.estadoPedido class="form-control" %}
+
+                        {% for error in form.estadoPedido.errors %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          {{error}}
+                        </small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group col-4">
+                       
+                        {% render_field form.mesa class="form-control" %}
+                        {% for error in form.mesa.errors %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          {{error}}
+                        </small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-4">
+                        <h3>TOTAL: <span class="badge badge-danger">${{total_cart}}</span></h3>
+                
+                    </div>
+
+                    
+
+
+                </div>
+
+
+
+                  <div class="row mb-3">
+                    <div class="col-12">
+                        
+                          
+
+                          <button type="submit" name="save" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                  </div>
+               </form>
+                
+              
+
+              
+            </div><!-- / card footer -->
+        </div>
+    </div>
+  </div><!-- / row -->
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
 </div>
+<!-- /.container-fluid -->
 
-<div class="col-12">
-	<div class="table-responsive">
-                            <table class="table">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <thead>
-                                        <th>Ctdad.</th>
-                                        <th>Producto</th>
-                                        <th>Precio</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for cartProduct in cart_list %}   
-                                        <tr>
-                                            <td>
-                                                <input class="form-control form-sm " id="cantidad" type="number" min="1" max="10" value="{{cartProduct.qty}}">
-                                            </td>
-
-                                            <td>
-                                                <p>{{cartProduct.nombre}}</p>
-                                            </td>
-
-                                            <td>
-                                                <b>${{cartProduct.precio}}</b>
-                                            </td>                                         
-                                        </tr>
-                                        {% endfor %}
-                                        <!--FIN PRUEBA-->
-                                        <tr>
-                                            <td colspan="2" >
-                                                <p align="right"> TOTAL:</p>
-                                            </td>
-                                            <td colspan="2">
-                                                <b>{{total_cart}}</b> </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" align="left">
-                                                
-                                                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
-                                                <button type="submit" name="pedido" class="btn btn-default">Actualizar pedido</button>
-
-                                              
-                                            </td>
-                                        <tr>
-                                    </tbody>
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
 
 
-                                </form>
-                            </table>
-                        </div>
-</div>
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+        "paging" : false,
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
 {% endblock %}
+
+
+
 
 

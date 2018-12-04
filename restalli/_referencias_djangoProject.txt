@@ -41,6 +41,11 @@ pip3 install django-widget-tweaks
 https://simpleisbetterthancomplex.com/2015/12/04/package-of-the-week-django-widget-tweaks.html
 
 
+
+#handle post and form_valid together
+https://stackoverflow.com/questions/40026738/django-createview-dont-call-form-valid-neither-form-invalid-or-post
+
+
 #SUPERUSER (ADMIN)
 
 python3 manage.py createsuperuser

@@ -1,212 +1,336 @@
 
+
 {% extends "base.html" %}
 
 {% block content %}
 
-<section class="main row">
 
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+  
+  <div class="row">
+    <div class="col-12">
+          <div class="card" style="">
+            <div class="card-header">
+              Seleccion
+            </div>
+
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  
+                  <thead>
+                            <th>Ctdad.</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                  </thead>
                 
-                <!--xs movil, sm y md tablets, lg pc-->
-                <article class="col-md-7">
-                    <div class="row">
-                        <div class="col-12">
-                            <h3>Menú/ </h3>  <h4> Desayunos</h4>
-                        </div>
-                    </div>
+
+                    <tbody>
+                  {% for selectProduct in cart_list %}   
+                  <tr>
+                    <td>
+
+                      <form method="post">
+                      {% csrf_token %}
+                      
 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        {% if productosMenu_list %}
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Platos/ Productos</th>
-                                        <th>Precio</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
 
-                                    {% for menu in productosMenu_list %}
-                                    <tr>
-                                        <td>
-                                            <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
-                                        </td>
-                                        <td>
+                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
 
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
+                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
 
-                                                    
-                                                </div>
-                                                <div class="col-12">
-                                                    <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
+                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
 
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">{{menu.descripcion}}</p>
-                                                </div>
-                                               
-                                            </div>
+                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
 
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                    <h3>${{ menu.precio }}</h3>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <form method="post">
-                                                {% csrf_token %}
-                                                <div class="row">
-                                                    <div class="form-group col-12">
-                                                        <input type="hidden" id="uuid" name="uuid" value="{{menu.uuid}}">
-                                                        <input type="hidden" id="add" name="add" value="add">
-                                                        <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <input type="submit" value="Add" class="btn-sm btn-primary">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                          
-                                          
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                      </form>
+                    </td>
 
-                                </tbody>
-                            </table> 
-                            <hr>
-                        </div>
-                        {% else %}
-                          <p>No Existen Platillos/ productos.</p>
-                        {% endif %}
+                    <td>
+                      <p>{{selectProduct.nombre}}</p>
+                    </td>
+                    <td>
+                      <b>${{selectProduct.precio}}</b>
+                    </td> 
+                  </tr>
 
-                        
-                    </div>
+                  {% endfor %}
+
+                </tbody>
+                
+              </table>
+              </div><!-- / table resp-->
+            </div><!-- / card body-->
+
+            <div class="card-footer mb-3">
+              
+
+              <div class="row">
+
+                <div class="col-3">
+                  <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
+                  </form>
+                </div>
+
+                <div class="col-3">
+                  <p align="right"> TOTAL:</p>
+                </div>
+                <div class="col-6">
+                  <p align="right">  <b>{{total_cart}}</b></p>
+                </div>
 
 
-                    {% block pagination %}
-                      {% if is_paginated %}
-                          <div class="pagination">
-                              <span class="page-links">
-                                  {% if page_obj.has_previous %}
-                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Anterior</a>
-                                  {% endif %}
-                                  <span class="page-current">
-                                      Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                                  </span>
-                                  {% if page_obj.has_next %}
-                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Siguiente</a>
-                                  {% endif %}
-                              </span>
-                          </div>
-                      {% endif %}
-                    {% endblock %}
+              </div>
 
-                </article>
+              <div class="row">
+                <div class="col-12">
 
-                <aside class="col-md-5">
+                  <a class="btn btn-success btn-block" href="{% url 'pedidos:create' %}">Continuar</a>
+                </div>
+              </div>
+                
+              
 
-                    <div class="row">
-                      <div class="col-md-12">
-                            <h4>Categorías del Menú</h4> <hr>
-                            <div class="listaCategoria">
-                                <ul class="list-group">
-                                    {% for categoria in categorias_list %}
-                                    <li class="list-group-item">
-                                        <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                                    {% endfor %}    
-                                </ul>                    
-                            </div>
-                            <hr>
+              
+            </div><!-- / card footer -->
+        </div>
+    </div>
+  </div><!-- / row -->
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+        
 
-                        </div>  
-                    </div>
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+        <h4>Pedido / Seleccionar productos</h4>
+        </div><!--/card-header-->
 
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              {% if productosMenu_list %}
+              <!-- code here to list the books -->
+              {% else %}
+              <p>No Existen Platillos/ productos.</p>
+              {% endif %}
 
-                    <div class="row">
-                        
-                    
-                        <h4>Pedido Actual:</h4>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <thead>
-                                        <th>Ctdad.</th>
-                                        <th>Producto</th>
-                                        <th>Precio</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for cartProduct in cart_list %}   
-                                        <tr>
-                                            <td>
-                                                <input class="form-control form-sm " id="cantidad" type="number" min="1" max="10" value="{{cartProduct.qty}}">
-                                            </td>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Imagen</th>
+                                <th>Platos/ Productos</th>
+                                <th>Precio</th>
+                                <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                        <th>Imagen</th>
+                                <th>Platos/ Productos</th>
+                                <th>Precio</th>
+                                <th>Acción</th>
+                      
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                 {% for menu in productosMenu_list %}
+                            <tr>
+                                <td>
+                                    <img src="{{menu.imagen.url}}" alt="Platillo" width="110" height="100">
+                                </td>
+                                <td>
 
-                                            <td>
-                                                <p>{{cartProduct.nombre}}</p>
-                                            </td>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a class="" href="{% url "menu:detail" pk=menu.uuid %}">{{ menu.nombre }} </a>
 
-                                            <td>
-                                                <b>${{cartProduct.precio}}</b>
-                                            </td>                                         
-                                        </tr>
-                                        {% endfor %}
-                                        <!--FIN PRUEBA-->
-                                        <tr>
-                                            <td colspan="2" >
-                                                <p align="right"> TOTAL:</p>
-                                            </td>
-                                            <td colspan="2">
-                                                <b>{{total_cart}}</b> </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" align="left">
-                                                
-                                                <button type="submit" name="clear" class="btn btn-danger">Limpiar pedido</button>
-                                                <button type="submit" name="pedido" class="btn btn-default">Actualizar pedido</button>
-
-                                              
-                                            </td>
-                                        <tr>
-                                            <td colspan="4" align="right">
-                                                
-                        
-
-                                                <a class="btn btn-success" href="{% url 'pedidos:create' %}">Continuar</a>
-                                            </td>
-                                        </tr>
                                             
-                                        </tr>
-                                    </tbody>
-                                </form>
-                            </table>
-                        </div>
-                    </div>
-                </aside>
-            </section>
+                                        </div>
+                                        <div class="col-12">
+                                            <small>Categoria: <a class="" href=""">{{ menu.categoria_uuid }} </a></small>
 
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="small">{{menu.descripcion}}</p>
+                                        </div>
+                                        
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        
+                                        <div class="col-12">
+                                            <h3>${{ menu.precio }}</h3>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="form-group col-12">
+                                                <input type="hidden" id="uuid" name="uuid" value="{{menu.uuid}}">
+                                                <input type="hidden" id="add" name="add" value="add">
+                                                <input class="form-control" min="1" type="number" name="qty" id="qty" value="0" placeholder="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="submit" value="Add" class="btn-sm btn-primary">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                    
+                                </td>
+                            </tr>
+                            {% endfor %}
+                  </tbody>
+                </table><!--/ table-->
+              </div><!-- /table resp-->
+            </div><!--/ col 8-->
+            <div class="col-4">
+              <div class="card" style="">
+                <div class="card-header">
+                   Filtrar por Categorias
+
+                    <a href="{% url 'pedidos:menu' %}" class="btn btn-sm btn-success">limpiar</a>
+                </div>
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    {% for categoria in categorias_list %}
+                      <li class="list-group-item">
+                           <a href="{% url 'pedidos:menu' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a>
+
+                      </li>
+                          {% endfor %} 
+
+                          
+
+                  </ul>
+                </div>
+              </div>
+            </div><!-- /col 4 -->
+
+        </div><!-- /card body-->
+        
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+    
+        </div><!-- /card footer-->
+      </div><!-- /card-->
+    </div><!-- / col-->
+  </div><!-- / row -->
+  
+  
+
+  <p class="small text-center text-muted my-5">
+    <em>More table examples coming soon...</em>
+  </p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "paging": false,
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+    
+    $('#dataTable2').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        "decimal":        "",
+        "emptyTable":     "Sin informacion disponible para la tabla",
+        "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+        "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+        "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing":     "Procesando...",
+
+        "zeroRecords":    "No se encontro nada",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+        },
+        "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+        }
+
+
+      }
+    });
+  });
+</script>
 {% endblock %}
+
+
 
 
 

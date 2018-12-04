@@ -4,10 +4,13 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .models import Pedido
+
+from .models import Pedido, PedidoItem
+from .forms import PedidoForm, PedidoUpdateForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from menu.forms import ProductosMenuForm
 from menu.views import MenuList
+from mesas.models import Mesas
 
 #from .forms import ProductosMenuForm
 # Create your views here.
@@ -15,18 +18,18 @@ from menu.views import MenuList
 
 class PedidoCreation(generic.edit.CreateView):
 	model = Pedido
-	fields = [
-		'numero',
-		'sucursal',
-		'total',
-		'status',
-		'estadoPedido'
-	]
-
-	#form_class = ProductosMenuForm
+	form_class = PedidoForm
 	success_url = reverse_lazy('pedidos:list')
+	
+
+	def get_initial(self):
+		print("GET INITIAL:")
+		total_cart = self.request.session.get('total_cart', [])
+		
+
+
 	def get_context_data(self, **kwargs):
-		print("NUEVO LIST CART:")
+		print("get context:")
 		# Call the base implementation first to get a context
 		context = super().get_context_data(**kwargs)
 
@@ -45,7 +48,7 @@ class PedidoCreation(generic.edit.CreateView):
 
 
 
-		print("NUEVO LIST CART 2:")
+		print("CART pedido:")
 		print(context['cart_list'])
 		return context
 	
@@ -60,9 +63,11 @@ class PedidoCreation(generic.edit.CreateView):
 
 		if 'clear' in request.POST:
 			request.session.flush()
-		elif 'add' in request.POST:
-			
+		
 
+		elif 'add' in request.POST or 'upde' in request.POST  :
+			print("*ADD")
+			#si se pulso "agregar" desde la lista de productos disponibles
 			uuid_producto = request.POST['uuid']
 			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
 			qty_producto = request.POST['qty']
@@ -76,27 +81,93 @@ class PedidoCreation(generic.edit.CreateView):
 
 			temp_index = 0
 			
-			total_cart = 0
+			#sumar qty si ya existe en el carro
 			for index, prod in enumerate(request.session['cart']):
 				print("PROD")
 				print(prod)
-				print("PROD")
-				total_cart = total_cart + float(prod['precio'])
+
+				
+
+				#si existe el id en el carro
 				if prod['uuid'] == uuid_producto:
 					#prev save object
 					producto_temp = prod
 					#then delete product
 					request.session['cart'].remove(prod)
 					
-					#change qty
-					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
-					productoToAdd["qty"] = temp_qty
-					break
+					#change qty and add like a new brand
+					if 'add' in request.POST:
+						pass
+						temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					else:
+						temp_qty = int(productoToAdd["qty"])
 
-			request.session['total_cart'] = total_cart
-			request.session['cart'].append(productoToAdd)
+
+					productoToAdd["qty"] = temp_qty
+					
+				
+
+			if int(productoToAdd['qty'])>0:
+				request.session['cart'].append(productoToAdd)
 			print(request.session['cart'])
-		return super().get(request, *args, **kwargs)
+
+			#recaulcular total
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				total_cart = total_cart +  float(float(prod['precio']) * int(prod["qty"]))
+				print("total:")
+				print(total_cart)	
+			#agregar producto al carro seleccion
+			
+			request.session['total_cart'] = total_cart
+		
+
+		elif 'save' in request.POST :
+			print("SAVE PEDIDO**")
+			
+		
+		return super(PedidoCreation, self).post(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		print("form_valid")
+		form.instance.total = self.request.session.get('total_cart', 0)
+		pedido = form.save()#commit false doesnt save in the DB, only create in memory
+		print(pedido.uuid)
+		print(str(pedido.total))
+		print (self.request.session['cart'])
+
+
+		total_cart = 0
+		for index, prod in enumerate(self.request.session['cart']):
+			print("PROD")
+			print(prod)
+			print("PROD")
+			total_cart = total_cart + float(prod['precio'])
+			producto_temp = ProductosMenu.objects.get(uuid = prod['uuid'])
+
+			pedidoItem_to_save = PedidoItem.objects.create(
+				productoMenu = producto_temp,
+				cantidad = prod['qty'],
+				precioVenta = producto_temp.precio,
+				subtotal = int(prod['qty'])* producto_temp.precio,
+				status = 1,
+				pedido_uuid = pedido
+			)
+			pedidoItem_to_save.save()
+		
+
+		#mesa_temp = Mesa.objects.get(uuid = form.instance.mesa.uuid)
+		form.instance.mesa.estado = "OCP"
+		form.instance.mesa.save()
+		print ("END FORM VALID")
+		return super(PedidoCreation, self).form_valid(form)
+
+class PedidoCreationMovil(PedidoCreation):
+	template_name = "pedidos/pedido_form_movil.html"
+	success_url = reverse_lazy('pedidos:mlist')
+	model = Pedido
+	form_class = PedidoForm
+	
 
 
 
@@ -114,13 +185,71 @@ class PedidoDetail(generic.DetailView):
 		'estadoPedido'
 	]
 
-	#template_name = 'menu/editar.html'
-	#
+	def get_context_data(self, **kwargs):
+		print("get context:")
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+
+		pedidosItems = PedidoItem.objects.filter(pedido_uuid= self.kwargs['pk']) 
+		
+		context['items_list'] = []
+		for pitem in pedidosItems:
+
+			pitem_to_show = {
+				'uuid' : pitem.productoMenu.uuid, 
+				'nombre':pitem.productoMenu.nombre,
+				'qty': pitem.cantidad,
+				'precio': pitem.precioVenta, 
+	        }              	
+			context['items_list'].append(pitem_to_show)
+		#context['items_list']
+		return context
+
+class PedidoDetailMovil(PedidoDetail):
+	template_name = "pedidos/pedido_detail_movil.html"
 
 class PedidoUpdate(generic.UpdateView):
 	model = Pedido
-	#form_class = ProductosMenuForm
-	#success_url = reverse_lazy('menu:list')
+	form_class = PedidoUpdateForm
+	template_name = "pedidos/pedido_update.html"
+	success_url = reverse_lazy('pedidos:list')
+
+
+	def get_initial(self):
+		print("GET INITIAL:")
+
+		if 'estado' in self.request.GET:
+			estadoPedido = self.request.GET['estado']
+
+			return {
+				'estadoPedido': estadoPedido
+	        }
+
+
+	def get_context_data(self, **kwargs):
+		print("get context:")
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+
+		pedidosItems = PedidoItem.objects.filter(pedido_uuid= self.kwargs['pk']) 
+		
+		context['items_list'] = []
+		for pitem in pedidosItems:
+
+			pitem_to_show = {
+				'uuid' : pitem.productoMenu.uuid, 
+				'nombre':pitem.productoMenu.nombre,
+				'qty': pitem.cantidad,
+				'precio': pitem.precioVenta, 
+	        }              	
+			context['items_list'].append(pitem_to_show)
+		#context['items_list']
+		return context
+
+
+
+class PedidoUpdateMovil(PedidoUpdate):
+	template_name = "pedidos/pedido_update_movil.html"
 
 class PedidoDelete(generic.DeleteView):
 	model = Pedido
@@ -130,7 +259,7 @@ class PedidoList(generic.ListView):
 	model = Pedido
 
 	context_object_name = 'pedidos_list'
-	paginate_by = 10
+	paginate_by = 50
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -141,19 +270,27 @@ class PedidoList(generic.ListView):
 
 	def get_queryset(self):
 		#leo el parametro que viene desde get(url)
-		filter_val = self.request.GET.get('categoria', '')
+		filter_val = self.request.GET.get('estado', '')
 		if filter_val!='':
 			#si el parametro existe, aplico el filtro.
-			return Pedido.objects.filter(numero=filter_val)
+			return Pedido.objects.filter(estadoPedido=filter_val)
 		else:
 			#si no, devuelvo todos los productos
 			return Pedido.objects.all()
-    	
+    
+class PedidoListMovil(PedidoList):
+	template_name = "pedidos/pedido_list_movil.html"
+
+
+
+
+
+"""Menu Oferta """    	
 class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
 	template_name = 'pedidos/menuOfertas_list.html'
-	paginate_by = 10
+	paginate_by = 100
 
 	
 
@@ -166,9 +303,10 @@ class MenuOfertList(MenuList):
 
 		if 'clear' in request.POST:
 			request.session.flush()
-		elif 'add' in request.POST:
-			
-
+		
+		elif 'add' in request.POST or 'upde' in request.POST  :
+			print("*ADD")
+			#si se pulso "agregar" desde la lista de productos disponibles
 			uuid_producto = request.POST['uuid']
 			productoObject = ProductosMenu.objects.get(uuid=uuid_producto)
 			qty_producto = request.POST['qty']
@@ -182,26 +320,48 @@ class MenuOfertList(MenuList):
 
 			temp_index = 0
 			
-			total_cart = 0
+			#sumar qty si ya existe en el carro
 			for index, prod in enumerate(request.session['cart']):
 				print("PROD")
 				print(prod)
-				print("PROD")
-				total_cart = total_cart + float(prod['precio'])
+
+				
+
+				#si existe el id en el carro
 				if prod['uuid'] == uuid_producto:
 					#prev save object
 					producto_temp = prod
 					#then delete product
 					request.session['cart'].remove(prod)
 					
-					#change qty
-					temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
-					productoToAdd["qty"] = temp_qty
-					break
+					#change qty and add like a new brand
+					if 'add' in request.POST:
+						pass
+						temp_qty = int(producto_temp['qty']) + int(productoToAdd["qty"])
+					else:
+						temp_qty = int(productoToAdd["qty"])
 
-			request.session['total_cart'] = total_cart
-			request.session['cart'].append(productoToAdd)
+
+					productoToAdd["qty"] = temp_qty
+					
+				
+
+			if int(productoToAdd['qty'])>0:
+				request.session['cart'].append(productoToAdd)
 			print(request.session['cart'])
+
+			#recaulcular total
+			total_cart = 0
+			for index, prod in enumerate(request.session['cart']):
+				total_cart = total_cart +  float(float(prod['precio']) * int(prod["qty"]))
+				print("total:")
+				print(total_cart)	
+			#agregar producto al carro seleccion
+			
+			request.session['total_cart'] = total_cart
+			
+
+		
 		return super().get(request, *args, **kwargs)
 
 
@@ -220,6 +380,7 @@ class MenuOfertList(MenuList):
 
 		#try to get cart, if cart doesnt exist, empty list
 		total_cart = self.request.session.get('total_cart', [])
+	
 		# Do stuff with cart
 		self.request.session['total_cart'] = total_cart
 		context['total_cart'] = self.request.session['total_cart']
@@ -240,4 +401,8 @@ class MenuOfertList(MenuList):
 			return ProductosMenu.objects.all()
 
 
+
+"""Menu Oferta Movil """
+class MenuOfertaListMovil(MenuOfertList):
+	template_name = 'pedidos/menuOfertas_list_movil.html'
     	

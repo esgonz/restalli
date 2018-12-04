@@ -6,7 +6,11 @@
 	<form method="post">
 		{% csrf_token %}
 
-		
+		<div class="row">
+	      <div class="alert alert-warning" role="alert">
+	        <p>{{ form.errors}}</p>
+	      </div>     
+	    </div>
 
 		<div class="row">
 			<div class="form-group col-12">
@@ -38,8 +42,8 @@
 
     
 
-
-        <input type="submit" value="Submit" class="btn btn-primary"/>
+		<a href="{% url 'menu:catList' %}"  class="btn btn-default right">Cancelar</a>
+        <input type="submit" value="Guardar" class="btn btn-primary right"/>
     </form>
 </div>
 {% endblock %}

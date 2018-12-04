@@ -1,94 +1,166 @@
-{% extends "stock/base.html" %}
-{% load static %}
+
+
+{% extends "base.html" %}
+
 {% block content %}
 
-<main role="main">
-        <div class="container">
-            <div class="col-8">
-            <h2 align="center">Ventas</h2>
-            <hr>
-            </div>
-            </div>
-          
 
-            
-        <div class="row" id="search">
-            <div class="col-8">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 col-6" type="search" placeholder="Buscar producto por nombre" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-              </form>
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Ventas</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="">
+                <div class="card-header">
+                    Lista
+                </div>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+
+                                    <th>Nº Pedido</th>
+                                    <th>Tipo de Pago</th>
+                                    <th>Identificador pago </th>
+                                    <th>Total</th>
+                                    <th>Propina</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Nº Pedido</th>
+                                    <th>Tipo de Pago</th>
+                                    <th>Identificador pago </th>
+                                    <th>Total</th>
+                                    <th>Propina</th>
+
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for venta in ventas_list %}
+                                <tr>
+                                    <td>
+                                        <p class="small">{{venta.pedido_uuid}}</p>
+                                    </td>
+
+                                    <td>
+                                        {% if venta.tipoPago == "EFE" %}
+                                          <span class="badge badge-pill badge-info">Efectivo</span>
+                                        {% elif venta.tipoPago == "DEB" %}
+                                          <span class="badge badge-pill badge-secondary">Debito</span>
+                                        {% elif venta.tipoPago == "CRE" %}
+                                          <span class="badge badge-pill badge-default">Credito</span>
+                                        {% elif venta.tipoPago == "CHE" %}
+                                          <span class="badge badge-pill badge-danger">Cheque</span>
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
+                                        {% if venta.identificador %}
+                                        <p class="small">{{venta.identificador}}</p>
+                                        {% else %}
+                                        <p class="small">--</p>
+
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
+                                        <p class="small"> ${{venta.monto}}</p>
+                                    </td>
+
+                                    <td>
+                                        <p class="small"> $ {{venta.monto_propina}}</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                    
+                                    </tbody>
+                                </table>
+
+                     </div><!-- /table resp-->
+
+
+                </div><!-- /card body-->
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+            </div><!-- /card footer-->
+        </div><!-- /card-->
+
+    </div><!-- / row -->
+
+
+
+            <p class="small text-center text-muted my-5">
+                <em>More table examples coming soon...</em>
+            </p>
+
+</div> <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright © Your Website 2018</span>
+                </div>
             </div>
+        </footer>
+
+
+<script  type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
   
-            <div class="col-8"></div>
-          </div>
+    $('#dataTable').DataTable({
+      "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+      "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+      "decimal":        "",
+      "emptyTable":     "Sin informacion disponible para la tabla",
+      "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+      "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+      "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix":    "",
+      "thousands":      ",",
+      "lengthMenu":     "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing":     "Procesando...",
 
-      </main>
+      "zeroRecords":    "No se encontro nada",
+      "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Próxima",
+          "previous":   "Anterior"
+      },
+      "aria": {
+          "sortAscending":  ": activate to sort column ascending",
+          "sortDescending": ": activate to sort column descending"
+      }
 
-      <hr>
-      <div class="row" id="table-responsive">
-      <table class="table table-striped">
-          <div class="col-8">
-          <thead>
-              <tr>
-                  <th>Tipo</th>
-                  <th>inicio</th>
-                  <th>estado</th>
-                  <th>usuario de Medida</th>
-                          </tr>          </thead>
 
-          
-              {% for venta in object_list %}
-                  <tr>
-                  <td>{{ venta.tipoPago }}</td>
-                  <td>{{ venta.stockInicial }}</td>
-                    <td>{{ venta.status }}</td>
-                    <td>{{ venta.user_uuid }}</td>
+          }
+    });
 
-                  <td><a class="btn btn-info" href="{% url 'venta:Update' pk=venta.uuid %}">Editar</a>
-                     <a class="btn btn-danger" href="{% url 'venta:Delete' pk=venta.uuid  %}">Eliminar</a>
-                  </td>
-              </tr>
-              {% endfor %}
-                 
-                  </table>
-        <a class="btn btn-primary" href="{% url 'venta:Create'  %}">Agregar</a>
-       
-                    
-    </div>
+  });
+</script>
 
-           
 
-   </tbody>
+        {% endblock %}
 
-   {% if is_paginated %}
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item ">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-        </li>
-      {% endif %}
-      {% for i in paginator.page_range %}
-        <li class="page-item {% if page_obj.number == i %}active{% endif %}">
-          <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-        </li>
-      {% endfor %}
-      {% if page_obj.has_next %}
-        <li class="page-item ">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">&raquo;</a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-{% endif %}
-                                                
-{% endblock %}
+
+
+
+
+
+

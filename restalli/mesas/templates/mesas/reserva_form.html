@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container-fluid">
+  
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item ">Menu</li>
+    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item active">Detalle</li>
+  </ol>
+  <!-- / Breadcrumbs-->
+
+
+
+  <!-- row nuevo producto card-->
+  <div class="row">
+    <div class="col-12">
+      <!--card-->
+      <div class="card mb-3" style="">
+        
+        <!--card header-->
+        <div class="card-header">
+          <h3>Mesa</h3>
+        </div>
+        <!--/card header-->
+
+        <!--card body-->
+        <div class="card-body">
+          <!--descripcion -->
+          <dl class="row">
+            <dt class="col-sm-3">Identificador:</dt>
+            <dd class="col-sm-9"><p>{{mesa.identificador}}</p></dd>
+
+            <dt class="col-sm-3">Estado:</dt>
+
+            <dd class="col-sm-9">
+                            {% if mesa.estado == "FRE" %}
+                            <span class="badge badge-pill badge-success">Libre</span>
+                            {% elif mesa.estado == "OCP" %}
+                            <span class="badge badge-pill badge-warning">Ocupada</span>
+                            {% elif mesa.estado == "RSV" %}
+                            <span class="badge badge-pill badge-info">Reservada</span>
+                            {% endif %}
+            </dd>
+
+            
+          </dl>
+          <!-- /descripcion -->
+        </div>
+
+        <div class="card-footer">
+          <a href="{% url 'mesas:list' %}" class="btn btn-secondary btn-sm right">Volver </a>
+        </div>
+
+      </div>
+      <!--/ card-->
+
+    </div><!-- /col-->
+  </div><!-- /row -->
+
+
+
+
+
+
+
+  <div class="row">
+    <div class="col-12">
+      <!-- DataTables Example -->
+      <div class="card mb-3">
+
+
+        <form method="post">
+          {% csrf_token %}
+
+
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+              Mesas /
+            <h3>Reservar</h3>
+          </div>
+        
+          <div class="card-body">
+
+            {% if form.errors%}
+            <div class="row">
+              <div class="alert alert-warning" role="alert">
+
+
+                <p>{{form.errors}} </p>
+
+                <hr>
+
+              </div>
+            </div>
+            {% endif %}
+
+
+        
+            <div class="row">
+              <div class="form-group col-12">
+                <label for="{{ form.mesa_uuid.id_for_label }}">{{ form.mesa_uuid.label }}:</label>
+                {% render_field form.mesa_uuid class="form-control" %}
+
+                {% for error in form.mesa_uuid.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="form-group col-5">
+                <label for="{{ form.fecha.id_for_label }}">{{ form.fecha.label }}:</label>
+                {% render_field form.fecha class="form-control" type="datetime-local" %}
+
+                {% for error in form.fecha.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+
+              </div>
+            
+              <div class="form-group col-7">
+                <label for="{{ form.cliente_nombre.id_for_label }}">{{ form.cliente_nombre.label }}:</label>
+                {% render_field form.cliente_nombre class="form-control" %}
+
+                {% for error in form.cliente_nombre.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-4">
+                <label for="{{ form.cliente_numero1.id_for_label }}">{{ form.cliente_numero1.label }}:</label>
+                {% render_field form.cliente_numero1 class="form-control" %}
+
+                {% for error in form.cliente_numero1.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            
+              <div class="form-group col-4">
+                <label for="{{ form.cliente_numero2.id_for_label }}">{{ form.cliente_numero2.label }}:</label>
+                {% render_field form.cliente_numero2 class="form-control" %}
+
+                {% for error in form.cliente_numero2.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            
+              <div class="form-group col-4">
+                <label for="{{ form.cliente_email.id_for_label }}">{{ form.cliente_email.label }}:</label>
+                {% render_field form.cliente_email class="form-control" %}
+
+                {% for error in form.cliente_email.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-12">
+                <label for="{{ form.num_personas.id_for_label }}">{{ form.num_personas.label }}:</label>
+                {% render_field form.num_personas class="form-control" %}
+
+                {% for error in form.num_personas.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            
+
+            
+
+
+            <div class="row">
+              <div class="form-group col-12">
+                <label for="{{ form.comentarios.id_for_label }}">{{ form.comentarios.label }}:</label>
+                {% render_field form.comentarios class="form-control" type="textarea" %}
+
+                {% for error in form.comentarios.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+
+
+
+          </div><!--end cardbody -->
+          
+          <div class="card-footer">
+            <a href="{% url 'mesas:list' %}"  class="btn btn-default right">Cancelar</a>
+            <input type="submit" value="Guardar" class="btn btn-primary right"/>
+          </div>
+        </form>
+      </div><!-- / card -->
+    </div><!--/col-12-->
+  </div><!-- /row -->
+
+
+
+<p class="small text-center text-muted my-5">
+  <em>More table examples coming soon...</em>
+</p>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+
+
+
+{% endblock %}
+
+

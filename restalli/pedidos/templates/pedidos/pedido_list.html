@@ -1,150 +1,220 @@
 
+
 {% extends "base.html" %}
 
 {% block content %}
 
-<section class="main row">
 
-                
-                <!--xs movil, sm y md tablets, lg pc-->
-                <article class="col-md-12">
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card" style="">
+        <div class="card-header">
+          Seleccion
+        </div>
+
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+
+                  <th>Nº Pedido</th>
+                  <th>Acción</th>
+                  <th>Mesa</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nº Pedido</th>
+                  <th>Acción</th>
+                  <th>Mesa</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  
+
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for pedido in pedidos_list %}
+                <tr>
+                  <td>
+                    <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
+                  </td>
+
+                  <td>
+                    {% if pedido.estadoPedido == "INIT" %}
+                    <a class="btn btn-block btn-primary" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=OK">Entregar </a>
+
+                    {% elif pedido.estadoPedido == "OK" %}
+                    <a class="btn btn-block btn-warning" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=FNLZ">Finalizar </a>
+
+                    {% elif pedido.estadoPedido == "FNLZ" %}
+                    
+                      <a class="btn btn-block btn-success" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+
+                    {% elif pedido.estadoPedido == "PGD" %}
+                    <span class="badge badge-pill badge-success">PAGADO</span>
+
+                    {% else %}
+                    <a class="btn btn-block btn-info" href="{% url 'pedidos:update' pk=pedido.uuid %}">Actualizar </a>
+                    {% endif %}
+                  </td>
+
+                  <td>
+
+
                     <div class="row">
+                      <div class="col-12">
+                        <p class="small">{{pedido.mesa.identificador}}</p>
+                      </div>
+
+                    </div>
+                  </td>
+                    <td>
+
+
+                      <div class="row">
                         <div class="col-12">
-                            <h3>Pedidos/ </h3>  <h4></h4>
+                          <p class="small">${{pedido.total}}</p>
                         </div>
-                    </div>
+
+                      </div>
+
+                      </td>
+                      <td>
 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <a class="btn btn-primary" href="{% url "menu:create" %}">Agregar Producto</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        {% if pedidos_list %}
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Nº Pedido</th>
-                                        <th>Mesa</th>
-                                        <th>Total</th>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
-                                        <th>Hora Termino</th>
-                                        <th>Estado</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {% for pedido in pedidos_list %}
-                                    <tr>
-                                        <td>
-                                            <a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">{{ pedido.numero }} </a>
-                                        </td>
-
-                                        <td>
-
-                                          
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">Mesa 2</p>
-                                                </div>
-                                               
-                                            </div>
-
-                                        <td>
-
-                                          
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">${{pedido.total}}</p>
-                                                </div>
-                                               
-                                            </div>
-
-
-                                        <td>
-
-                                          
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="small">{{pedido.created}}</p>
-                                                </div>
-                                               
-                                            </div>
-
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                      <p class="small">{{pedido.created}}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                      <p class="small">{{pedido.modified}}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                      <p class="small">{{pedido.estadoPedido}}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                      <p class="small"></p>
-                                                </div>
-                                            </div>
-                                        </td>
-    
-                                    </tr>
-                                    {% endfor %}
-
-                                </tbody>
-                            </table> 
-                            <hr>
-                        </div>
-                        {% else %}
-                          <p>No Existen Platillos/ productos.</p>
-                        {% endif %}
-
-                        
-                    </div>
-
-
-                    {% block pagination %}
-                      {% if is_paginated %}
-                          <div class="pagination">
-                              <span class="page-links">
-                                  {% if page_obj.has_previous %}
-                                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Anterior</a>
-                                  {% endif %}
-                                  <span class="page-current">
-                                      Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                                  </span>
-                                  {% if page_obj.has_next %}
-                                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Siguiente</a>
-                                  {% endif %}
-                              </span>
+                        <div class="row">
+                          <div class="col-12">
+                            <p class="small">{{pedido.created}}</p>
                           </div>
-                      {% endif %}
-                    {% endblock %}
-                </article>
-            </section>
 
-{% endblock %}
+                        </div>
+
+                      </td>
+
+
+                      <td>
+                        <div class="row">
+
+                          <div class="col-12">
+                            
+
+                            {% if pedido.estadoPedido == "INIT" %}
+                            <span class="badge badge-pill badge-primary">Pendiente</span>
+                            {% elif pedido.estadoPedido == "WAIT" %}
+                            <span class="badge badge-pill badge-warning">Espera</span>
+                            {% elif pedido.estadoPedido == "OK" %}
+                            <span class="badge badge-pill badge-default">Entregado</span>
+                            {% elif pedido.estadoPedido == "CNCL" %}
+                            <span class="badge badge-pill badge-danger">Cancelado</span>
+                            {% elif pedido.estadoPedido == "FNLZ" %}
+                            <span class="badge badge-pill badge-info">Finalizado</span>
+                            
+                            {% elif pedido.estadoPedido == "PGD" %}
+                            <span class="badge badge-pill badge-success">Pagado</span>
+                            {% endif %}
+
+
+
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div><!-- /table resp-->
+
+
+            </div><!-- /card body-->
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+            </div><!-- /card footer-->
+          </div><!-- /card-->
+
+        </div><!-- / row -->
+
+
+
+        <p class="small text-center text-muted my-5">
+          <em>More table examples coming soon...</em>
+        </p>
+
+      </div> <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © Your Website 2018</span>
+          </div>
+        </div>
+      </footer>
+
+
+      <script  type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+          $('#dataTable').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+            "language": {
+              search: "_INPUT_",
+              searchPlaceholder: "Buscar...",
+              "decimal":        "",
+              "emptyTable":     "Sin informacion disponible para la tabla",
+              "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+              "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+              "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing":     "Procesando...",
+
+              "zeroRecords":    "No se encontro nada",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Próxima",
+                "previous":   "Anterior"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+
+
+            }
+          });
+
+        });
+      </script>
+
+
+      {% endblock %}
+
+
+
+
 
 
 
