@@ -11,8 +11,8 @@
     <li class="breadcrumb-item">
       <a href="#">Dashboard</a>
     </li>
-    <li class="breadcrumb-item ">Pedidos</li>
-    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item "><a href="{% url 'pedidos:mlist'%}">Pedidos</a></li>
+    <li class="breadcrumb-item "><a href="{% url 'pedidos:mcreate'%}">Nuevo</a></li>
     <li class="breadcrumb-item active">Detalle</li>
   </ol>
   <!-- / Breadcrumbs-->
@@ -62,13 +62,13 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-4">
+                        <div class="col-12">
                           
                           <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
                           
                           <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
                         </div>
-                         <div class="col-6">
+                         <div class="col-12">
                           <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
                           <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
                         </div>

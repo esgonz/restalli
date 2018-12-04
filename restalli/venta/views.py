@@ -13,8 +13,16 @@ from pedidos.models import Pedido
 class ventaListView(generic.ListView):
     model = Venta
     context_object_name = 'ventas_list'
+
+class ventaListViewMovil(ventaListView):
+    template_name="venta/venta_list_movil.html"
+
 class ventaDetailView(generic.DetailView):
     model = Venta
+
+class ventaDetailViewMovil(ventaDetailView):
+    template_name="venta/venta_detail_movil.html"
+
 
 class ventaCreate(generic.CreateView):
     model = Venta
@@ -51,7 +59,7 @@ class ventaCreate(generic.CreateView):
         print("PEDIDO:")
         print(pedido_to_update)
 
-        pedido_to_update.estadoPedido = "FNLZ"
+        pedido_to_update.estadoPedido = "PGD"
         pedido_to_update.save()
 
         form.instance.pedido_uuid = pedido_to_update
@@ -107,6 +115,10 @@ class ventaCreate(generic.CreateView):
         # Add in a QuerySet of all the books
         #context['categorias_list'] = CategoriaMenu.objects.all()
         return contextxw"""
+
+class ventaCreateMovil(ventaCreate):
+    template_name="venta/venta_form_movil.html"
+    success_url = reverse_lazy('venta:mlist')
 
 class ventaUpdate(generic.UpdateView):
     model = Venta

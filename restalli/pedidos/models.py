@@ -19,12 +19,14 @@ class Pedido(models.Model):
     ENTREGADO = 'OK'
     CANCELADO = 'CNCL'
     FINALIZADO = 'FNLZ'
+    PAGADO = 'PGD'
     ESTADO_PEDIDO_CHOICES = (
         (PENDIENTE, 'Pendiente'),
         (ESPERA, 'Espera'),
         (ENTREGADO, 'Entregado'),
         (CANCELADO, 'Cancelado'),
         (FINALIZADO, 'Finalizado'),
+        (PAGADO, 'Pagado'),
     )
     
 

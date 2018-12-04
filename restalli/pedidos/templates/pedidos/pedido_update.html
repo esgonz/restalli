@@ -25,10 +25,58 @@
     <div class="col-12">
           <div class="card" style="">
             <div class="card-header">
-              Nuevo Pedido / Detalle
+               Pedido / Detalle
             </div>
 
             <div class="card-body">
+              
+
+              
+              <dl class="row">
+                <dt class="col-sm-3">Numero:</dt>
+                <dd class="col-sm-9"><h2> PEDIDO Nº{{object.numero}}</h2></dd>
+
+                <dt class="col-sm-3">Total:</dt>
+                <dd class="col-sm-9"><h4>TOTAL: <span class="badge badge-danger">${{object.total}}</span></h4></dd>
+
+                <dt class="col-sm-3">Mesa:</dt>
+                <dd class="col-sm-9"><p>{{object.mesa.identificador}}</p></dd>
+              </dl>
+
+
+                    
+              <form method="post">
+                {% csrf_token %}
+              {% if pedido.estadoPedido == "FNLZ" %}
+                <a class="btn btn-block btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+                {% else %}
+                
+                  <div class="row mb-4">
+                    <div class="col-3">
+                        <label><b>Estado:</b></label>
+                    </div>
+                    <div class="form-group col-9">
+                        {% render_field form.estadoPedido class="form-control" %}
+
+                        {% for error in form.estadoPedido.errors %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                          {{error}}
+                        </small>
+                        {% endfor %}
+                    </div>
+                  </div>
+
+              {% endif %}
+
+              <div class="row">
+                {% if pedido.estadoPedido != "FNLZ" %}
+                  <input type="submit" class="btn btn-block btn-primary" value="Actualizar">
+                {% endif %}
+              </div>
+            </form>
+
+
+
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   
@@ -39,25 +87,11 @@
                   </thead>
 
                     <tbody>
-                  {% for selectProduct in cart_list %}   
+                  {% for selectProduct in items_list %}   
                   <tr>
                     <td>
 
-                      <form method="post">
-                      {% csrf_token %}
-                      
-
-
-
-                      <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
-
-                      <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
-
-                      <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
-
-                      <button type="submit" name="upde" class="btn btn-sm btn-primary">actualizar</button>
-
-                      </form>
+                      {{selectProduct.qty}}
                     </td>
 
                     <td>
@@ -72,71 +106,12 @@
 
                 </tbody>
                 
-              </table>
+                </table>
               </div><!-- / table resp-->
+
             </div><!-- / card body-->
 
             <div class="card-footer mb-3">
-              
-
-              <div class="row">
-
-            
-                
-
-              </div>
-                
-
-                <form method="post">
-                      {% csrf_token %}
-                  <div class="row mb-3">
-    
-                    <div class="form-group col-4">
-                       
-                        {% render_field form.estadoPedido class="form-control" %}
-
-                        {% for error in form.estadoPedido.errors %}
-                        <small id="passwordHelpBlock" class="form-text text-muted">
-                          {{error}}
-                        </small>
-                        {% endfor %}
-                    </div>
-
-                    <div class="form-group col-4">
-                       
-                        {% render_field form.mesa class="form-control" %}
-                        {% for error in form.mesa.errors %}
-                        <small id="passwordHelpBlock" class="form-text text-muted">
-                          {{error}}
-                        </small>
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-4">
-                        <h3>TOTAL: <span class="badge badge-danger">${{total_cart}}</span></h3>
-                
-                    </div>
-
-                    
-
-
-                </div>
-
-
-
-                  <div class="row mb-3">
-                    <div class="col-12">
-                        
-                          
-
-                          <button type="submit" name="save" class="btn btn-primary btn-block">Guardar</button>
-                    </div>
-                  </div>
-               </form>
-                
-              
-
-              
             </div><!-- / card footer -->
         </div>
     </div>

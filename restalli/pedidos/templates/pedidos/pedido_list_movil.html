@@ -37,156 +37,172 @@
                   <td>
 
                     <div class="row">
-                          <div class="col-12">
-                          <h2>
-                            <center><a class="" href="{% url "pedidos:detail" pk=pedido.uuid %}">
-                              {{ pedido.numero }} 
-                            </a></center>
-                          </h2>
-                          </div>
-                          <div class="col-6">
-
-                                              
-
-                            {% if pedido.estadoPedido == "INIT" %}
-                            <span class="badge badge-pill badge-primary">Pendiente</span>
-                            {% elif pedido.estadoPedido == "WAIT" %}
-                            <span class="badge badge-pill badge-warning">Espera</span>
-                            {% elif pedido.estadoPedido == "OK" %}
-                            <span class="badge badge-pill badge-info">Entregado</span>
-                            {% elif pedido.estadoPedido == "CNCL" %}
-                            <span class="badge badge-pill badge-danger">Cancelado</span>
-                            {% elif pedido.estadoPedido == "FNLZ" %}
-                            <span class="badge badge-pill badge-success">Finalizado</span>
-                            {% endif %}
-                          </div>
-
-                          <div class="col-6">
-                        <span class="badge badge-pill badge-info">{{pedido.mesa.identificador}}</span>
-                        </div>
-
-                        <div class="col-12">
-                          <center><h3><span class="badge badge-pill badge-danger">${{pedido.total}}</span></h3></center>
-                        </div>
-
-
-                        </div>
-
-                          <div class="row">
-                          <div class="col-12">
-
-
-                    {% if pedido.estadoPedido == "INIT" %}
-                    <a class="btn btn-block btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
-                    {% elif pedido.estadoPedido == "FNLZ" %}
-                    <span class="badge badge-pill badge-success">PAGADO</span>
-                    {% endif %}
+                      <div class="col-12">
+                        <h2>
+                          <center><a class="" href="{% url 'pedidos:mdetail' pk=pedido.uuid %}">
+                            {{ pedido.numero }} 
+                          </a></center>
+                        </h2>
                       </div>
+                      <div class="col-6">
+                        
+                  
+
+
+                        {% if pedido.estadoPedido == "INIT" %}
+                        <span class="badge badge-pill badge-primary">Pendiente</span>
+                        {% elif pedido.estadoPedido == "WAIT" %}
+                        <span class="badge badge-pill badge-warning">Espera</span>
+                        {% elif pedido.estadoPedido == "OK" %}
+                        <span class="badge badge-pill badge-default">Entregado</span>
+                        {% elif pedido.estadoPedido == "CNCL" %}
+                        <span class="badge badge-pill badge-danger">Cancelado</span>
+                        {% elif pedido.estadoPedido == "FNLZ" %}
+                        <span class="badge badge-pill badge-info">Finalizado</span>
+
+                        {% elif pedido.estadoPedido == "PGD" %}
+                        <span class="badge badge-pill badge-success">Pagado</span>
+                        {% endif %}
+
+                    
+                      </div>
+
+                      <div class="col-6">
+                        <span class="badge badge-pill badge-info">{{pedido.mesa.identificador}}</span>
+                      </div>
+
+                      <div class="col-12">
+                        <center><h3><span class="badge badge-pill badge-danger">${{pedido.total}}</span></h3></center>
+                      </div>
+
+
+                    </div>
+
+                    <div class="row">
+
+                      
+                        {% if pedido.estadoPedido == "INIT" %}
+                        <a class="btn btn-block btn-primary" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=OK">Entregar </a>
+
+                        {% elif pedido.estadoPedido == "OK" %}
+                        <a class="btn btn-block btn-warning" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=FNLZ">Finalizar </a>
+
+                        {% elif pedido.estadoPedido == "FNLZ" %}
+
+                        <a class="btn btn-block btn-success" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+
+                        {% elif pedido.estadoPedido == "PGD" %}
+                        <span class="badge badge-pill badge-success">PAGADO</span>
+
+                        {% else %}
+                        <a class="btn btn-block btn-info" href="{% url 'pedidos:update' pk=pedido.uuid %}">Actualizar </a>
+                        {% endif %}
+                      
                     </div>
 
 
-               
 
 
-                      <div class="row">
-                        
 
+                    <div class="row">
+
+
+                    </div>
+
+
+
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="small">{{pedido.created}}</p>
                       </div>
 
-                     
-
-                        <div class="row">
-                          <div class="col-12">
-                            <p class="small">{{pedido.created}}</p>
-                          </div>
-
-                        </div>
-
-                      
-                        
-                     
-                        <div class="row">
-                          <div class="col-12">
-                            <p class="small"></p>
-                          </div>
-                        </div>
-                      </td>
-
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-
-              </div><!-- /table resp-->
-
-
-            </div><!-- /card body-->
-
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
-
-            </div><!-- /card footer-->
-          </div><!-- /card-->
-
-        </div><!-- / row -->
+                    </div>
 
 
 
-        <p class="small text-center text-muted my-5">
-          <em>More table examples coming soon...</em>
-        </p>
 
-      </div> <!-- /.container-fluid -->
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="small"></p>
+                      </div>
+                    </div>
+                  </td>
 
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2018</span>
-          </div>
-        </div>
-      </footer>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
 
-
-      <script  type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-
-          $('#dataTable').DataTable({
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
-            "language": {
-              search: "_INPUT_",
-              searchPlaceholder: "Buscar...",
-              "decimal":        "",
-              "emptyTable":     "Sin informacion disponible para la tabla",
-              "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
-              "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
-              "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
-              "infoPostFix":    "",
-              "thousands":      ",",
-              "lengthMenu":     "Mostrar _MENU_ Entradas",
-              "loadingRecords": "Cargando...",
-              "processing":     "Procesando...",
-
-              "zeroRecords":    "No se encontro nada",
-              "paginate": {
-                "first":      "Primera",
-                "last":       "Última",
-                "next":       "Próxima",
-                "previous":   "Anterior"
-              },
-              "aria": {
-                "sortAscending":  ": activate to sort column ascending",
-                "sortDescending": ": activate to sort column descending"
-              }
+          </div><!-- /table resp-->
 
 
-            }
-          });
+        </div><!-- /card body-->
 
-        });
-      </script>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+
+        </div><!-- /card footer-->
+      </div><!-- /card-->
+
+    </div><!-- / row -->
 
 
-      {% endblock %}
+
+    <p class="small text-center text-muted my-5">
+      <em>More table examples coming soon...</em>
+    </p>
+
+  </div> <!-- /.container-fluid -->
+
+  <!-- Sticky Footer -->
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright © Your Website 2018</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script  type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+      $('#dataTable').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+        "language": {
+          search: "_INPUT_",
+          searchPlaceholder: "Buscar...",
+          "decimal":        "",
+          "emptyTable":     "Sin informacion disponible para la tabla",
+          "info":           "Ver _START_ hasta _END_ de _TOTAL_ registros",
+          "infoEmpty":      "Mostrando 0 hasta 0 de 0 registros",
+          "infoFiltered":   "(Filtrado de _MAX_ registros totales)",
+          "infoPostFix":    "",
+          "thousands":      ",",
+          "lengthMenu":     "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing":     "Procesando...",
+
+          "zeroRecords":    "No se encontro nada",
+          "paginate": {
+            "first":      "Primera",
+            "last":       "Última",
+            "next":       "Próxima",
+            "previous":   "Anterior"
+          },
+          "aria": {
+            "sortAscending":  ": activate to sort column ascending",
+            "sortDescending": ": activate to sort column descending"
+          }
+
+
+        }
+      });
+
+    });
+  </script>
+
+
+  {% endblock %}
 
 
 

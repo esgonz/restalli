@@ -6,7 +6,7 @@ from django.views import generic
 
 
 from .models import Pedido, PedidoItem
-from .forms import PedidoForm
+from .forms import PedidoForm, PedidoUpdateForm
 from menu.models import ProductosMenu, CategoriaMenu, ProductosMenuStock
 from menu.forms import ProductosMenuForm
 from menu.views import MenuList
@@ -205,10 +205,51 @@ class PedidoDetail(generic.DetailView):
 		#context['items_list']
 		return context
 
+class PedidoDetailMovil(PedidoDetail):
+	template_name = "pedidos/pedido_detail_movil.html"
+
 class PedidoUpdate(generic.UpdateView):
 	model = Pedido
-	#form_class = ProductosMenuForm
-	#success_url = reverse_lazy('menu:list')
+	form_class = PedidoUpdateForm
+	template_name = "pedidos/pedido_update.html"
+	success_url = reverse_lazy('pedidos:list')
+
+
+	def get_initial(self):
+		print("GET INITIAL:")
+
+		if 'estado' in self.request.GET:
+			estadoPedido = self.request.GET['estado']
+
+			return {
+				'estadoPedido': estadoPedido
+	        }
+
+
+	def get_context_data(self, **kwargs):
+		print("get context:")
+		# Call the base implementation first to get a context
+		context = super().get_context_data(**kwargs)
+
+		pedidosItems = PedidoItem.objects.filter(pedido_uuid= self.kwargs['pk']) 
+		
+		context['items_list'] = []
+		for pitem in pedidosItems:
+
+			pitem_to_show = {
+				'uuid' : pitem.productoMenu.uuid, 
+				'nombre':pitem.productoMenu.nombre,
+				'qty': pitem.cantidad,
+				'precio': pitem.precioVenta, 
+	        }              	
+			context['items_list'].append(pitem_to_show)
+		#context['items_list']
+		return context
+
+
+
+class PedidoUpdateMovil(PedidoUpdate):
+	template_name = "pedidos/pedido_update_movil.html"
 
 class PedidoDelete(generic.DeleteView):
 	model = Pedido
