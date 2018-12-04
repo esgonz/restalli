@@ -15,16 +15,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Perfiles',
+            name='Mesas',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('avatar', models.ImageField(blank=True, null=True, upload_to='perfiles')),
-                ('user', models.CharField(max_length=20)),
-                ('password', models.CharField(max_length=8)),
+                ('identificador', models.CharField(max_length=20)),
+                ('estado', models.CharField(max_length=20)),
+                ('pedido', models.CharField(max_length=10)),
+                ('empleado', models.CharField(max_length=50)),
+                ('fecha', models.CharField(max_length=50)),
+                ('inicio', models.CharField(max_length=50)),
+                ('termino', models.CharField(max_length=50)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('deleted', models.DateTimeField(auto_now=True)),
                 ('status', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='comun.Estados')),
+                ('sucursal', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='comun.Sucursal')),
             ],
         ),
     ]

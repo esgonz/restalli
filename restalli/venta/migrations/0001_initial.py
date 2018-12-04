@@ -15,15 +15,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Perfiles',
+            name='Venta',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('avatar', models.ImageField(blank=True, null=True, upload_to='perfiles')),
-                ('user', models.CharField(max_length=20)),
-                ('password', models.CharField(max_length=8)),
+                ('tipoPago', models.CharField(choices=[('CRE', 'CREDITO'), ('EFE', 'EFECTIVO'), ('CHE', 'CHEQUE'), ('DEB', 'DEBITO')], default='EFE', max_length=3)),
+                ('stockInicial', models.IntegerField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('deleted', models.DateTimeField(auto_now=True)),
+                ('user_uuid', models.CharField(max_length=36)),
                 ('status', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='comun.Estados')),
             ],
         ),
