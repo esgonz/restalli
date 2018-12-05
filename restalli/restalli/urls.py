@@ -32,6 +32,9 @@ urlpatterns = [
     path('usuarios/', include('registration.urls')),
     path('signup/', include('registration.urls', namespace='signup')),
     path('perfiles/', include('registration.urls', namespace='perfiles')),
+    path('', include('comun.urls')),
+    path('movil/', include('comun.urls', namespace='mdashboard')),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

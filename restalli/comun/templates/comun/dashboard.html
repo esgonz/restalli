@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row">
+<div class="card text-white bg-primary mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Usuarios</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar usuarios</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'registration:list' %}">Ir a usuarios</a></p>
+  </div>
+</div>
+<div class="card text-white bg-dark mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Stock</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar stock</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'stock:list' %}">Ir a stock</a></p>
+  </div>
+</div>
+<div class="card text-white bg-success mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Menu</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar Menu</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'menu:list' %}">Ir a Pedidos</a></p>
+  </div>
+</div>
+<div class="card text-white bg-danger mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Pedidos</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar Pedidos</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'pedidos:list' %}">Ir a Pedidos</a></p>
+  </div>
+</div>
+<div class="card text-white bg-warning mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Ventas</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar Ventas</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'venta:list' %}">Ir a Ventas</a></p>
+  </div>
+</div>
+<div class="card text-white bg-info mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
+  <div class="card-header">Modulo Mesas</div>
+  <div class="card-body">
+    <h5 class="card-title">Administrar Mesas</h5>
+    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'mesas:list' %}">Ir a Mesas</a></p>
+  </div>
+</div>
+
+
+</div>
+{% endblock %}
