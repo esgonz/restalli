@@ -7,6 +7,7 @@ urlpatterns = [
     path('movil/', views.MesaListMovil.as_view(), name='mlist'),
     path('crear/', views.MesaCreation.as_view(), name='create'),
     path('editar/<pk>', views.MesaUpdate.as_view(), name='update'),
+    path('movil/editar/<pk>', views.MesaUpdateMovil.as_view(), name='update'),
     path('ver/<pk>', views.MesaDetailView.as_view(), name='detail'),
     path('reservas/', views.ReservaList.as_view(), name='resList'),
     path('reservas/nueva/', views.ReservaCreation.as_view(), name='resCreate'),

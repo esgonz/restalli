@@ -9,7 +9,7 @@
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <a href="#">Dashboard</a>
+      <a href="/movil">Dashboard</a>
     </li>
     <li class="breadcrumb-item active">Menu</li>
   </ol>
@@ -18,16 +18,19 @@
     <div class="col-12">
       <div class="card" style="">
         <div class="card-header">
-          Lista Pedidos
+          <h2>
+            <i class="fas fa-fw fa-clipboard-check" ></i>
+            Lista Pedidos
+          </h2>
+          <a class="btn btn-block btn-primary" href="{% url 'pedidos:mmenu' %}">Crear Pedido</a>
         </div>
 
 
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-
                   <th>Pedido</th>
                 </tr>
               </thead>          
@@ -35,42 +38,49 @@
                 {% for pedido in pedidos_list %}
                 <tr>
                   <td>
-
+                    
                     <div class="row">
                       <div class="col-12">
                         <h2>
                           <center><a class="" href="{% url 'pedidos:mdetail' pk=pedido.uuid %}">
-                            {{ pedido.numero }} 
+                            Pedido Nº {{ pedido.numero }} 
                           </a></center>
                         </h2>
                       </div>
-                      <div class="col-6">
-                        
-                  
+                    </div>
 
 
-                        {% if pedido.estadoPedido == "INIT" %}
-                        <span class="badge badge-pill badge-primary">Pendiente</span>
-                        {% elif pedido.estadoPedido == "WAIT" %}
-                        <span class="badge badge-pill badge-warning">Espera</span>
-                        {% elif pedido.estadoPedido == "OK" %}
-                        <span class="badge badge-pill badge-default">Entregado</span>
-                        {% elif pedido.estadoPedido == "CNCL" %}
-                        <span class="badge badge-pill badge-danger">Cancelado</span>
-                        {% elif pedido.estadoPedido == "FNLZ" %}
-                        <span class="badge badge-pill badge-info">Finalizado</span>
+                    <div class="row">
+                      <div class="col-12">
+                        <center>
+                        <span class="badge badge-pill badge-info ">{{pedido.mesa.identificador}}</span></center>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <center>
+                          {% if pedido.estadoPedido == "INIT" %}
+                          <span class="badge badge-pill badge-primary">Pendiente</span>
+                          {% elif pedido.estadoPedido == "WAIT" %}
+                          <span class="badge badge-pill badge-warning">Espera</span>
+                          {% elif pedido.estadoPedido == "OK" %}
+                          <span class="badge badge-pill badge-default">Entregado</span>
+                          {% elif pedido.estadoPedido == "CNCL" %}
+                          <span class="badge badge-pill badge-danger">Cancelado</span>
+                          {% elif pedido.estadoPedido == "FNLZ" %}
+                          <span class="badge badge-pill badge-info">Finalizado</span>
 
-                        {% elif pedido.estadoPedido == "PGD" %}
-                        <span class="badge badge-pill badge-success">Pagado</span>
-                        {% endif %}
+                          {% elif pedido.estadoPedido == "PGD" %}
+                          <span class="badge badge-pill badge-success">Pagado</span>
+                          {% endif %}
+                        </center>                   
+                      </div>                      
+                    </div>
 
                     
-                      </div>
+                    
 
-                      <div class="col-6">
-                        <span class="badge badge-pill badge-info">{{pedido.mesa.identificador}}</span>
-                      </div>
-
+                    <div class="row">
                       <div class="col-12">
                         <center><h3><span class="badge badge-pill badge-danger">${{pedido.total}}</span></h3></center>
                       </div>
@@ -82,20 +92,21 @@
 
                       
                         {% if pedido.estadoPedido == "INIT" %}
-                        <a class="btn btn-block btn-primary" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=OK">Entregar </a>
+                        <a class="btn btn-block btn-primary" href="{% url 'pedidos:mupdate' pk=pedido.uuid %}?estado=OK">Entregar </a>
 
                         {% elif pedido.estadoPedido == "OK" %}
-                        <a class="btn btn-block btn-warning" href="{% url 'pedidos:update' pk=pedido.uuid %}?estado=FNLZ">Finalizar </a>
+                        <a class="btn btn-block btn-warning" href="{% url 'pedidos:mupdate' pk=pedido.uuid %}?estado=FNLZ">Finalizar </a>
 
                         {% elif pedido.estadoPedido == "FNLZ" %}
 
-                        <a class="btn btn-block btn-success" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+                        <a class="btn btn-block btn-success" href="{% url "venta:mcreate"%}?uuid={{pedido.uuid}}">Pagar </a>
 
                         {% elif pedido.estadoPedido == "PGD" %}
-                        <span class="badge badge-pill badge-success">PAGADO</span>
+                        
+                          <a class="btn btn-block btn-secondary" href="" disabled>PAGADO </a>
 
                         {% else %}
-                        <a class="btn btn-block btn-info" href="{% url 'pedidos:update' pk=pedido.uuid %}">Actualizar </a>
+                        <a class="btn btn-block btn-info" href="{% url 'pedidos:mupdate' pk=pedido.uuid %}">Actualizar </a>
                         {% endif %}
                       
                     </div>
@@ -147,9 +158,7 @@
 
 
 
-    <p class="small text-center text-muted my-5">
-      <em>More table examples coming soon...</em>
-    </p>
+
 
   </div> <!-- /.container-fluid -->
 
@@ -157,7 +166,7 @@
   <footer class="sticky-footer">
     <div class="container my-auto">
       <div class="copyright text-center my-auto">
-        <span>Copyright © Your Website 2018</span>
+        <span>Copyright © Restalli.com 2018</span>
       </div>
     </div>
   </footer>

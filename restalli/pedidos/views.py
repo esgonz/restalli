@@ -253,6 +253,7 @@ class PedidoUpdate(generic.UpdateView):
 @method_decorator(login_required, name='dispatch')
 class PedidoUpdateMovil(PedidoUpdate):
 	template_name = "pedidos/pedido_update_movil.html"
+	success_url = reverse_lazy('pedidos:mlist')
 
 @method_decorator(login_required, name='dispatch')
 class PedidoDelete(generic.DeleteView):

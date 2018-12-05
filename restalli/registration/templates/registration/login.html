@@ -1,17 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'base_comun.html' %}
 {% load static %}
 {% block title %}Iniciar sesión{% endblock %}
 {% block content %}
 <style>.errorlist{color:red;}</style>
-<main role="main">
-  <div class="container">
+<main role="main" id="login-div">
+  <div class="container" id="">
+    <center><h1 class="mb-4 mt-4 bg-dark text-white">Restalli.com</h1></center>
     <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
+      <div class="col-md-9 mx-auto mb-5" id="login-container">
       {% if 'register' in request.GET %}
     <p>Usuario registrado correctamente</p>
       {% endif %}
         <form action="" method="post">{% csrf_token %}
-          <h3 class="mb-4">Iniciar sesión</h3>
+          <center><h3 class="mb-4 mt-2">Iniciar sesión</h3></center>
           {% if form.non_field_errors %}
             <p style="color:red">Usuario o contraseña incorrectos, prueba de nuevo.</p>
           {% endif %}

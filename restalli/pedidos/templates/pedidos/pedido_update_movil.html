@@ -9,7 +9,7 @@
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <a href="#">Dashboard</a>
+      <a href="/movil">Dashboard</a>
     </li>
     <li class="breadcrumb-item ">Pedidos</li>
     <li class="breadcrumb-item ">Nuevo</li>
@@ -25,7 +25,10 @@
     <div class="col-12">
           <div class="card" style="">
             <div class="card-header">
-               Pedido / Detalle
+              <h2>
+                <i class="fas fa-fw fa-clipboard-check"></i>
+                Detalle Pedido
+                </h2>
             </div>
 
             <div class="card-body">
@@ -48,7 +51,7 @@
               <form method="post">
                 {% csrf_token %}
               {% if pedido.estadoPedido == "FNLZ" %}
-                <a class="btn btn-block btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
+                <a class="btn btn-block btn-warning" href="{% url "venta:mcreate"%}?uuid={{pedido.uuid}}">Pagar </a>
                 {% else %}
                 
                   <div class="row mb-4">
@@ -78,7 +81,7 @@
 
 
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                   
                   <thead>
                     <th>Producto</th>
@@ -117,9 +120,7 @@
     </div>
   </div><!-- / row -->
 
-<p class="small text-center text-muted my-5">
-  <em>More table examples coming soon...</em>
-</p>
+
 
 </div>
 <!-- /.container-fluid -->
@@ -128,7 +129,7 @@
 <footer class="sticky-footer">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
-      <span>Copyright © Your Website 2018</span>
+      <span>Copyright © Restalli.com 2018</span>
     </div>
   </div>
 </footer>

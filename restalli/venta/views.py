@@ -126,7 +126,7 @@ class ventaCreate(generic.CreateView):
 @method_decorator(login_required, name='dispatch')
 class ventaCreateMovil(ventaCreate):
     template_name="venta/venta_form_movil.html"
-    success_url = reverse_lazy('venta:mlist')
+    success_url = reverse_lazy('pedidos:mlist')
 
 @method_decorator(login_required, name='dispatch')
 class ventaUpdate(generic.UpdateView):

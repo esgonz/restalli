@@ -9,11 +9,11 @@
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <a href="#">Dashboard</a>
+      <a href="/movil">Dashboard</a>
     </li>
     <li class="breadcrumb-item "><a href="{% url 'pedidos:mlist'%}">Pedidos</a></li>
-    <li class="breadcrumb-item "><a href="{% url 'pedidos:mcreate'%}">Nuevo</a></li>
-    <li class="breadcrumb-item active">Detalle</li>
+    <li class="breadcrumb-item "><a href="{% url 'pedidos:mmenu'%}">Nuevo</a></li>
+    <li class="breadcrumb-item active">Confirmar</li>
   </ol>
   <!-- / Breadcrumbs-->
 
@@ -24,81 +24,85 @@
           <!-- colla2-->
     <div class="card">
       <div class="card-header" id="headingTwo">
-        <h5 class="mb-0">
-         Ver Pedido Actual
-        </h5>
+        
+
+        <h2 class="">
+        <i class="fas fa-fw fa-clipboard-check"></i>
+         Confirmar pedido
+        </h2>
       </div>
       <div id="form">
       
         <div class="card-body">
           <!-- seleccion -->
 
+     
+          
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
 
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-              <thead>
-                <th>Producto</th>
-              </thead>
+                <thead>
+                  <th>Producto</th>
+                </thead>
 
 
-              <tbody>
-                {% for selectProduct in cart_list %}   
-                <tr>
-                  <td>
+                <tbody>
+                  {% for selectProduct in cart_list %}   
+                  <tr>
+                    <td>
 
-                    <form method="post">
-                      {% csrf_token %}
+                      <form method="post">
+                        {% csrf_token %}
 
-                      <div class="row">
-                        <div class="col-12">
-                        <h4>{{selectProduct.nombre}}</h4>
+                        <div class="row">
+                          <div class="col-12">
+                          <h4>{{selectProduct.nombre}}</h4>
+                          </div>
                         </div>
-                      </div>
-                      <div class="row">
-                         <div class="col-12">
-                          <h5><span class="badge badge-danger">${{selectProduct.precio}}</span></h5>
-                         </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-12">
-                          
-                          <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
-                          
-                          <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+                        <div class="row">
+                           <div class="col-12">
+                            <h5><span class="badge badge-danger">${{selectProduct.precio}}</span></h5>
+                           </div>
                         </div>
-                         <div class="col-12">
-                          <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
-                          <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
+
+                        <div class="row">
+                          <div class="col-12">
+                            
+                            <input id="uuid" name="uuid" type="hidden" value="{{selectProduct.uuid}}">
+                            
+                            <input class="form-control form-sm" id="qty" name="qty" type="number" min="0" max="100" value="{{selectProduct.qty}}">
+                          </div>
+                           <div class="col-12">
+                            <input type="hidden" name="nombre" id ="nombre"value="{{selectProduct.nombre}}">
+                            <button type="submit" name="upde" class="btn btn-block btn-primary">actualizar</button>
+                          </div>
                         </div>
-                      </div>
 
-                    </form>
-                    
-                  </td>
-                </tr>
+                      </form>
+                      
+                    </td>
+                  </tr>
 
-                {% endfor %}
+                  {% endfor %}
 
-              </tbody>
+                </tbody>
 
-            </table>
-          </div><!-- / table resp-->
-
+              </table>
+            </div><!-- / table resp-->
 
 
 
 
-          <div class="row" >
-            
-            <div class="col-12">
-              <p align="right"> TOTAL:</p>
+
+            <div class="row" >
+              
+              <div class="col-12">
+                <p align="right"> TOTAL:</p>
+              </div>
+              <div class="col-12">
+                <p align="right">  <b>{{total_cart}}</b></p>
+              </div>
             </div>
-            <div class="col-12">
-              <p align="right">  <b>{{total_cart}}</b></p>
-            </div>
-          </div>
 
         </div>
 
@@ -169,9 +173,7 @@
     </div>
   </div><!-- / row -->
 
-<p class="small text-center text-muted my-5">
-  <em>More table examples coming soon...</em>
-</p>
+
 
 </div>
 <!-- /.container-fluid -->
@@ -180,7 +182,7 @@
 <footer class="sticky-footer">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
-      <span>Copyright © Your Website 2018</span>
+      <span>Copyright © Restalli.com 2018</span>
     </div>
   </div>
 </footer>
