@@ -48,6 +48,20 @@
             </dd>
 
             
+            <dt class="col-sm-3">Reservas:</dt>
+            <dd class="col-sm-9">
+              <dl class="row">
+                {% if reservas %}
+                  {% for re in reservas %}
+                  
+
+                  <dd class="col-sm-12"><a href="{% url 'mesas:resUpdate' pk=re.uuid %}">reserva Nº {{re.numero}}</a>- <b>Fecha</b>: <br>{{re.fecha}}</dd>
+                  {% endfor %}
+                {% else %}
+                  ---
+                {% endif %}
+              </dl>
+            </dd>
           </dl>
           <!-- /descripcion -->
         </div>

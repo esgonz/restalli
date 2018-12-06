@@ -299,7 +299,7 @@ class PedidoListMovil(PedidoList):
 class MenuOfertList(MenuList):
 	model = ProductosMenu
 	context_object_name = 'productosMenu_list'
-	template_name = 'pedidos/menuOfertas_list.html'
+	template_name = 'pedidos/menuofertas_list.html'
 	paginate_by = 100
 
 	
@@ -415,5 +415,5 @@ class MenuOfertList(MenuList):
 """Menu Oferta Movil """
 @method_decorator(login_required, name='dispatch')
 class MenuOfertaListMovil(MenuOfertList):
-	template_name = 'pedidos/menuOfertas_list_movil.html'
+	template_name = 'pedidos/menuofertas_list_movil.html'
     	

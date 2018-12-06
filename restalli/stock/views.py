@@ -27,7 +27,7 @@ class StaffRequiredMixin(object):
 class stockListView(generic.ListView):
     model = ProductoStock
     paginate_by = 100
-    context_object_name = 'productoStock_list'
+    context_object_name = 'productostock_list'
 
 
     def get_context_data(self, **kwargs):

@@ -13,10 +13,10 @@ urlpatterns = [
     path('categoria/<pk>/', views.CategoriaDetail.as_view(), name='catDetail'),    
     path('categoria/editar/<pk>/', views.CategoriaUpdate.as_view(), name='catUpdate'),
     path('categoria/eliminar/<pk>/', views.CategoriaDelete.as_view(), name='catDelete'),
-    path('nuevo/stock/seleccion/<producto>', views.ProductosMenuStockList.as_view(), name='stockSelection'),
-    path('nuevo/stock/crear/', views.ProductosMenuStockCreation.as_view(), name='stockCreate'),
-    path('nuevo/stock/<pk>/', views.ProductosMenuStockDetail.as_view(), name='stockDetail'),    
-    path('nuevo/stock/editar/<pk>/', views.ProductosMenuStockUpdate.as_view(), name='stockUpdate'),
-    path('nuevo/stock/eliminar/<pk>/', views.ProductosMenuStockDelete.as_view(), name='stockDelete'),
+    path('nuevo/producto-menu/seleccion/<producto>', views.ProductosMenuStockList.as_view(), name='stockSelection'),
+    path('nuevo/producto-menu/crear/', views.ProductosMenuStockCreation.as_view(), name='stockCreate'),
+    path('nuevo/producto-menu/<pk>/', views.ProductosMenuStockDetail.as_view(), name='stockDetail'),    
+    path('nuevo/producto-menu/editar/<pk>/', views.ProductosMenuStockUpdate.as_view(), name='stockUpdate'),
+    path('nuevo/producto-menu/eliminar/<pk>/', views.ProductosMenuStockDelete.as_view(), name='stockDelete'),
 
 ]

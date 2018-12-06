@@ -42,10 +42,12 @@
                 <dt class="col-sm-3">Mesa:</dt>
                 <dd class="col-sm-9"><p>{{object.mesa.identificador}}</p></dd>
               </dl>
-              {% if pedido.estadoPedido == "OK" %}
+              {% if pedido.estadoPedido == "FNLZ" %}
                 <a class="btn btn-block btn-warning" href="{% url "venta:create"%}?uuid={{pedido.uuid}}">Pagar </a>
-                {% elif pedido.estadoPedido == "FNLZ" %}
+                {% elif pedido.estadoPedido == "PGD" %}
                 <span class="badge badge-pill badge-success">PAGADO</span>
+
+
               {% endif %}
 
               <div class="table-responsive">

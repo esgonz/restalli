@@ -53,7 +53,7 @@ class MesaDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
     	context = super().get_context_data(**kwargs)
-    	context['reservas'] = Reserva.objects.filter(mesa_uuid= self.kwargs['pk'])
+    	context['reservas'] = Reserva.objects.filter()
     	pedidos_list = Pedido.objects.filter(mesa= self.kwargs['pk'])
     	
     	mesa_disponible = False
@@ -66,7 +66,7 @@ class MesaDetailView(generic.DetailView):
     		if pedido.estadoPedido =='INIT' or pedido.estadoPedido =='WAIT' or pedido.estadoPedido =='OK':
     			print("ACTIVO")
     			mesa_disponible = False
-    			pedidos_acv_list.add(pedido)
+    			pedidos_acv_list.append(pedido)
     		else:
     			mesa_disponible = True
     			print(pedido.estadoPedido)
@@ -111,6 +111,15 @@ class ReservaCreation(generic.edit.CreateView):
     success_url = reverse_lazy('mesas:resList')
     template_name = "mesas/reserva_form.html"	
     
+
+    def get_initial(self):
+        print("GET INITIAL:")
+
+        mes = Mesas.objects.get(pk= self.request.GET['mesa'])
+        return {
+            'mesa_uuid': mes.uuid
+        }
+        
     def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -118,7 +127,11 @@ class ReservaCreation(generic.edit.CreateView):
 		# Add in a QuerySet of all the books
         context['mesa'] = Mesas.objects.get(pk= self.request.GET['mesa'])
 
-		#try to get cart, if cart doesnt exist, empty list
+
+        context['reservas']=Reserva.objects.filter(mesa_uuid = self.request.GET['mesa'])
+        print("RESERVAS")
+        print(context['reservas'])
+        #try to get cart, if cart doesnt exist, empty list
 		#cart = self.request.session.get('cart', [])
 		# Do stuff with cart
 		#self.request.session['cart'] = cart
@@ -142,6 +155,15 @@ class ReservaUpdate(generic.UpdateView):
     template_name = "mesas/reserva_update_form.html"
     success_url = reverse_lazy('mesas:resList')
 
+    def get_context_data(self, **kwargs):
+        
+        context = super().get_context_data(**kwargs)
+        context['mesa'] = Mesas.objects.get(pk= self.object.mesa_uuid.uuid)
+
+
+        context['reservas']=Reserva.objects.filter(mesa_uuid = self.object.mesa_uuid.uuid)
+
+        return context
 
 class ReservaDelete(generic.DeleteView):
     model = Reserva

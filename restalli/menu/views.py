@@ -36,7 +36,7 @@ class MenuUpdate(generic.UpdateView):
 	model = ProductosMenu
 	form_class = ProductosMenuForm
 	success_url = reverse_lazy('menu:list')
-	template_name = 'menu/productosMenu_edit.html'
+	template_name = 'menu/productosmenu_edit.html'
 
 @method_decorator(login_required, name='dispatch')
 class MenuDelete(generic.DeleteView):
@@ -52,7 +52,7 @@ class MenuDelete(generic.DeleteView):
 class MenuList(generic.ListView):
 	model = ProductosMenu
 	paginate_by = 50
-	context_object_name = 'productosMenu_list'
+	context_object_name = 'productosmenu_list'
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -146,8 +146,8 @@ class ProductosMenuStockDelete(generic.DeleteView):
 @method_decorator(login_required, name='dispatch')
 class ProductosMenuStockList(generic.ListView):
 	model = ProductoStock
-	template_name ='menu/productoStock_selection_list.html'
-	context_object_name = 'productoStock_list'
+	template_name ='menu/productostock_selection_list.html'
+	context_object_name = 'productostock_list'
 	paginate_by = 50
 
 
