@@ -22,7 +22,7 @@ Stock /
 <a class="btn btn-primary ml-3 right" href="{% url "stock:create" %}">Nuevo Producto</a>
 </div>
 <div class="card-body">
-{% if productoStock_list %}
+{% if productostock_list %}
 <!-- code here to list the books -->
 {% else %}
 <p>No Existen Platillos/ productos.</p>
@@ -56,7 +56,7 @@ Stock /
 </tr>
 </tfoot>
 <tbody>
-{% for producto in productoStock_list %}
+{% for producto in productostock_list %}
 <tr>
 <!--codigo-->
 <td>

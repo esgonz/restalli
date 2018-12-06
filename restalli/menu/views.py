@@ -159,7 +159,7 @@ class ProductosMenuStockList(generic.ListView):
 			return ProductoStock.objects.filter(categoria=filter_val, status = 1)
 		else:
 			#si no, devuelvo todos los productos
-			return ProductoStock.objects.filter()
+			return ProductoStock.objects.filter(status = 1)
 
 
 	def post(self, request, *args, **kwargs):
@@ -275,7 +275,7 @@ class ProductosMenuStockList(generic.ListView):
 		# Do stuff with cart
 		self.request.session['seleccion'] = seleccion
 		context['seleccion_list'] = self.request.session['seleccion']
-		context['producto'] = ProductosMenu.objects.get(uuid= self.productoMenu_uuid)
+		context['producto'] = ProductosMenu.objects.get(uuid= self.productoMenu_uuid, status = 1)
 		context['categorias_list'] = ProductoStock.CATEGORIA_NOMBRE
 		print("NUEVO seleccion:")
 		print(context['seleccion_list'])

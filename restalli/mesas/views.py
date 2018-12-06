@@ -53,8 +53,8 @@ class MesaDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
     	context = super().get_context_data(**kwargs)
-    	context['reservas'] = Reserva.objects.filter()
-    	pedidos_list = Pedido.objects.filter(mesa= self.kwargs['pk'])
+    	context['reservas'] = Reserva.objects.filter(status = 1)
+    	pedidos_list = Pedido.objects.filter(mesa= self.kwargs['pk'], status = 1)
     	
     	mesa_disponible = False
 
@@ -128,7 +128,7 @@ class ReservaCreation(generic.edit.CreateView):
         context['mesa'] = Mesas.objects.get(pk= self.request.GET['mesa'])
 
 
-        context['reservas']=Reserva.objects.filter(mesa_uuid = self.request.GET['mesa'])
+        context['reservas']=Reserva.objects.filter(mesa_uuid = self.request.GET['mesa'], status = 1)
         print("RESERVAS")
         print(context['reservas'])
         #try to get cart, if cart doesnt exist, empty list
@@ -161,7 +161,7 @@ class ReservaUpdate(generic.UpdateView):
         context['mesa'] = Mesas.objects.get(pk= self.object.mesa_uuid.uuid)
 
 
-        context['reservas']=Reserva.objects.filter(mesa_uuid = self.object.mesa_uuid.uuid)
+        context['reservas']=Reserva.objects.filter(mesa_uuid = self.object.mesa_uuid.uuid, status = 1)
 
         return context
 
@@ -178,7 +178,7 @@ class ReservaDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
     	context = super().get_context_data(**kwargs)
     	context['mesa'] = Mesas.objects.get(pk= self.request.GET['mesa'])
-    	context['pedido'] = Pedido.objects.filter(mesa= self.request.GET['mesa'])
+    	context['pedido'] = Pedido.objects.filter(mesa= self.request.GET['mesa'], status = 1)
     	print("PEDIDO")
     	context['pedido']
     	return context

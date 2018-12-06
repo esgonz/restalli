@@ -379,6 +379,8 @@ class MenuOfertList(MenuList):
 		# Call the base implementation first to get a context
 		context = super().get_context_data(**kwargs)
 
+
+		context['productosMenu_list'] = ProductosMenu.objects.filter(status =1) 
 		# Add in a QuerySet of all the books
 		context['categorias_list'] = CategoriaMenu.objects.all()
 
