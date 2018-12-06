@@ -62,8 +62,8 @@ class PedidoCreation(generic.edit.CreateView):
 
 
 		if 'clear' in request.POST:
-			request.session.flush()
-		
+			#request.session.flush()
+			request.session['cart'] = []
 
 		elif 'add' in request.POST or 'upde' in request.POST  :
 			print("*ADD")
@@ -312,8 +312,8 @@ class MenuOfertList(MenuList):
 
 
 		if 'clear' in request.POST:
-			request.session.flush()
-		
+			#request.session.flush()
+			request.session['cart'] = []
 		elif 'add' in request.POST or 'upde' in request.POST  :
 			print("*ADD")
 			#si se pulso "agregar" desde la lista de productos disponibles

@@ -184,6 +184,7 @@ class ProductosMenuStockList(generic.ListView):
 		#
 		if 'clear' in request.POST:
 			print("*CLEAR")
+			request.session['seleccion'] = []
 			#request.session.flush()
 		
 
