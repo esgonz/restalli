@@ -5,20 +5,11 @@
 {% block content %}
 
 
-<div class="container-fluid" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
 
-  <!-- Breadcrumbs-->
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="/movil">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item active">Mesas</li>
-  </ol>
-
-  <div class="row" style="margin-left: 0rem;margin-right: 0rem;margin-left: 0rem;margin-right: 0rem;">
-    <div class="col-12" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
-      <div class="card" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
-        <div class="card-header">
+  <div class="row" ">
+    <div class="col-12" ">
+      <div class="mcard" ">
+        <div class="mcard-header">
           <h2>
             <i class="fas fa-fw fa-chess-board"></i>
           Lista mesas 
@@ -26,7 +17,7 @@
         </div>
 
 
-        <div class="card-body" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
+        <div class="mcard-body mt-4" style="margin-left: 0rem;margin-right: 0rem;padding-left: 0rem;padding-right: 0rem;">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
@@ -45,7 +36,7 @@
                     <div class="row">
                       <div class="col-12">
                         <h2>
-                          <center><a class="mx-auto" href="{% url 'mesas:detail' pk=mesa.uuid %}">{{ mesa.identificador }}
+                          <center><a class="mx-auto" href="{% url 'mesas:mdetail' pk=mesa.uuid %}">{{ mesa.identificador }}
                           </a></center>
                         </h2>
                       </div>
@@ -78,7 +69,7 @@
 
             </div><!-- /card body-->
 
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+            <div class="mcard-footer small text-muted">
 
             </div><!-- /card footer-->
           </div><!-- /card-->
@@ -86,19 +77,6 @@
         </div><!-- / row -->
 
 
-
-
-
-      </div> <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © Restalli.com 2018</span>
-          </div>
-        </div>
-      </footer>
 
 
       <script  type="text/javascript" charset="utf-8">

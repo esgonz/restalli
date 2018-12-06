@@ -76,7 +76,6 @@ class CategoriaCreation(generic.edit.CreateView):
 	model = CategoriaMenu
 	fields = [
 		'nombre',
-		'status'
 	]
 	success_url = reverse_lazy('menu:catList')
 @method_decorator(login_required, name='dispatch')

@@ -1,36 +1,18 @@
 {% extends "base_movil.html" %}
 {% load widget_tweaks %}
 {% block content %}
-
-
-<div class="container-fluid">
-  
-
-  <!-- Breadcrumbs-->
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="/movil">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item "><a href="{% url 'pedidos:mlist'%}">Pedidos</a></li>
-    <li class="breadcrumb-item active">{{object.numero}}</li>
-  </ol>
-  <!-- / Breadcrumbs-->
-
-
-
-
   
 <div class="row">
     <div class="col-12">
-          <div class="card" style="">
-            <div class="card-header">
+          <div class="mcard" style="">
+            <div class="mcard-header">
               <h2>
               <i class="fas fa-fw fa-clipboard-check"></i>
                Pedido / Detalle
               </h2>
             </div>
 
-            <div class="card-body">
+            <div class="mcard-body mt-4">
               
 
 
@@ -79,33 +61,20 @@
 
             </div><!-- / card body-->
 
-            <div class="card-footer mb-3">
+            <div class="mcard-footer mb-3">
+              
             </div><!-- / card footer -->
         </div>
     </div>
   </div><!-- / row -->
 
 
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
-
-
-
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function() {
 
     $('#dataTable').DataTable({
-        "paging" : false,
+        "paging":   false,
+        "info":     false
       "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
       "language": {
         search: "_INPUT_",

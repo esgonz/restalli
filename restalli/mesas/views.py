@@ -33,6 +33,16 @@ class MesaUpdate(generic.UpdateView):
     form_class = MesasForm
     success_url = reverse_lazy('mesas:list')
 
+
+@method_decorator(login_required, name='dispatch')
+class MesaUpdateMovil(MesaUpdate):
+    model = Mesas
+    form_class = MesasForm
+    template_name = "mesas/mesas_form_movil.html"
+    success_url = reverse_lazy('mesas:mlist')
+
+
+
 @method_decorator(login_required, name='dispatch')
 class MesaDetailView(generic.DetailView):
     model = Mesas
@@ -49,7 +59,10 @@ class MesaDetailView(generic.DetailView):
     	return context
 
 
-
+@method_decorator(login_required, name='dispatch')
+class MesaDetailViewMovil(MesaDetailView):
+	template_name = "mesas/mesas_detail_movil.html"
+	success_url = reverse_lazy('mesas:mlist')
 
 class ReservaList(generic.ListView):
 	model = Reserva

@@ -139,6 +139,19 @@ class ventaUpdate(generic.UpdateView):
    # def get_success_url(self):
        # return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
 
+
+@method_decorator(login_required, name='dispatch')
+class ventaUpdateMovil(ventaUpdate):
+    model = Venta
+    form_class = VentaForm
+    template_name="venta/venta_update_form_movil.html"
+    success_url = reverse_lazy('venta:mlist')
+
+    #template_name_suffix = '_update_form' 
+
+   # def get_success_url(self):
+       # return reverse_lazy('stockLog:list', args=[self.object.uuid]) + '?ok'
+
 @method_decorator(login_required, name='dispatch')
 class ventaDelete(generic.DeleteView):
     model = Venta

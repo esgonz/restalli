@@ -4,45 +4,57 @@
 {% block content %}
 <div class="row">
 <div class="card text-white bg-primary mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Usuarios</div>
+  <div class="card-header">
+  <i class="fas fa-user-circle fa-fw"></i>
+  Modulo Usuarios</div>
   <div class="card-body">
     <h5 class="card-title">Administrar usuarios</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'registration:list' %}">Ir a usuarios</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'registration:list' %}">Ir a usuarios</a></p>
   </div>
 </div>
 <div class="card text-white bg-dark mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Stock</div>
+  <div class="card-header">
+  <i class="fas fa-fw fa-table"></i>
+  Modulo Stock</div>
   <div class="card-body">
     <h5 class="card-title">Administrar stock</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'stock:list' %}">Ir a stock</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'stock:list' %}">Ir a stock</a></p>
   </div>
 </div>
 <div class="card text-white bg-success mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Menu</div>
+  <div class="card-header">
+  <i class="fas fa-fw fa-utensils"></i>
+  Modulo Menu</div>
   <div class="card-body">
     <h5 class="card-title">Administrar Menu</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'menu:list' %}">Ir a Pedidos</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'menu:list' %}">Ir a Pedidos</a></p>
   </div>
 </div>
 <div class="card text-white bg-danger mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Pedidos</div>
+  <div class="card-header">
+  <i class="fas fa-fw fa-clipboard-check"></i>
+  Modulo Pedidos</div>
   <div class="card-body">
     <h5 class="card-title">Administrar Pedidos</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'pedidos:list' %}">Ir a Pedidos</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'pedidos:list' %}">Ir a Pedidos</a></p>
   </div>
 </div>
 <div class="card text-white bg-warning mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Ventas</div>
+  <div class="card-header">
+  <i class="fas fa-fw fa-coins"></i>
+  Modulo Ventas</div>
   <div class="card-body">
     <h5 class="card-title">Administrar Ventas</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'venta:list' %}">Ir a Ventas</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'venta:list' %}">Ir a Ventas</a></p>
   </div>
 </div>
 <div class="card text-white bg-info mb-3 col-4 col-sm-12 mx-2" style="max-width: 18rem;">
-  <div class="card-header">Modulo Mesas</div>
+  <div class="card-header">
+  <i class="fas fa-fw fa-chess-board"></i>
+  Modulo Mesas</div>
   <div class="card-body">
     <h5 class="card-title">Administrar Mesas</h5>
-    <p class="card-text"><a class="btn btn-bg btn-primary" href="{% url 'mesas:list' %}">Ir a Mesas</a></p>
+    <p class="card-text"><a class="btn btn-bg btn-light" href="{% url 'mesas:list' %}">Ir a Mesas</a></p>
   </div>
 </div>
 

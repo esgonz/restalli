@@ -1,21 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_movil.html" %}
 
 {% block content %}
-
-
-<div class="container-fluid">
-  
-
-  <!-- Breadcrumbs-->
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="/">Inicio</a>
-    </li>
-    <li class="breadcrumb-item ">Menu</li>
-    <li class="breadcrumb-item ">Nuevo</li>
-    <li class="breadcrumb-item active">Detalle</li>
-  </ol>
-  <!-- / Breadcrumbs-->
 
 
 
@@ -23,16 +8,18 @@
   <div class="row">
     <div class="col-12">
       <!--card-->
-      <div class="card mb-3" style="">
+      <div class="mcard mb-3" style="">
         
         <!--card header-->
-        <div class="card-header">
-          <h3>Mesa</h3>
+        <div class="mcard-header">
+          <h3>
+        <i class="fas fa-fw fa-chess-board white"></i>
+          Mesa</h3>
         </div>
         <!--/card header-->
 
         <!--card body-->
-        <div class="card-body">
+        <div class="mcard-body">
           <!--descripcion -->
           <dl class="row">
             <dt class="col-sm-3">Identificador:</dt>
@@ -54,7 +41,7 @@
             
             {% for pedido in pedidos %}
               <dt class="col-sm-3">Pedido:</dt>
-              <dd class="col-sm-9"><a href="{% url 'pedidos:detail' pk=pedido.uuid %}">Pedido Nº {{pedido}}</a>  - Total ${{pedido.total}}</dd>
+              <dd class="col-sm-9"><a href="{% url 'pedidos:mdetail' pk=pedido.uuid %}">Pedido Nº {{pedido}}</a>  - Total ${{pedido.total}}</dd>
             {% endfor %}
            
 
@@ -65,8 +52,8 @@
 
         </div>
 
-        <div class="card-footer">
-          <a href="{% url 'mesas:list' %}" class="btn btn-secondary btn-sm right">Volver </a>
+        <div class="mcard-footer">
+          <a href="{% url 'mesas:mlist' %}" class="btn btn-secondary btn-sm right">Volver </a>
         </div>
 
       </div>
@@ -76,18 +63,6 @@
   </div><!-- /row -->
 
 
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
 
 
 

@@ -1,28 +1,23 @@
 
 
-{% extends "base.html" %}
+{% extends "base_movil.html" %}
 
 {% block content %}
 
 
-<div class="container-fluid">
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/movil">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Ventas</li>
-    </ol>
-
     <div class="row">
         <div class="col-12">
-            <div class="card" style="">
-                <div class="card-header">
-                    Lista
+            <div class="mcard" style="">
+                <div class="mcard-header">
+                  <h3>
+                    <i class="fas fa-fw fa-coins"></i>
+                    Lista venta
+                  </h3>
+
                 </div>
 
 
-                <div class="card-body">
+                <div class="mcard-body mt-4">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -71,7 +66,7 @@
 
                 </div><!-- /card body-->
 
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+            <div class="mcard-footer small text-muted">
 
             </div><!-- /card footer-->
         </div><!-- /card-->
@@ -80,18 +75,6 @@
 
 
 
-  
-
-</div> <!-- /.container-fluid -->
-
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright © Restalli.com 2018</span>
-                </div>
-            </div>
-        </footer>
 
 
 <script  type="text/javascript" charset="utf-8">

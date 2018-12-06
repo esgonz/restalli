@@ -5,13 +5,13 @@
 <style>.errorlist{color:red;}</style>
 <main role="main" id="login-div">
   <div class="container" id="">
-    <center><h1 class="mb-4 mt-4 bg-dark text-white">Restalli.com</h1></center>
     <div class="row mt-3">
       <div class="col-md-9 mx-auto mb-5" id="login-container">
       {% if 'register' in request.GET %}
     <p>Usuario registrado correctamente</p>
       {% endif %}
-        <form action="" method="post">{% csrf_token %}
+        <form action="" method="post">
+          {% csrf_token %}
           <center><h3 class="mb-4 mt-2">Iniciar sesión</h3></center>
           {% if form.non_field_errors %}
             <p style="color:red">Usuario o contraseña incorrectos, prueba de nuevo.</p>

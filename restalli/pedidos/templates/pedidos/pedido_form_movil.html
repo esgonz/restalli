@@ -3,37 +3,21 @@
 {% block content %}
 
 
-<div class="container-fluid">
-  
-
-  <!-- Breadcrumbs-->
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="/movil">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item "><a href="{% url 'pedidos:mlist'%}">Pedidos</a></li>
-    <li class="breadcrumb-item "><a href="{% url 'pedidos:mmenu'%}">Nuevo</a></li>
-    <li class="breadcrumb-item active">Confirmar</li>
-  </ol>
-  <!-- / Breadcrumbs-->
-
-
-  
 <div class="row">
     <div class="col-12">
           <!-- colla2-->
-    <div class="card">
-      <div class="card-header" id="headingTwo">
+    <div class="mcard">
+      <div class="mcard-header" id="headingTwo">
         
 
-        <h2 class="">
+        <h3 class="">
         <i class="fas fa-fw fa-clipboard-check"></i>
          Confirmar pedido
-        </h2>
+        </h3>
       </div>
       <div id="form">
       
-        <div class="card-body">
+        <div class="mcard-body mt-4">
           <!-- seleccion -->
 
      
@@ -106,7 +90,7 @@
 
         </div>
 
-        <div class="card-footer mb-3">
+        <div class="mcard-footer mb-3">
               
 
               <div class="row">
@@ -172,21 +156,6 @@
 
     </div>
   </div><!-- / row -->
-
-
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
-
 
 
 <script  type="text/javascript" charset="utf-8">
