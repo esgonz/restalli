@@ -11,11 +11,7 @@
 
 #login-div{
 	
-	background: url(../images/bg.jpg) no-repeat center center fixed; 
-	  -webkit-background-size: cover;
-	  -moz-background-size: cover;
-	  -o-background-size: cover;
-	  background-size: cover;
+
 	}
 
 #login-container{
@@ -23,8 +19,26 @@
 }
 
 
+.footerrow{
+	width: 100%;
 
 
+}
+.footertab{
+	display: inline-block;
+	width: 30.333333%;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 
 
+tr{
+	  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+
+.mcard-header{
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 1em .5em 2em .5em;
+}
 
