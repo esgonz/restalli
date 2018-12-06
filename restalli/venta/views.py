@@ -44,8 +44,8 @@ class ventaCreate(generic.CreateView):
 
         return {
             'pedido_uuid': pedido.uuid,
-            'monto': pedido.total,
-            'monto_propina': float(pedido.total)*0.10,
+            'monto': int(pedido.total),
+            'monto_propina': int(float(pedido.total)*0.10),
         }
 
 
