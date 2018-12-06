@@ -72,6 +72,9 @@
 
                     {% elif pedido.estadoPedido == "PGD" %}
                     <span class="badge badge-pill badge-success">PAGADO</span>
+                    
+                    {% elif pedido.estadoPedido == "CNCL" %}
+                    <span class="badge badge-pill badge-danger">CANCELADO</span>
 
                     {% else %}
                     <a class="btn btn-block btn-info" href="{% url 'pedidos:update' pk=pedido.uuid %}">Actualizar </a>

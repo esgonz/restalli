@@ -30,9 +30,11 @@ class ReservasForm(forms.ModelForm):
             'comentarios',
             'mesa_uuid'
         ]
-        
+        #fecha = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. 2018-12-31 15:15'})
         widgets = {
             #'identificador' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Mesa 01'}),
+            'fecha':forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. 2018-12-31 15:15'}),
+            'num_personas':forms.TextInput(attrs={'class': 'form-control', 'type':'number', 'min':'1'})
         }
         labels = {
             'fecha': 'Fecha y Hora reserva' , 

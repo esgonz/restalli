@@ -10,7 +10,7 @@
       <a href="/">Inicio</a>
     </li>
     <li class="breadcrumb-item"><a href="{% url 'venta:list' %}">venta</a></li>
-    <li class="breadcrumb-item active">Nuevo</li>
+    <li class="breadcrumb-item active">Editar</li>
   </ol>
 
 
@@ -25,10 +25,10 @@
       
 
         <div class="card-header">
-          <h3>
+          
             <i class="fas fa-fw fa-coins"></i>
-              
-        Registrar Venta</h3>
+                    Venta /
+        <h3>Registrar Venta</h3>
       </div>
       <div class="card-body">
 
@@ -48,7 +48,7 @@
     
     <div class="row">
       <div class="form-group col-8">
-        <label for="{{ form.tipoPago.id_for_label }}"> tipoPago:</label>
+        <label for="{{ form.tipoPago.id_for_label }}"> {{ form.tipoPago.label }}:</label>
             {% render_field form.tipoPago class="form-control" %}
 
               <span class="help-block">{{ form.tipoPago.errors }}</span>
@@ -58,7 +58,7 @@
 
       <div class="form-group col-4">
 
-        <label for="{{ form.identificador.id_for_label }}">identificador:</label>
+        <label for="{{ form.identificador.id_for_label }}">{{ form.identificador.label }}:</label>
             {% render_field form.identificador class="form-control" %}
 
             <span class="help-block">{{ form.identificador.errors }}</span>
@@ -72,7 +72,7 @@
       <div class="form-group col-4">
 
 
-        <label for="{{ form.monto.id_for_label }}">monto:</label>
+        <label for="{{ form.monto.id_for_label }}">{{ form.monto.label }}:</label>
             
         {% render_field form.monto  class="form-control" %}
             <span class="help-block">{{ form.monto.errors }}</span>
@@ -80,14 +80,14 @@
     
       
       <div class="form-group col-4">
-        <label for="{{ form.monto_propina.id_for_label }}">monto_propina:</label>
+        <label for="{{ form.monto_propina.id_for_label }}">{{ form.monto_propina.label }}:</label>
             {% render_field form.monto_propina class="form-control" %}
 
             <span class="help-block">{{ form.monto_propina.errors }}</span>
       </div>
 
       <div class="form-group col-4">
-        <label for="{{ form.pedido_uuid.id_for_label }}">pedido_uuid:</label>
+        <label for="{{ form.pedido_uuid.id_for_label }}">{{ form.pedido_uuid.label }}:</label>
             {% render_field form.pedido_uuid class="form-control" readonly="true" %}
 
             <span class="help-block">{{ form.pedido_uuid.errors }}</span>
@@ -95,7 +95,7 @@
     </div>
 </div><!--end cardbody -->
 <div class="card-footer">
-  <input type="button" value="Cancelar" class="btn btn-default"/>
+  <a href="{% url 'venta:list' %}"  class="btn btn-default right">Cancelar</a>
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 </div>
             

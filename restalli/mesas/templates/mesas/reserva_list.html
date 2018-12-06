@@ -49,7 +49,7 @@
                 {% for reserva in reserva_list %}
                 <tr>
                   <td>
-                    <a class="" href="{% url 'mesas:detail' pk=reserva.uuid %}">{{ reserva.mesa_uuid.uuuid }} </a>
+                    <a class="" href="{% url 'mesas:detail' pk=reserva.mesa_uuid.uuid %}">{{ reserva.mesa_uuid }} </a>
                   </td>
 
                   <td>

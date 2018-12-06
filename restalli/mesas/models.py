@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 from comun.models import Estados, Sucursal
 
 class Mesas(models.Model):
@@ -29,6 +30,14 @@ class Mesas(models.Model):
     )
     def __str__(self):
         return "%s" % (self.identificador)
+
+    # Here's where to take a look
+    def soft_delete(self):
+        self.status = 2
+        self.deleted = timezone.now()
+        self.save()
+
+
 class Reserva(models.Model):
 
 

@@ -8,17 +8,22 @@
 <div class="container-fluid">
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/">Inicio</a>
-        </li>
-        <li class="breadcrumb-item active">Ventas</li>
+      <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+      </li>
+      <li class="breadcrumb-item "><a href="{% url 'venta:list' %}">Ventas</a></li>
+     
     </ol>
 
     <div class="row">
         <div class="col-12">
             <div class="card" style="">
                 <div class="card-header">
-                    Lista
+                  <i class="fas fa-fw fa-coins"></i>
+                    Ventas /
+                    <a class="btn btn-primary ml-3 right" href="{% url 'pedidos:list' %}?estado=FNLZ">Registrar venta</a>
+  
+
                 </div>
 
 

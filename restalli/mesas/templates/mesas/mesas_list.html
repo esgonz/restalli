@@ -11,14 +11,16 @@
     <li class="breadcrumb-item">
       <a href="/">Inicio</a>
     </li>
-    <li class="breadcrumb-item active">Mesas</li>
+    <li class="breadcrumb-item active"><a href="{% url 'mesas:list' %}">Mesas</a></li>
+    
   </ol>
 
   <div class="row">
     <div class="col-12">
       <div class="card" style="">
         <div class="card-header">
-          Lista mesas 
+          <i class="fas fa-fw fa-chess-board"></i>
+          Mesas /
           <a href="{%url 'mesas:create' %}" class="btn btn-primary">
             Crear Mesa
           </a>

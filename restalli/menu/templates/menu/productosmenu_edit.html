@@ -39,7 +39,7 @@
 
         <div class="form-group col-4">
 
-          <label for="{{ form.categoria_uuid.id_for_label }}">categoria_uuid:</label>
+          <label for="{{ form.categoria_uuid.id_for_label }}">Categoria:</label>
           {% render_field form.categoria_uuid class="form-control" %}
 
           <span class="help-block">
@@ -67,14 +67,16 @@
           <span>Imagen del Producto:</span>
           <div class="custom-file">
             <input type="file" class="custom-file-input" name="imagen" id="imagen">
-            <label class="custom-file-label" for="customFile">Choose file</label>
+            <label class="custom-file-label" for="customFile">Elegir archivo</label>
           </div>
         </div>
 
         <div class="form-group col-6">
-          <div class="image-responsive">
-
-          </div>
+          <center>
+            <div class="image-responsive">
+              <img src="{{object.imagen.url}}" width="200" height="200" />
+            </div>
+          </center>
         </div>
 
       </div>

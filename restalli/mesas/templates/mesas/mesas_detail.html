@@ -3,16 +3,12 @@
 {% block content %}
 
 
-<div class="container-fluid">
-  
-
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
       <a href="/">Inicio</a>
     </li>
-    <li class="breadcrumb-item ">Menu</li>
-    <li class="breadcrumb-item ">Nuevo</li>
+    <li class="breadcrumb-item"><a href="{% url 'mesas:list' %}">Mesas</a></li>
     <li class="breadcrumb-item active">Detalle</li>
   </ol>
   <!-- / Breadcrumbs-->
@@ -27,7 +23,9 @@
         
         <!--card header-->
         <div class="card-header">
-          <h3>Mesa</h3>
+          <i class="fas fa-fw fa-chess-board"></i>
+          Mesas /
+          <h3>Detalle Mesa</h3>
         </div>
         <!--/card header-->
 
@@ -50,12 +48,26 @@
                             {% endif %}
             </dd>
             
-          
             
-            {% for pedido in pedidos %}
-              <dt class="col-sm-3">Pedido:</dt>
-              <dd class="col-sm-9"><a href="{% url 'pedidos:detail' pk=pedido.uuid %}">Pedido Nº {{pedido}}</a>  - Total ${{pedido.total}}</dd>
-            {% endfor %}
+        
+            <dt class="col-sm-3">Pedidos activos:</dt>
+            <dd class="col-sm-9">
+              <dl class="row">
+                {% if pedidos %}
+                  {% for pedido in pedidos %}
+                  
+
+                  <dd class="col-sm-12"><a href="{% url 'pedidos:detail' pk=pedido.uuid %}">Pedido Nº {{pedido}}</a>- <b>Total</b>  ${{pedido.total}}</dd>
+                  {% endfor %}
+                {% else %}
+                  ---
+                {% endif %}
+              </dl>
+            </dd>
+
+
+           
+            
            
 
             
@@ -75,19 +87,6 @@
     </div><!-- /col-->
   </div><!-- /row -->
 
-
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
 
 
 

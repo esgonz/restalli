@@ -73,6 +73,7 @@
             <a href="{% url 'mesas:list' %}"  class="btn btn-default right">Cancelar</a>
             <input type="submit" value="Guardar" class="btn btn-primary right"/>
 
+            <a href="{% url 'mesas:delete' pk=object.uuid %}"  class="btn btn-danger float-right">Eliminar</a>
           </div>
         </form>
       </div><!-- / card -->
