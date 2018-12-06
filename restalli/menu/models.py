@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from stock.models import ProductoStock, Stock
@@ -46,6 +47,12 @@ class ProductosMenu(models.Model):
     def __str__(self):
         return "%s" % (self.nombre)
 
+
+    # Here's where to take a look
+    def soft_delete(self):
+        self.status = 2
+        self.deleted = timezone.now()
+        self.save()
 class ProductosMenuStockManager(models.Manager):
     def create_productoMenuStock(self, title):
         productoMenuStock = self.create(productoStock_uuid = productoStock_uuid, productosMenu_uuid = productosMenu_uuid, porciones = porciones, status= None )

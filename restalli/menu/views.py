@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
@@ -43,6 +43,11 @@ class MenuDelete(generic.DeleteView):
 	model = ProductosMenu
 	success_url = reverse_lazy('menu:list')
 
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		self.object.soft_delete()
+		return HttpResponseRedirect(self.get_success_url())	
+
 @method_decorator(login_required, name='dispatch')
 class MenuList(generic.ListView):
 	model = ProductosMenu
@@ -61,10 +66,10 @@ class MenuList(generic.ListView):
 		filter_val = self.request.GET.get('categoria', '')
 		if filter_val!='':
 			#si el parametro existe, aplico el filtro.
-			return ProductosMenu.objects.filter(categoria_uuid=filter_val)
+			return ProductosMenu.objects.filter(categoria_uuid=filter_val, status=1)
 		else:
 			#si no, devuelvo todos los productos
-			return ProductosMenu.objects.all()
+			return ProductosMenu.objects.filter(status=1)
     	
 
 
@@ -85,8 +90,7 @@ class CategoriaDetail(generic.DetailView):
 class CategoriaUpdate(generic.UpdateView):
 	model = CategoriaMenu
 	fields = [
-		'nombre',
-		'status'
+		'nombre'
 	]
 	success_url = reverse_lazy('menu:catList')
 @method_decorator(login_required, name='dispatch')
@@ -108,25 +112,34 @@ class ProductosMenuStockCreation(generic.edit.CreateView):
 	model = ProductosMenuStock
 	fields = [
 		'productoStock_uuid',
-    	'porciones',
-    	'status'
+    	'porciones'
 	]
+	success_url = reverse_lazy('menu:list')
+
+
+
 @method_decorator(login_required, name='dispatch')
 class ProductosMenuStockDetail(generic.DetailView):
 	model = ProductosMenu
+
+
+
+
 @method_decorator(login_required, name='dispatch')
 class ProductosMenuStockUpdate(generic.UpdateView):
 	model = ProductosMenuStock
 	fields = [
 		'productoStock_uuid',
-    	'porciones',
-    	'status'
+    	'porciones'
 	]
 	success_url = reverse_lazy('menu:catList')
+
+
+
 @method_decorator(login_required, name='dispatch')
 class ProductosMenuStockDelete(generic.DeleteView):
 	model = ProductosMenuStock
-	success_url = reverse_lazy('menu:catList')
+	success_url = reverse_lazy('menu:list')
 
 
 
@@ -143,10 +156,10 @@ class ProductosMenuStockList(generic.ListView):
 		filter_val = self.request.GET.get('categoria', '')
 		if filter_val!='':
 			#si el parametro existe, aplico el filtro.
-			return ProductoStock.objects.filter(categoria=filter_val)
+			return ProductoStock.objects.filter(categoria=filter_val, status = 1)
 		else:
 			#si no, devuelvo todos los productos
-			return ProductoStock.objects.all()
+			return ProductoStock.objects.filter()
 
 
 	def post(self, request, *args, **kwargs):
@@ -240,6 +253,9 @@ class ProductosMenuStockList(generic.ListView):
 					)
 				#print(productoMenu_to_save)
 				productoMenu_to_save.save()
+				url = reverse_lazy('menu:list')
+				return HttpResponseRedirect(url)	
+
 
 		else:
 			pass
@@ -274,7 +290,8 @@ class ProductosMenuStockList(generic.ListView):
 		print("update ?")
 		print(self.updateSelected)
 		print(self.productoMenu_uuid )
-		#if we are editing selected stock producots
+		
+		#if we are editing selected stock products
 		if self.updateSelected and 'add' not in request.POST:
 			print("updateSelected TRUE")
 			#request.session.flush()

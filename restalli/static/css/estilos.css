@@ -42,6 +42,11 @@ table.table tbody tr{
     padding: 1em .5em 2em .5em;
 }
 
+.card{
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) !important;
+    
+}
+
 .btn-block{
 	width: 90% !important;
     margin: auto !important;

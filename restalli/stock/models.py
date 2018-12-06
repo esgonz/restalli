@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from comun.models import Estados, Restaurantes
@@ -57,6 +58,13 @@ class ProductoStock(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+    # Here's where to take a look
+    def soft_delete(self):
+        self.status = 2
+        self.deleted = timezone.now()
+        self.save()
 
 class Stock(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)

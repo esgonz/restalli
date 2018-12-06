@@ -119,7 +119,12 @@
       <div class="card-footer small text-muted">
 
         <a href="{% url 'stock:list' %}" class="btn btn-default">Cancelar</a>
+
+        
+
         <input type="submit" value="Guardar" class="btn btn-primary" />
+
+        <a class="btn btn-danger float-right" href="{% url "stock:delete" pk=object.uuid %}">Eliminar </a>
       </div>
 
       </form>

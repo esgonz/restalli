@@ -2,8 +2,6 @@
 
     {% block content %}
 
-
-    <div class="container-fluid">
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -14,13 +12,13 @@
 
 
       <div class="row">
-        <div class="col-10">
+        <div class="col-12">
           <!-- DataTables Example -->
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Menu / 
-              <a class="btn btn-primary ml-3 right" href="{% url "menu:create" %}">Agregar Platillo</a>
+              Stock / 
+              <a class="btn btn-secondary ml-3 right" href="{% url "stock:list" %}">Volver a Productos stock</a>
             </div>
             <div class="card-body">
               {% if productoStock_list %}
@@ -119,7 +117,7 @@
 
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM
+        <div class="card-footer small text-muted">
 
         </div>
       </div>
@@ -127,50 +125,10 @@
 
 
 
-
-    <div class="col-2">
-
-      <div class="row">
-
-        <div class="card" style="">
-          <div class="card-header">
-            Categorias
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              {% for categoria in categorias_list %}
-              <li class="list-group-item">
-                <a href="{% url 'menu:list' %}?categoria={{ categoria.uuid }}">{{categoria.nombre}}</a></li>
-                {% endfor %} 
-
-
-              </ul>
-            </div>
-          </div>
-        </div>
-
-       
-      </div>
-
-
     </div>
   </div>
   
-  
 
-
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
 
 
 <script  type="text/javascript" charset="utf-8">

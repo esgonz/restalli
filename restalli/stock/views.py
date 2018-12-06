@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect 
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 from django.views import generic
@@ -40,10 +40,10 @@ class stockListView(generic.ListView):
             filter_val = self.request.GET.get('categoria', '')
             if filter_val!='':
                 #si el parametro existe, aplico el filtro.
-                return ProductoStock.objects.filter(categoria=filter_val)
+                return ProductoStock.objects.filter(categoria=filter_val, status = 1)
             else:
                 #si no, devuelvo todos los productos
-                return ProductoStock.objects.all()
+                return ProductoStock.objects.filter( status = 1)
         
 
 @method_decorator(login_required, name='dispatch')
@@ -64,6 +64,7 @@ class stockCreate(generic.CreateView):
 class stockUpdate(generic.UpdateView):
     model = ProductoStock
     form_class = StockForm
+    template_name = 'stock/productostock_update.html'
     #template_name_suffix = '_update_form' 
     success_url = reverse_lazy('stock:list')
     #def get_success_url(self):
@@ -76,6 +77,11 @@ class stockUpdate(generic.UpdateView):
 class stockDelete(generic.DeleteView):
     model = ProductoStock
     success_url = reverse_lazy('stock:list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.soft_delete()
+        return HttpResponseRedirect(self.get_success_url())
 
 #Stock Logico
 

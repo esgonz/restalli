@@ -5,13 +5,12 @@
 {% block content %}
 
 
-<div class="container-fluid">
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
       <a href="/">Inicio</a>
     </li>
-    <li class="breadcrumb-item active">Menu</li>
+    <li class="breadcrumb-item active">Pedidos</li>
   </ol>
   
   <div class="row">
@@ -203,7 +202,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <input type="submit" value="Add" class="btn-sm btn-primary">
+                                                <input type="submit" value="Agregar" class="btn-sm btn-primary">
                                             </div>
                                         </div>
                                     </form>
@@ -247,22 +246,6 @@
       </div><!-- /card-->
     </div><!-- / col-->
   </div><!-- / row -->
-  
-  
-
-
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-<footer class="sticky-footer">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright © Restalli.com 2018</span>
-    </div>
-  </div>
-</footer>
 
 
 
@@ -272,6 +255,8 @@
     $('#dataTable').DataTable({
       "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
       "paging": false,
+      "info":false,
+      "bFilter":false,
       "language": {
         search: "_INPUT_",
         searchPlaceholder: "Buscar...",
@@ -304,6 +289,7 @@
     
     $('#dataTable2').DataTable({
       "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25,50,  "Todos"]],
+
       "language": {
         search: "_INPUT_",
         searchPlaceholder: "Buscar...",
